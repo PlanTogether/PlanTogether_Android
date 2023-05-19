@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="180px"
+    android:background="@drawable/border_round_3">
+
+    <TextView
+        android:id="@+id/rowDate"
+        android:layout_width="150px"
+        android:layout_height="120px"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="30px"
+        android:gravity="center"
+        android:text="날짜"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/rowDay"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:gravity="center"
+        android:text="요일"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+</LinearLayout>
