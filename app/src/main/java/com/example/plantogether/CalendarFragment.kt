@@ -1,59 +1,97 @@
 package com.example.plantogether
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.plantogether.databinding.FragmentCalendarBinding
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.format.DateFormatTitleFormatter
+import com.prolificinteractive.materialcalendarview.format.TitleFormatter
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CalendarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CalendarFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var binding: FragmentCalendarBinding?=null
+
+    private var materialCalendarView: MaterialCalendarView?= null
+
+    private var selectedDate: LocalDate ?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+        binding = FragmentCalendarBinding.inflate(layoutInflater, container, false)
+        return binding!!.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PlannerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CalendarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        materialCalendarView = binding!!.calendarView
+        binding!!.apply {
+            val today = CalendarDay.today()
+
+            calendarView.apply {
+                // 휴무일 지정을 위한 Decorator 설정
+                //addDecorator(DayDisableDecorator(disabledDates, today))
+                // 요일을 지정하귀 위해 {"월", "화", ..., "일"} 배열을 추가한다.
+                setWeekDayLabels(arrayOf("월", "화", "수", "목", "금", "토", "일"))
+                // 달력 상단에 `월 년` 포맷을 수정하기 위해 TitleFormatter 설정
+                //setTitleFormatter(MyTitleFormatter())
+
+                //DateFormatTitleFormatter()
+
+                setOnDateChangedListener { widget, date, selected ->
+                    Toast.makeText(context, "$date", Toast.LENGTH_SHORT).show()
+                    // 여기에다가 dialog 구현해주시면 될 것 같아요 !
                 }
             }
+        }
     }
+
+
+   class MyTitleFormatter : TitleFormatter {
+        override fun format(day: CalendarDay?): CharSequence {
+            val simpleDateFormat =
+                SimpleDateFormat("yyyy년 MM월", Locale.US) //"February 2016" format
+
+            return simpleDateFormat.format(Calendar.getInstance().getTime())
+        }
+
+    }
+
+    class DayDisableDecorator : DayViewDecorator {
+        private var dates = HashSet<CalendarDay>()
+        private var today: CalendarDay
+
+        constructor(dates: HashSet<CalendarDay>, today: CalendarDay) {
+            this.dates = dates
+            this.today = today
+        }
+
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            // 휴무일 || 이전 날짜
+            return dates.contains(day) || day.isBefore(today)
+        }
+
+        override fun decorate(view: DayViewFacade?) {
+            view?.let { it.setDaysDisabled(true) }
+        }
+    }
+
+
 }
+

@@ -18,8 +18,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initLayout()
         getHashKey()
+        initFragment()
     }
 
+    private fun initFragment() {
+        val fragment = supportFragmentManager.beginTransaction()
+        val calendarFragment = CalendarFragment()
+        fragment.replace(R.id.frameLayout, calendarFragment )
+        fragment.commit()
+    }
     private fun initLayout() {
 
     }
