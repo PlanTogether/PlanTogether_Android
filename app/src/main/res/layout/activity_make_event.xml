@@ -111,7 +111,7 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="장소"/>
+            android:text="추가정보"/>
     </LinearLayout>
 
     <EditText
@@ -148,11 +148,5 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="취소"/>
-
-
     </LinearLayout>
-
-
-
-
 </LinearLayout>
