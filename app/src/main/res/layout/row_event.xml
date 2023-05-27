@@ -18,14 +18,14 @@
         android:textColor="#000000"/>
 
     <TextView
-        android:id="@+id/rowDay"
+        android:id="@+id/rowPlan"
         android:layout_width="match_parent"
         android:layout_height="120px"
         android:layout_marginTop="30px"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:gravity="center"
-        android:text="요일"
+        android:text="일정"
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="#000000"/>

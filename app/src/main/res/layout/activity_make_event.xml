@@ -62,6 +62,7 @@
         android:layout_marginTop="30px">
 
         <TextView
+            android:id="@+id/selectfromMapButton"
             android:layout_width="480px"
             android:layout_height="match_parent"
             android:layout_marginLeft="570px"
@@ -128,6 +129,7 @@
         android:layout_marginTop="30px">
 
         <TextView
+            android:id="@+id/addButton"
             android:layout_width="240px"
             android:layout_height="match_parent"
             android:layout_marginLeft="540px"
@@ -139,6 +141,7 @@
             android:text="추가"/>
 
         <TextView
+            android:id="@+id/cancelButton"
             android:layout_width="240px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"

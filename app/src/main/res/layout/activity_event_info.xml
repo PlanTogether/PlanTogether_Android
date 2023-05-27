@@ -112,6 +112,7 @@
         android:layout_marginTop="30px">
 
         <TextView
+            android:id="@+id/inviteButton"
             android:layout_width="330px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
@@ -129,6 +130,7 @@
             />
 
         <TextView
+            android:id="@+id/editButton"
             android:layout_width="240px"
             android:layout_height="match_parent"
             android:layout_marginRight="30px"
@@ -137,6 +139,6 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="취소"/>
+            android:text="수정"/>
     </LinearLayout>
 </LinearLayout>
