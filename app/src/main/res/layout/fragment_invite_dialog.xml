@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="240dp"
+    android:layout_height="320dp"
     tools:context=".dialog.InviteDialog">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="240dp"
         android:layout_height="320dp"
-        android:gravity="center"
-        android:background="@drawable/border_round_2">
+        android:background="@drawable/invite_dialog_background"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/inviteText"

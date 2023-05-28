@@ -29,6 +29,9 @@ class EventInfoActivity : AppCompatActivity() {
     private fun initBtn() {
         binding.apply {
             sendInvitation.setOnClickListener {
+                var bundle = Bundle()
+                bundle.putString("date", date)
+                inviteDialog.arguments = bundle
                 inviteDialog.show(fm, "dialog")
             }
         }
