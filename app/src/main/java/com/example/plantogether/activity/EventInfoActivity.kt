@@ -1,6 +1,7 @@
 package com.example.plantogether.activity
 
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -90,8 +91,6 @@ class EventInfoActivity : AppCompatActivity() {
                 else if (sharingResult != null) {
                     Log.d(TAG, "카카오톡 공유 성공 ${sharingResult.intent}")
                     startActivity(sharingResult.intent)
-
-
 
 
                     // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
