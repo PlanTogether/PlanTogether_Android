@@ -112,6 +112,7 @@
         android:layout_marginTop="30px">
 
         <TextView
+            android:id="@+id/sendInvitation"
             android:layout_width="330px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
