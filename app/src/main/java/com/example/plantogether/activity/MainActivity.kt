@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bnv = binding.bottomNav
         setContentView(binding.root)
         initLayout()
-        getHashKey()
+        //getHashKey()
         initFragment()
     }
 
@@ -78,22 +78,22 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
 
-    private fun getHashKey() {
-        try {
-            val information =
-                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            val signatures = information.signingInfo.apkContentsSigners
-            val md = MessageDigest.getInstance("SHA")
-            for (signature in signatures) {
-                val md: MessageDigest
-                md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                var hashcode = String(Base64.encode(md.digest(), 0))
-                Log.d("hashcode", "" + hashcode)
-            }
-        } catch (e: Exception) {
-            Log.d("hashcode", "에러::" + e.toString())
-
-        }
-    }
+//    private fun getHashKey() {
+//        try {
+//            val information =
+//                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+//            val signatures = information.signingInfo.apkContentsSigners
+//            val md = MessageDigest.getInstance("SHA")
+//            for (signature in signatures) {
+//                val md: MessageDigest
+//                md = MessageDigest.getInstance("SHA")
+//                md.update(signature.toByteArray())
+//                var hashcode = String(Base64.encode(md.digest(), 0))
+//                Log.d("hashcode", "" + hashcode)
+//            }
+//        } catch (e: Exception) {
+//            Log.d("hashcode", "에러::" + e.toString())
+//
+//        }
+//    }
 }

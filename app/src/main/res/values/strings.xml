@@ -12,4 +12,6 @@
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name = "kakao_native_app_key">0da105d7ffee4e45841963eaf78ad521</string>
 </resources>
