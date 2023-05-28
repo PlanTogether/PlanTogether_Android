@@ -1,6 +1,7 @@
 package com.example.plantogether.activity
 
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -40,25 +41,11 @@ class EventInfoActivity : AppCompatActivity() {
         setContentView(binding.root)
         val intent = getIntent()
         date = intent.getStringExtra("date").toString()
-
+        Log.d("date", date)
         initLayout()
         initBtn()
-        binding = ActivityEventInfoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //buttoninit()
     }
 
-//    fun buttoninit(){
-//
-//        binding.apply {
-//            editButton.setOnClickListener {
-//                //수정 화면으로 이동
-//                val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
-//                startActivity(editintent)
-//            }
-//        }
-//
-//    }
     private fun initLayout() {
         binding.apply {
             eventDate.text = date
@@ -73,11 +60,16 @@ class EventInfoActivity : AppCompatActivity() {
                 inviteDialog.show(fm, "dialog")
 
             }
+            editButton.setOnClickListener {
+                //수정 화면으로 이동
+                val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
+                startActivity(editintent)
+            }
         }
     }
 
     public fun setOk() {
-        date = binding.eventDate.text.toString()
+        //date = binding.eventDate.text.toString()
         defaultText = TextTemplate(
             text = """ ${date} 에 생성된 문자입니다.
         카카오톡 공유는 카카오톡을 실행하여
