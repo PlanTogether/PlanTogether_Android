@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuCalendar"
+        android:icon="@drawable/icon_calendar_white"
+        android:checked="true"
+        android:enabled="true"
+        android:title="@string/menu_title_calendar" />
+    <item
+        android:id="@+id/menuEvent"
+        android:icon="@drawable/icon_eventstar_white"
+        android:enabled="true"
+        android:title="@string/menu_title_event" />
+    <item
+        android:id="@+id/menuNotification"
+        android:icon="@drawable/icon_notification_white"
+        android:enabled="true"
+        android:title="@string/menu_title_notice" />
+
+
+</menu>

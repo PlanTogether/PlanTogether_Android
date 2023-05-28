@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">PlanTogether</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="menu_title_calendar">map</string>
+    <string name="menu_title_event">wishlist</string>
+    <string name="menu_title_notice">comparison</string>
+
+    <string name="event_info_1">이벤트명</string>
+    <string name="event_info_2">장소</string>
+    <string name="event_info_3">일시</string>
+    <string name="event_info_4">추가정보</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
