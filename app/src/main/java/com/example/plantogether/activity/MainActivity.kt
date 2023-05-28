@@ -1,4 +1,4 @@
-package com.example.plantogether
+package com.example.plantogether.activity
 
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.plantogether.fragment.CalendarFragment
+import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator

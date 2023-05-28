@@ -1,7 +1,8 @@
-package com.example.plantogether
+package com.example.plantogether.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.plantogether.R
 
 class EventInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

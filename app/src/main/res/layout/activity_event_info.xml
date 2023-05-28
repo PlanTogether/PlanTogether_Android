@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MakeEventActivity">
+    tools:context=".activity.MakeEventActivity">
 
     <TextView
         android:layout_width="1020px"
