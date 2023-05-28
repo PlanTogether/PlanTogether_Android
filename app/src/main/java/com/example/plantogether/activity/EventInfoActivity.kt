@@ -1,14 +1,17 @@
 package com.example.plantogether.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.plantogether.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.plantogether.databinding.ActivityEventInfoBinding
-import com.example.plantogether.databinding.ActivityMainBinding
+import com.example.plantogether.dialog.InviteDialog
 
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
     lateinit var date: String
+
+    var fm = supportFragmentManager
+    var inviteDialog = InviteDialog()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventInfoBinding.inflate(layoutInflater)
@@ -26,7 +29,7 @@ class EventInfoActivity : AppCompatActivity() {
     private fun initBtn() {
         binding.apply {
             sendInvitation.setOnClickListener {
-                //dialogue 호출
+                inviteDialog.show(fm, "dialog")
             }
         }
     }
