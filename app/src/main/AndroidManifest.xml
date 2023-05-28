@@ -64,6 +64,11 @@
             android:name=".activity.MainActivity"
             android:exported="false">
         </activity>
+
+        <meta-data
+            android:name="com.kakao.sdk.Appkey"
+            android:value="0da105d7ffee4e45841963eaf78ad521" />
+
     </application>
 
 </manifest>
