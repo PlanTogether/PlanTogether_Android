@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-confing>
-    <bass-config cleartextTrafficPermitted="true">
-        <truest-anchors>
-            <certificates src="system" />
-        </truest-anchors>
-    </bass-config>
-</network-security-confing>
