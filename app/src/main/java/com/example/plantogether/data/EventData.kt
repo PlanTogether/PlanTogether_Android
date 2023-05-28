@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class EventData(
    var title: String = "이벤트명",
    var place: String = "장소",
-   var data: String = "일시",
+   var date: String = "일시",
    var detailInfo: String = "추가정보"
 
 ) : Parcelable {
@@ -21,7 +21,7 @@ data class EventData(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeString(place)
-        parcel.writeString(data)
+        parcel.writeString(date)
         parcel.writeString(detailInfo)
     }
 
