@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.plantogether.databinding.ActivityLoginBinding
-import com.kakao.sdk.common.util.Utility
 
 import com.example.plantogether.databinding.ActivityMainBinding
 import com.example.plantogether.roomDB.Username
