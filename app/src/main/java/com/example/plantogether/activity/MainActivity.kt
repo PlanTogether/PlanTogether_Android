@@ -1,4 +1,4 @@
-package com.example.plantogether
+package com.example.plantogether.activity
 
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import com.example.plantogether.fragment.CalendarFragment
+import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.security.MessageDigest
