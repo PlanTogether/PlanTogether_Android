@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="indigo">#385E82</color>
     <color name="blue">#ACDBF6</color>
+    <color name="light_blue">#E8F1FF</color>
 </resources>
