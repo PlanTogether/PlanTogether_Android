@@ -1,4 +1,4 @@
-package com.example.plantogether
+package com.example.plantogether.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

@@ -7,7 +7,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
-import com.example.plantogether.MyViewPagerAdapter
+import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.fragment.CalendarFragment
 import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityMainBinding
