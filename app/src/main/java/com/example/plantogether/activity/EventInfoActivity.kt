@@ -45,7 +45,22 @@ class EventInfoActivity : AppCompatActivity() {
 
         initLayout()
         initBtn()
+        binding = ActivityEventInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //buttoninit()
     }
+
+//    fun buttoninit(){
+//
+//        binding.apply {
+//            editButton.setOnClickListener {
+//                //수정 화면으로 이동
+//                val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
+//                startActivity(editintent)
+//            }
+//        }
+//
+//    }
     private fun initLayout() {
         binding.apply {
             eventDate.text = date
