@@ -34,7 +34,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
 }
+
 
 dependencies {
 
@@ -61,4 +64,7 @@ dependencies {
     // 카카오 지도 API용 의존성
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
+
+    // 네이버 지도 SDK
+    implementation("com.naver.maps:map-sdk:3.16.2")
 }

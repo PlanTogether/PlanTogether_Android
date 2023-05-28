@@ -42,7 +42,7 @@ class MyEventRecyclerViewAdapter(private val items: ArrayList<MyEventData>): Rec
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.binding.rowDate.text = items[position].date
-        holder.binding.rowPlan.text = items[position].plan
+        holder.binding.rowEventDate.text = items[position].date
+        holder.binding.rowEventTitle.text = items[position].plan
     }
 }
