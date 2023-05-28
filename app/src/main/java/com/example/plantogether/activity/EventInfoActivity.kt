@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityEventInfoBinding
+import com.example.plantogether.dialog.InviteDialogActivity
 
 class EventInfoActivity : AppCompatActivity() {
 
@@ -26,7 +27,8 @@ class EventInfoActivity : AppCompatActivity() {
             }
             inviteButton.setOnClickListener {
                 //초대창 띄우기
-                val inviteintent = Intent(this@EventInfoActivity, InviteDialogActivity::class.java)
+                val inviteintent = Intent(this@EventInfoActivity,
+                    InviteDialogActivity::class.java)
                 startActivity(inviteintent)
             }
         }

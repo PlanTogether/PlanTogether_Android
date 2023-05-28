@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".GlobalApplication"
@@ -35,10 +37,10 @@
             android:name=".activity.EventInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MapActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.MapActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,6 +70,10 @@
         <meta-data
             android:name="com.kakao.sdk.Appkey"
             android:value="0da105d7ffee4e45841963eaf78ad521" />
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="wefhyyenw8" />
 
     </application>
 
