@@ -12,7 +12,6 @@ import com.kakao.sdk.share.WebSharerClient
 import com.kakao.sdk.share.model.SharingResult
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
-
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
     var date = ""
@@ -44,7 +43,22 @@ class EventInfoActivity : AppCompatActivity() {
 
         initLayout()
         initBtn()
+        binding = ActivityEventInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //buttoninit()
     }
+
+//    fun buttoninit(){
+//
+//        binding.apply {
+//            editButton.setOnClickListener {
+//                //수정 화면으로 이동
+//                val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
+//                startActivity(editintent)
+//            }
+//        }
+//
+//    }
     private fun initLayout() {
         binding.apply {
             eventDate.text = date
@@ -90,8 +104,6 @@ class EventInfoActivity : AppCompatActivity() {
                 else if (sharingResult != null) {
                     Log.d(TAG, "카카오톡 공유 성공 ${sharingResult.intent}")
                     startActivity(sharingResult.intent)
-
-
 
 
                     // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
