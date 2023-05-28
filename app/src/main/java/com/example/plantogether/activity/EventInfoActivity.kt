@@ -1,7 +1,6 @@
 package com.example.plantogether.activity
 
 import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,6 @@ import com.kakao.sdk.share.WebSharerClient
 import com.kakao.sdk.share.model.SharingResult
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
-
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
     var date = ""
