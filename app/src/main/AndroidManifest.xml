@@ -12,31 +12,31 @@
         android:theme="@style/Theme.PlanTogether"
         tools:targetApi="31">
         <activity
-            android:name=".AddScheduleDialogActivity"
+            android:name=".dialog.AddScheduleDialogActivity"
             android:exported="false" />
         <activity
-            android:name=".DateDialogActivity"
+            android:name=".dialog.DateDialogActivity"
             android:exported="false" />
         <activity
-            android:name=".InviteDialogActivity"
+            android:name=".dialog.InviteDialogActivity"
             android:exported="false" />
         <activity
-            android:name=".MakeEventActivity"
+            android:name=".activity.MakeEventActivity"
             android:exported="false" />
         <activity
-            android:name=".EditEventActivity"
+            android:name=".activity.EditEventActivity"
             android:exported="false" />
         <activity
-            android:name=".EventInfoActivity"
+            android:name=".activity.EventInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".MapActivity"
+            android:name=".activity.MapActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

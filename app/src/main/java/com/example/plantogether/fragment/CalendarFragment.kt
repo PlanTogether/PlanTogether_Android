@@ -1,6 +1,5 @@
-package com.example.plantogether
+package com.example.plantogether.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,11 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.format.DateFormatTitleFormatter
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
-
 
 class CalendarFragment : Fragment() {
 
@@ -26,7 +23,7 @@ class CalendarFragment : Fragment() {
 
     private var materialCalendarView: MaterialCalendarView?= null
 
-    private var selectedDate: LocalDate ?= null
+    private var selectedDate: LocalDate?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,4 +91,3 @@ class CalendarFragment : Fragment() {
 
 
 }
-

@@ -1,14 +1,14 @@
-package com.example.plantogether
+package com.example.plantogether.activity
 
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import com.example.plantogether.fragment.CalendarFragment
+import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityMainBinding
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
