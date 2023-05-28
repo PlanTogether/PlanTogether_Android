@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application
         android:name=".GlobalApplication"
         android:usesCleartextTraffic="true"
@@ -23,9 +27,6 @@
             android:exported="false" />
         <activity
             android:name=".dialog.DateDialogActivity"
-            android:exported="false" />
-        <activity
-            android:name=".dialog.InviteDialogActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MakeEventActivity"
