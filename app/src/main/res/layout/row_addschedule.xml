@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    >
+    <ImageView
+        android:src="@drawable/baseline_brightness_1_24"
+
+        android:id="@+id/checkThat"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="30dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/eventNameText"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/showDelete"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>
