@@ -7,6 +7,7 @@
     tools:context=".activity.MakeEventActivity">
 
     <TextView
+        android:id="@+id/eventTitle"
         android:layout_width="1020px"
         android:layout_height="150px"
         android:layout_marginTop="30px"
@@ -99,7 +100,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/eventAdditionalInfo"
+        android:id="@+id/eventDetailInfo"
         android:layout_width="1020px"
         android:layout_height="420px"
         android:layout_marginTop="30px"

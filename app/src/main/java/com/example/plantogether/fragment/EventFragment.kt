@@ -54,11 +54,11 @@ class EventFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+                adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)//옮기는 옵션 빠른 시간순으로 정렬하면 필요 없을 것
                 return true
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {//데이터 관련 내용은 DB에서 할것이니 굳이 건드릴 필요가 없을 것
                 adapter.removeItem(viewHolder.adapterPosition)
             }
 
