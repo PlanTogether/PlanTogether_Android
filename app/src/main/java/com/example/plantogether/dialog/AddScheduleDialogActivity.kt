@@ -51,8 +51,8 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         planData.add(EventData("abc2", "ass3", "ddd", "s", 1))
         planData.add(EventData("abc3", "ass2", "ddd", "s", 2))
         adapter = DateViewAdapter(planData)
-        binding.eventRecycleView.adapter = adapter
-        binding.eventRecycleView.layoutManager = LinearLayoutManager(context,
+        binding.eventRecyclerView.adapter = adapter
+        binding.eventRecyclerView.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
