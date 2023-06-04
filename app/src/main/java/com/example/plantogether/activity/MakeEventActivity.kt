@@ -26,20 +26,24 @@ class MakeEventActivity : AppCompatActivity() {
                 val date = binding.eventDate.text.toString()
                 val detailInfo = binding.eventDetailInfo.text.toString()
 
-                data.add(EventData(title, place, date, detailInfo))//이부분을 DB로
+                data.add(EventData(title, place, date, detailInfo))// 이부분을 DB로
                 clearEditText()
-
+                val completeIntent = Intent(this@MakeEventActivity,
+                    MainActivity::class.java)
+                startActivity(completeIntent)
             }
 
             cancelButton.setOnClickListener {//수정 필요
                 // 취소시 DateView로 돌아가야함
-                val cancelintent = Intent(this@MakeEventActivity, MainActivity::class.java)
+                val cancelintent = Intent(this@MakeEventActivity,
+                    MainActivity::class.java)
                 startActivity(cancelintent)
             }
 
             selectfromMapButton.setOnClickListener {
                 //MapView로 이동하면서 장소 마킹
-                val mapintent = Intent(this@MakeEventActivity, MapActivity::class.java)
+                val mapintent = Intent(this@MakeEventActivity,
+                    MapActivity::class.java)
                 startActivity(mapintent)
             }
         }
