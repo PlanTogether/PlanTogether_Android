@@ -46,7 +46,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     }
     fun initRecyclerView() {
 
-        binding.eventRecycleView.layoutManager = LinearLayoutManager(context,
+        binding.eventRecyclerView.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
@@ -62,7 +62,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
         })
 
-        binding.eventRecycleView.adapter= adapter
+        binding.eventRecyclerView.adapter= adapter
     }
 
     fun initLayout() {

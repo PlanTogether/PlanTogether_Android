@@ -47,7 +47,7 @@ class MakeEventActivity : AppCompatActivity() {
                     Toast.makeText(this@MakeEventActivity,"제목은 입력해야 합니다.", Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    val event = Event(0, title, place, date, detail)
+                    val event = Event(0,1, title, place, date, "", detail)
                     CoroutineScope(Dispatchers.IO).launch {
                         db.eventDao().insertEvent(event)
                     }

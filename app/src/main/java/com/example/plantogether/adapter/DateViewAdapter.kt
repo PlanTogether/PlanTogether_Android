@@ -3,13 +3,12 @@ package com.example.plantogether.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plantogether.databinding.RowAddEventBinding
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowAddPlanBinding
 import com.example.plantogether.roomDB.Event
 
-class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<DateViewAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: RowAddPlanBinding) :
-        RecyclerView.ViewHolder(binding.root){}
+class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
         fun OnItemClick(position: Int)
