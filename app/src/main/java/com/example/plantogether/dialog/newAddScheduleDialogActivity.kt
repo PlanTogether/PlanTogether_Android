@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.NewAddScheduleDialogBinding
 
 class newAddScheduleDialogActivity(private val context : AppCompatActivity) {

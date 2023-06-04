@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.plantogether.R
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
 
 class MakeEventActivity : AppCompatActivity() {
