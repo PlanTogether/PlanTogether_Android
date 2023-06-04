@@ -1,18 +1,16 @@
 package com.example.plantogether.dialog
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.plantogether.R
 import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.data.EventData
-import com.example.plantogether.databinding.ActivityAddScheduleDialog2Binding
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import okhttp3.internal.notify
+
+
+
 
 class AddScheduleDialogActivity : AppCompatActivity() {
 

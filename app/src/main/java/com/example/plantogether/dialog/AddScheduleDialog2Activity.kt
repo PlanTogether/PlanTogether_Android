@@ -13,6 +13,8 @@ import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityAddScheduleDialog2Binding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+
+//일정 입력후 아래에서 나오는 다이얼로그
 class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
 
     lateinit var binding : ActivityAddScheduleDialog2Binding

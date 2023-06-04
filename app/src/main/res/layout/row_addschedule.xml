@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/eventList"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     >
     <ImageView
         android:src="@drawable/baseline_brightness_1_24"
@@ -17,9 +18,11 @@
         android:id="@+id/eventNameText"
         android:layout_width="0dp"
         android:layout_weight="4"
+        android:height="30dp"
         android:textColor="#000000"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:gravity="center"
+        android:layout_gravity="center"
         android:layout_height="match_parent"/>
 
     <ImageView
@@ -27,7 +30,9 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:src="@drawable/baseline_delete_24"
+        />
 
 
 

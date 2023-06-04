@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.databinding.FragmentCalendarBinding
 import com.example.plantogether.dialog.AddScheduleDialogActivity
+import com.example.plantogether.dialog.newAddScheduleDialogActivity
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -56,11 +58,16 @@ class CalendarFragment : Fragment() {
 
                 setOnDateChangedListener { widget, date, selected ->
                     Toast.makeText(context, "$date", Toast.LENGTH_SHORT).show()
+                    val year = date.year.toString()
                     val mon = (date.month).toString()
                     val day = date.day.toString()
-                    val title = mon + "월 " + day + "일"
-                    val ints = Intent(activity, AddScheduleDialogActivity::class.java)
-                    startActivity(ints)
+                    val title = year + "년" + mon + "월 " + day + "일"
+                    //val ints = Intent(activity, AddScheduleDialogActivity::class.java)
+                    //startActivity(ints)
+
+                    val dlg = newAddScheduleDialogActivity(requireActivity() as AppCompatActivity)
+                    dlg.show(title)
+
                 }
             }
         }
