@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowAddPlanBinding
+import com.example.plantogether.roomDB.Event
 
-class DateViewAdapter(val items : ArrayList<EventData>): RecyclerView.Adapter<DateViewAdapter.ViewHolder>() {
+class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<DateViewAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RowAddPlanBinding) :
         RecyclerView.ViewHolder(binding.root){}
 

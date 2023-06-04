@@ -19,7 +19,6 @@ class EventInfoActivity : AppCompatActivity() {
 
     val data:ArrayList<EventData> = ArrayList()
     var date = ""
-    var ok = 0
 
     companion object {
         const val TAG = "EventInfoActivity"

@@ -58,7 +58,7 @@ class CalendarFragment : Fragment() {
                     val year = date.year.toString()
                     val mon = (date.month).toString()
                     val day = date.day.toString()
-                    val title = year + "년" + mon + "월 " + day + "일"
+                    val title = year + "년 " + mon + "월 " + day + "일"
                     //val ints = Intent(activity, AddScheduleDialogActivity::class.java)
                     //startActivity(ints)
 
