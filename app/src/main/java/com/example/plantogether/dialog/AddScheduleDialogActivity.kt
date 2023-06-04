@@ -8,13 +8,22 @@ import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.dialog.data.EventData
+import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.EventDatabase
+import com.kakao.sdk.common.KakaoSdk.init
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     lateinit var binding : ActivityAddScheduleDialogBinding
-    lateinit var adapter : DateViewAdapter
-    var planData : ArrayList<EventData> = ArrayList()
 
+    lateinit var db : EventDatabase
+    var adapter = DateViewAdapter(ArrayList<Event>())
+    var eventData = ArrayList<Event>()
+
+    var date = ""
     val dlg = Dialog(context)
 
     fun show(todayDate : String) {
@@ -22,22 +31,11 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         dlg.setContentView(binding.root)
         //바깥에 누르면 없어지게 만드는 기능
         dlg.setCancelable(true)
-        initRecycle()
 
+        date = todayDate
 
-        binding.initDate.setText(todayDate)
-
-        //일정추가
-        binding.plusPlan.setOnClickListener {
-            val bottomSheetDialogFragment = AddPlanDialogActivity()
-            bottomSheetDialogFragment.show(context.supportFragmentManager, "bottom_sheet_dialog")
-        }
-        //이벤트추가
-        binding.plusEvent.setOnClickListener {
-            val intent = Intent(context, MakeEventActivity::class.java)
-            context.startActivity(intent)
-
-        }
+        initRecyclerView()
+        initLayout()
 
         val window = dlg.window
         val layoutParams = window?.attributes
@@ -46,13 +44,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         window?.attributes = layoutParams
         dlg.show()
     }
-    fun initRecycle() {
-        planData.add(EventData("abc", "ass", "ddd", "s", 1))
-        planData.add(EventData("abc2", "ass3", "ddd", "s", 1))
-        planData.add(EventData("abc3", "ass2", "ddd", "s", 2))
-        adapter = DateViewAdapter(planData)
-        binding.eventRecyclerView.adapter = adapter
-        binding.eventRecyclerView.layoutManager = LinearLayoutManager(context,
+    fun initRecyclerView() {
+
+        binding.eventRecycleView.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
@@ -62,10 +56,41 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
             override fun OnDeleteItemClick(position: Int) {
                 //삭제 버튼 눌렀을 때
-                planData.removeAt(position)
+                eventData.removeAt(position)
                 adapter.notifyDataSetChanged()
             }
 
         })
+
+        binding.eventRecycleView.adapter= adapter
+    }
+
+    fun initLayout() {
+        db = EventDatabase.getDatabase(context)
+        CoroutineScope(Dispatchers.IO).launch {
+            getEvent()
+        }
+        binding.initDate.setText(date)
+
+        //일정추가
+        binding.plusPlan.setOnClickListener {
+            val bottomSheetDialogFragment = AddPlanDialogActivity()
+            bottomSheetDialogFragment.show(context.supportFragmentManager, "bottom_sheet_dialog")
+        }
+        //이벤트추가
+        binding.plusEvent.setOnClickListener {
+            val intent = Intent(context, MakeEventActivity::class.java)
+            intent.putExtra("date",date)
+            context.startActivity(intent)
+
+        }
+    }
+
+    fun getEvent() {
+        eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
+        adapter.items = eventData
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter.notifyDataSetChanged()
+        }
     }
 }
