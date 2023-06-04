@@ -28,7 +28,6 @@ class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
     val selected:ArrayList<Boolean> = ArrayList()
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +56,4 @@ class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
         }
 
     }
-
-
-
 }
