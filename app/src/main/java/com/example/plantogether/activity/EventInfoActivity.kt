@@ -8,33 +8,34 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
+import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.User
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.kakao.sdk.share.model.SharingResult
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
 
-    val data:ArrayList<EventData> = ArrayList()
-    var date = ""
+    lateinit var db : EventDatabase
 
+    var id = -1
+    lateinit var event: Event
+    var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
     }
 
-    var defaultText = TextTemplate(
-        text = """ ${date} 에 생성된 문자입니다.
-        카카오톡 공유는 카카오톡을 실행하여
-        사용자가 선택한 채팅방으로 메시지를 전송합니다.
-    """.trimIndent(),
-        link = Link(
-            webUrl = "https://developers.kakao.com",
-            mobileWebUrl = "https://developers.kakao.com"
-        )
-    )
-
+    lateinit var defaultText: TextTemplate
+    lateinit var text: String
     var fm = supportFragmentManager
     var inviteDialog = InviteDialog()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,22 +43,52 @@ class EventInfoActivity : AppCompatActivity() {
         binding = ActivityEventInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent = getIntent()
-        date = intent.getStringExtra("date").toString()
-        Log.d("date", date)
-        initLayout()
-        initBtn()
+        id = intent.getIntExtra("id",-1)
+        db = EventDatabase.getDatabase(this)
+        CoroutineScope(Dispatchers.IO).launch {
+            event = db.eventDao().getEventById(id)
+            user = db.eventDao().getUser() as ArrayList<User>
+
+            withContext(Dispatchers.Main) {
+                defaultText =  TextTemplate(
+                    text = """ ${user[0].username}님이 [${event.title}] 이벤트에 초대했습니다.
+                      
+    일시 : ${event.date}
+                        
+    장소 : ${event.place}
+                        
+    추가정보 : ${event.detail}
+            """.trimIndent(),
+                    link = Link(
+                        webUrl = "https://developers.kakao.com",
+                        mobileWebUrl = "https://developers.kakao.com"
+                    )
+                )
+                text = "${user[0].username}님이 [${event.title}]\n" +
+                        "이벤트에 초대했습니다.\n\n" +
+                        "일시 : ${event.date}\n\n" +
+                        "장소 : ${event.place}\n\n" +
+                        "추가정보 : ${event.detail}"
+                initLayout()
+                initBtn()
+            }
+        }
+
     }
 
     private fun initLayout() {
         binding.apply {
-            eventDate.text = date
+            eventTitle.setText(event.title)
+            eventPlace.setText(event.place)
+            eventDate.setText(event.date)
+            eventDetailInfo.setText(event.detail)
         }
     }
     private fun initBtn() {
         binding.apply {
             sendInvitation.setOnClickListener {
                 var bundle = Bundle()
-                bundle.putString("date", date)
+                bundle.putString("text", text)
                 inviteDialog.arguments = bundle
                 inviteDialog.show(fm, "dialog")
 
@@ -65,30 +96,13 @@ class EventInfoActivity : AppCompatActivity() {
             editButton.setOnClickListener {
                 //수정 화면으로 이동
                 val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
+                editintent.putExtra("id",event.id)
                 startActivity(editintent)
             }
         }
     }
 
-    private fun initData(){
-        var pos = 1//pos는 식별코드
-        binding.eventTitle.setText(data[pos].title)
-        binding.eventPlace.setText(data[pos].place)
-        binding.eventDate.setText(data[pos].date)
-        binding.eventDetailInfo.setText(data[pos].detailInfo)
-    }
     public fun setOk() {
-        //date = binding.eventDate.text.toString()
-        defaultText = TextTemplate(
-            text = """ ${date} 에 생성된 문자입니다.
-        카카오톡 공유는 카카오톡을 실행하여
-        사용자가 선택한 채팅방으로 메시지를 전송합니다.
-    """.trimIndent(),
-            link = Link(
-                webUrl = "https://developers.kakao.com",
-                mobileWebUrl = "https://developers.kakao.com"
-            )
-        )
         sendMessage()
     }
 
