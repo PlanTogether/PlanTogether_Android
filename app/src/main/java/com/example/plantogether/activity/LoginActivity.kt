@@ -11,6 +11,7 @@ import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.util.maps.helper.Utility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,8 +30,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        var keyHash = Utility.getKeyHash(this)
-//        Log.d("key확인", keyHash.toString())
+        var keyHash = Utility.getKeyHash(this)
+        Log.d("key확인", keyHash.toString())
 
         setContentView(binding.root)
         db = EventDatabase.getDatabase(this)

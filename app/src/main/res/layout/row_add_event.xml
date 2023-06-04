@@ -4,36 +4,30 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/border_round_white"
     >
     <ImageView
-        android:src="@drawable/baseline_brightness_1_24"
-
+        android:src="@drawable/icon_row_addevent"
         android:id="@+id/checkThat"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/eventNameText"
         android:layout_width="0dp"
         android:layout_weight="4"
-        android:height="30dp"
-        android:textColor="#000000"
-        android:textSize="25dp"
-        android:gravity="center"
         android:layout_gravity="center"
-        android:layout_height="match_parent"/>
-
-    <ImageView
-        android:id="@+id/showDelete"
-        android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:src="@drawable/baseline_delete_24"
-        />
+        android:gravity="center"
+        android:height="30dp"
 
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/text_indigo"
+        />
 
 
 </LinearLayout>

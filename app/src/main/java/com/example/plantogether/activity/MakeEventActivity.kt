@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.plantogether.R
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
@@ -55,7 +55,8 @@ class MakeEventActivity : AppCompatActivity() {
 
             selectfromMapButton.setOnClickListener {
                 //MapView로 이동하면서 장소 마킹
-                val mapintent = Intent(this@MakeEventActivity, MapActivity::class.java)
+                val mapintent = Intent(this@MakeEventActivity,
+                    MapActivity::class.java)
                 startActivity(mapintent)
             }
         }

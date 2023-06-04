@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.R
 import com.example.plantogether.adapter.EventDataAdapter
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.FragmentEventBinding
 import com.example.plantogether.databinding.RowEventBinding
 
