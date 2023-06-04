@@ -72,7 +72,7 @@ class DateViewAdapter(val items: ArrayList<EventData>) :
         fun bind(eventData: EventData) {
             binding.eventNameText.text = eventData.title
 
-            binding.eventList.setOnClickListener {
+            binding.eventItem.setOnClickListener {
                 itemClickListener?.OnItemClick(adapterPosition)
             }
         }
@@ -84,7 +84,7 @@ class DateViewAdapter(val items: ArrayList<EventData>) :
         fun bind(planData: EventData) {
             binding.planNameText.text = planData.title
 
-            binding.planList.setOnClickListener {
+            binding.planItem.setOnClickListener {
                 itemClickListener?.OnItemClick(adapterPosition)
             }
 
