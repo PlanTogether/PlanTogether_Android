@@ -42,7 +42,7 @@ class AddPlanDialogActivity : BottomSheetDialogFragment() {
 
     fun init() {
         binding.apply {
-            xBtn.setOnClickListener {
+            backBtn.setOnClickListener {
                 dismiss()
             }
             checkBtn.setOnClickListener {
