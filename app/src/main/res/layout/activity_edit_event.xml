@@ -28,7 +28,11 @@
             android:layout_width="750px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
-            android:background="#E8F1FF"/>
+            android:background="#E8F1FF"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"/>
 
     </LinearLayout>
 
@@ -53,7 +57,11 @@
             android:layout_width="750px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
-            android:background="#E8F1FF"/>
+            android:background="#E8F1FF"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"/>
     </LinearLayout>
 
     <LinearLayout
@@ -89,11 +97,15 @@
             android:textSize="16sp"
             android:text="일시"/>
 
-        <EditText
+        <TextView
             android:id="@+id/eventDate"
             android:layout_width="750px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:background="#E8F1FF"/>
     </LinearLayout>
 
@@ -120,7 +132,11 @@
         android:layout_height="510px"
         android:layout_marginTop="30px"
         android:layout_marginLeft="30px"
-        android:background="#E8F1FF"/>
+        android:gravity="top"
+        android:background="#E8F1FF"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

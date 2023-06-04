@@ -56,12 +56,12 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
         when (holder) {
             is EventViewHolder -> {
                 val eventHolder = holder as EventViewHolder
-                eventHolder.bind(items[position] as EventData)
+                eventHolder.bind(items[position] as Event)
             }
 
             is PlanViewHolder -> {
                 val planHolder = holder as PlanViewHolder
-                planHolder.bind(items[position] as EventData)
+                planHolder.bind(items[position] as Event)
             }
         }
     }
@@ -69,7 +69,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
     inner class EventViewHolder(val binding: RowAddEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(eventData: EventData) {
+        fun bind(eventData: Event) {
             binding.eventNameText.text = eventData.title
 
             binding.eventItem.setOnClickListener {
@@ -81,7 +81,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
     inner class PlanViewHolder(val binding: RowAddPlanBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(planData: EventData) {
+        fun bind(planData: Event) {
             binding.planNameText.text = planData.title
 
             binding.planItem.setOnClickListener {
