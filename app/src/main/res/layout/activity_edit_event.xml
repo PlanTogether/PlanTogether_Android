@@ -24,7 +24,7 @@
             android:text="이벤트명"/>
 
         <EditText
-            android:id="@+id/eventName"
+            android:id="@+id/eventTitle"
             android:layout_width="750px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
@@ -115,7 +115,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/eventAdditionalInfo"
+        android:id="@+id/eventDetailInfo"
         android:layout_width="1020px"
         android:layout_height="510px"
         android:layout_marginTop="30px"

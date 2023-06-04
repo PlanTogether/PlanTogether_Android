@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -15,6 +16,8 @@ import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
+
+    val data:ArrayList<EventData> = ArrayList()
     var date = ""
     var ok = 0
 
@@ -68,6 +71,13 @@ class EventInfoActivity : AppCompatActivity() {
         }
     }
 
+    private fun initData(){
+        var pos = 1//pos는 식별코드
+        binding.eventTitle.setText(data[pos].title)
+        binding.eventPlace.setText(data[pos].place)
+        binding.eventDate.setText(data[pos].date)
+        binding.eventDetailInfo.setText(data[pos].detailInfo)
+    }
     public fun setOk() {
         //date = binding.eventDate.text.toString()
         defaultText = TextTemplate(

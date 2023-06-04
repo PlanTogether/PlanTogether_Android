@@ -34,7 +34,7 @@ class EventDataAdapter (val items:ArrayList<EventData>, val selected:ArrayList<B
         }
     }
 
-    fun moveItem(oldPos: Int, newPos: Int) {
+    fun moveItem(oldPos: Int, newPos: Int) {//필요 없는 내용
         val data = items.get(oldPos)
         items[oldPos] = items.get(newPos)
         items[newPos] = data
@@ -58,7 +58,7 @@ class EventDataAdapter (val items:ArrayList<EventData>, val selected:ArrayList<B
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.rowEventDate.text = items[position].date
+        holder.binding.rowEventDate.text = items[position].date// 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
         holder.binding.rowEventTitle.text = items[position].title
 
     }
