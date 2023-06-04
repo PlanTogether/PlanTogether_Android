@@ -41,7 +41,8 @@ class EditEventActivity : AppCompatActivity() {
                 val date = binding.eventDate.text.toString()
                 val detailInfo = binding.eventDetailInfo.text.toString()
 
-                data.add(EventData(title, place, date, detailInfo))//이부분은 DB로 그리고 받아온 event의 id로 add->replace
+                data.add(EventData(title, place, date, detailInfo, 1))
+                // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
                 clearEditText()
 
                 val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
