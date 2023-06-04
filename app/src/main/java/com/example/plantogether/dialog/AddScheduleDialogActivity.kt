@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
@@ -20,6 +21,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     lateinit var binding : ActivityAddScheduleDialogBinding
 
     lateinit var db : EventDatabase
+
     var adapter = DateViewAdapter(ArrayList<Event>())
     var eventData = ArrayList<Event>()
 
@@ -50,14 +52,18 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
-            override fun OnItemClick(position: Int) {
+            override fun OnItemClick(event: Event) {
                 //이곳에 이벤트 클릭했을 때 나오는거 쓰면됨.
+                val intent = Intent(context, EventInfoActivity::class.java)
+                intent.putExtra("id",event.id)
+                context.startActivity(intent)
             }
 
-            override fun OnDeleteItemClick(position: Int) {
+            override fun OnDeleteItemClick(event: Event) {
                 //삭제 버튼 눌렀을 때
-                eventData.removeAt(position)
-                adapter.notifyDataSetChanged()
+                CoroutineScope(Dispatchers.IO).launch {
+                    delete(event)
+                }
             }
 
         })
@@ -92,5 +98,10 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         CoroutineScope(Dispatchers.Main).launch {
             adapter.notifyDataSetChanged()
         }
+    }
+
+    fun delete(event: Event) {
+        db.eventDao().deleteEvent(event)
+        getEvent()
     }
 }

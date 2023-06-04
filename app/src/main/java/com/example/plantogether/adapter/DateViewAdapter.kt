@@ -11,8 +11,8 @@ import com.example.plantogether.roomDB.Event
 class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun OnItemClick(position: Int)
-        fun OnDeleteItemClick(position: Int)
+        fun OnItemClick(event: Event)
+        fun OnDeleteItemClick(event: Event)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -73,7 +73,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
             binding.eventNameText.text = eventData.title
 
             binding.eventItem.setOnClickListener {
-                itemClickListener?.OnItemClick(adapterPosition)
+                itemClickListener?.OnItemClick(items[adapterPosition])
             }
         }
     }
@@ -85,11 +85,11 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
             binding.planNameText.text = planData.title
 
             binding.planItem.setOnClickListener {
-                itemClickListener?.OnItemClick(adapterPosition)
+                itemClickListener?.OnItemClick(items[adapterPosition])
             }
 
             binding.showDelete.setOnClickListener {
-                itemClickListener?.OnDeleteItemClick(adapterPosition)
+                itemClickListener?.OnDeleteItemClick(items[adapterPosition])
             }
         }
     }

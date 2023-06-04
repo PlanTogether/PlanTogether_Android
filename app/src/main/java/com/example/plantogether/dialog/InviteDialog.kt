@@ -19,7 +19,7 @@ import java.util.Objects
 class InviteDialog : DialogFragment()  {
 
 
-    var date = ""
+    var text = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class InviteDialog : DialogFragment()  {
     ): View? {
         // Inflate the layout for this fragment
         var bundle = arguments
-        date = bundle!!.getString("date",date)
+        text = bundle!!.getString("text",text)
 
         binding = FragmentInviteDialogBinding.inflate(inflater,container,false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -53,7 +53,7 @@ class InviteDialog : DialogFragment()  {
     private fun initBtn() {
         binding?.apply {
 
-            inviteText.text = "$date 나 이거 초대 보낼랭"
+            inviteText.text = "$text"
 
             okBtn.setOnClickListener {
                 (activity as EventInfoActivity).setOk()
