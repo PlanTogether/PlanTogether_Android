@@ -33,7 +33,7 @@ class MakeEventActivity : AppCompatActivity() {
 
             cancelButton.setOnClickListener {//수정 필요
                 // 취소시 DateView로 돌아가야함
-                val cancelintent = Intent(this@MakeEventActivity, EventInfoActivity::class.java)
+                val cancelintent = Intent(this@MakeEventActivity, MainActivity::class.java)
                 startActivity(cancelintent)
             }
 
