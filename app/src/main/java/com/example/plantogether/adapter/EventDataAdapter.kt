@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.activity.MainActivity
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowEventBinding
 
 class EventDataAdapter (val items:ArrayList<EventData>, val selected:ArrayList<Boolean>)

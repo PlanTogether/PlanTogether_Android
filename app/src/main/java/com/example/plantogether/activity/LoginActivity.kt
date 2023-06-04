@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import com.example.plantogether.databinding.ActivityLoginBinding
 
-import com.example.plantogether.databinding.ActivityMainBinding
-import com.example.plantogether.roomDB.Username
-import com.example.plantogether.roomDB.UsernameDatabase
+import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.User
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.util.maps.helper.Utility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,16 +25,16 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    lateinit var db: UsernameDatabase
+    lateinit var db: EventDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        var keyHash = Utility.getKeyHash(this)
-//        Log.d("key확인", keyHash.toString())
+        var keyHash = Utility.getKeyHash(this)
+        Log.d("key확인", keyHash.toString())
 
         setContentView(binding.root)
-        db = UsernameDatabase.getDatabase(this)
+        db = EventDatabase.getDatabase(this)
         initBtn()
     }
 
@@ -83,9 +84,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun insertDB(nickname: String) {
-        val users = Username(nickname)
+        val users = User(nickname)
         CoroutineScope(Dispatchers.IO).launch {
-            db.usernameDao().insertUser(users)
+            db.eventDao().insertUser(users)
         }
     }
 }

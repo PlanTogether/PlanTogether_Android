@@ -4,19 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.plantogether.roomDB.Username
-import com.example.plantogether.roomDB.UsernameDAO
+
 @Database(
-    entities = [Username::class],
+    entities = [Event::class, Plan::class, User::class],
     version =1
 )
-abstract class UsernameDatabase:RoomDatabase(){
-    abstract fun usernameDao(): UsernameDAO
+abstract class EventDatabase:RoomDatabase(){
+    abstract fun eventDao(): EventDAO
 
     companion object {
-        private  var INSTANCE: UsernameDatabase? = null
+        private  var INSTANCE: EventDatabase? = null
 
-        fun getDatabase(context: Context): UsernameDatabase {
+        fun getDatabase(context: Context): EventDatabase {
             val tempInstance = INSTANCE
 
             if (tempInstance != null) {
@@ -25,8 +24,8 @@ abstract class UsernameDatabase:RoomDatabase(){
 
             val instance = Room.databaseBuilder(
                 context,
-                UsernameDatabase::class.java,
-                "usernamedb"
+                EventDatabase::class.java,
+                "eventdb"
             ).build()
 
             INSTANCE = instance

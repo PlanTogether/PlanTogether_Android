@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.R
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 
 class EditEventActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditEventBinding

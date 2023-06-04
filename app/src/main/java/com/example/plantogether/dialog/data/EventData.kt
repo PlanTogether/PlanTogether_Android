@@ -1,4 +1,4 @@
-package com.example.plantogether.data
+package com.example.plantogether.dialog.data
 
 import android.os.Parcel
 import android.os.Parcelable
