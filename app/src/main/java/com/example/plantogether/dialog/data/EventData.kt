@@ -7,14 +7,17 @@ data class EventData(
    var title: String = "이벤트명",
    var place: String = "장소",
    var date: String = "일시",
-   var detailInfo: String = "추가정보"
+   var detailInfo: String = "추가정보",
+   val type: Int = 1
+// 1이면 이벤트 아이템, 2이면 일정 아이템이 recyclerView에 추가되는 방식
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "이벤트명",
         parcel.readString() ?: "장소",
         parcel.readString() ?: "일시",
-        parcel.readString() ?: "추가정보"
+        parcel.readString() ?: "추가정보",
+        parcel.readInt() ?: 1
     ) {
     }
 
@@ -23,6 +26,7 @@ data class EventData(
         parcel.writeString(place)
         parcel.writeString(date)
         parcel.writeString(detailInfo)
+        parcel.writeInt(type)
     }
 
     override fun describeContents(): Int {

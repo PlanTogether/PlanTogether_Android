@@ -47,9 +47,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         dlg.show()
     }
     fun initRecycle() {
-        planData.add(EventData("abc", "ass", "ddd", "s"))
-        planData.add(EventData("abc2", "ass3", "ddd", "s"))
-        planData.add(EventData("abc3", "ass2", "ddd", "s"))
+        planData.add(EventData("abc", "ass", "ddd", "s", 1))
+        planData.add(EventData("abc2", "ass3", "ddd", "s", 1))
+        planData.add(EventData("abc3", "ass2", "ddd", "s", 2))
         adapter = DateViewAdapter(planData)
         binding.eventRecycleView.adapter = adapter
         binding.eventRecycleView.layoutManager = LinearLayoutManager(context,
