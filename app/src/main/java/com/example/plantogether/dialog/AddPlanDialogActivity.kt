@@ -10,6 +10,7 @@ import android.widget.ImageView
 import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityAddPlanDialogBinding
+import com.example.plantogether.databinding.FragmentCalendarBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -22,41 +23,36 @@ class AddPlanDialogActivity : BottomSheetDialogFragment() {
         fun onXButtonClicked()
     }
     private var bottomSheetListener : BottomSheetListener ?= null
-
     val data:ArrayList<EventData> = ArrayList()
     val selected:ArrayList<Boolean> = ArrayList()
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_add_plan_dialog, container, false)
-        return view
+        binding = ActivityAddPlanDialogBinding.inflate(layoutInflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val button : ImageView = view.findViewById(R.id.XBtn)
-        val button2 : ImageView = view.findViewById(R.id.VBtn)
-        button.setOnClickListener {
-            dismiss()
-        }
-        button2.setOnClickListener {
-            val inputDate : EditText = view.findViewById(R.id.setDate)
-            val inputTime : EditText = view.findViewById(R.id.setTime)
-
-            val intent = Intent(requireContext(), AddScheduleDialogUnusedActivity::class.java)
-            intent.putExtra("inputDate", inputDate.text)
-            intent.putExtra("inputTime", inputTime.text)
-            dismiss()
-
-        }
-
+        init()
     }
 
-
-
+    fun init() {
+        binding.apply {
+            xBtn.setOnClickListener {
+                dismiss()
+            }
+            checkBtn.setOnClickListener {
+                val date = setDate.text.toString()
+                val time = setTime.text.toString()
+                val intent = Intent(requireContext(), AddScheduleDialogActivity::class.java)
+                intent.putExtra("inputDate", date)
+                intent.putExtra("inputTime", time)
+                dismiss()
+            }
+        }
+    }
 }

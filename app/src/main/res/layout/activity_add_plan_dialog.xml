@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         >
         <ImageView
-            android:id="@+id/XBtn"
+            android:id="@+id/xBtn"
             android:src="@drawable/cancel_24"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
 
         <ImageView
             android:src="@drawable/check_24"
-            android:id="@+id/VBtn"
+            android:id="@+id/checkBtn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
