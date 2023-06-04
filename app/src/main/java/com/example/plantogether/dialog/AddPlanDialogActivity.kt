@@ -5,19 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
-import com.example.plantogether.databinding.ActivityAddScheduleDialog2Binding
+import com.example.plantogether.databinding.ActivityAddPlanDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
 //일정 입력후 아래에서 나오는 다이얼로그
-class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
+class AddPlanDialogActivity : BottomSheetDialogFragment() {
 
-    lateinit var binding : ActivityAddScheduleDialog2Binding
+    lateinit var binding : ActivityAddPlanDialogBinding
 
     interface BottomSheetListener {
         fun onXButtonClicked()
@@ -34,7 +33,7 @@ class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_add_schedule_dialog2, container, false)
+        val view = inflater.inflate(R.layout.activity_add_plan_dialog, container, false)
         return view
     }
 
@@ -49,7 +48,7 @@ class AddScheduleDialog2Activity : BottomSheetDialogFragment() {
             val inputDate : EditText = view.findViewById(R.id.setDate)
             val inputTime : EditText = view.findViewById(R.id.setTime)
 
-            val intent = Intent(requireContext(), AddScheduleDialogActivity::class.java)
+            val intent = Intent(requireContext(), AddScheduleDialogUnusedActivity::class.java)
             intent.putExtra("inputDate", inputDate.text)
             intent.putExtra("inputTime", inputTime.text)
             dismiss()

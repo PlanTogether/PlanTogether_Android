@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.dialog.data.EventData
-import com.example.plantogether.databinding.RowAddscheduleBinding
+import com.example.plantogether.databinding.RowAddPlanBinding
 
 class DateViewAdapter(val items : ArrayList<EventData>): RecyclerView.Adapter<DateViewAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: RowAddscheduleBinding) :
+    inner class ViewHolder(val binding: RowAddPlanBinding) :
         RecyclerView.ViewHolder(binding.root){}
 
     interface OnItemClickListener {
@@ -20,7 +20,7 @@ class DateViewAdapter(val items : ArrayList<EventData>): RecyclerView.Adapter<Da
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = RowAddscheduleBinding.inflate(
+        val view = RowAddPlanBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )

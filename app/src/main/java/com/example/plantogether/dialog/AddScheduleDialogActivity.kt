@@ -1,62 +1,71 @@
 package com.example.plantogether.dialog
 
-
+import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.plantogether.adapter.EventDataAdapter
-import com.example.plantogether.dialog.data.EventData
+import com.example.plantogether.activity.MakeEventActivity
+import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
+import com.example.plantogether.dialog.data.EventData
 
-
-
-
-class AddScheduleDialogActivity : AppCompatActivity() {
+class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     lateinit var binding : ActivityAddScheduleDialogBinding
-    val data:ArrayList<EventData> = ArrayList()
-    val selected:ArrayList<Boolean> = ArrayList()
-    lateinit var adapter: EventDataAdapter
+    lateinit var adapter : DateViewAdapter
+    var planData : ArrayList<EventData> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAddScheduleDialogBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    val dlg = Dialog(context)
 
+    fun show(todayDate : String) {
+        binding = ActivityAddScheduleDialogBinding.inflate(context.layoutInflater)
+        dlg.setContentView(binding.root)
+        //바깥에 누르면 없어지게 만드는 기능
+        dlg.setCancelable(true)
         initRecycle()
 
-        binding.addPlan.setOnClickListener {
-            val bottomSheetDialogFragment = AddScheduleDialog2Activity()
-            bottomSheetDialogFragment.show(supportFragmentManager, "bottom_sheet_dialog")
-        }
-    }
 
-    private fun initRecycle() {
-        binding.recyclerViewEventCalendar.layoutManager = LinearLayoutManager(this,
+        binding.initDate.setText(todayDate)
+
+        //일정추가
+        binding.plusPlan.setOnClickListener {
+            val bottomSheetDialogFragment = AddPlanDialogActivity()
+            bottomSheetDialogFragment.show(context.supportFragmentManager, "bottom_sheet_dialog")
+        }
+        //이벤트추가
+        binding.plusEvent.setOnClickListener {
+            val intent = Intent(context, MakeEventActivity::class.java)
+            context.startActivity(intent)
+
+        }
+
+        val window = dlg.window
+        val layoutParams = window?.attributes
+        layoutParams?.width = (context.resources.displayMetrics.widthPixels * 0.7).toInt()
+        layoutParams?.height = (context.resources.displayMetrics.heightPixels * 0.7).toInt()
+        window?.attributes = layoutParams
+        dlg.show()
+    }
+    fun initRecycle() {
+        planData.add(EventData("abc", "ass", "ddd", "s"))
+        planData.add(EventData("abc2", "ass3", "ddd", "s"))
+        planData.add(EventData("abc3", "ass2", "ddd", "s"))
+        adapter = DateViewAdapter(planData)
+        binding.eventRecycleView.adapter = adapter
+        binding.eventRecycleView.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
-        for(i in 0..10) {
-            data.add(EventData("a","b","2023-05-30","여기"))
-            selected.add(false)
-        }
-        adapter = EventDataAdapter(data, selected)
-        binding.recyclerViewEventCalendar.adapter = adapter
-
-        val inputText = intent.getStringExtra("inputDate")
-        val inputText2 = intent.getStringExtra("inputTime")
-
-        if(inputText != null && inputText2 != null) {
-            if(inputText != "" && inputText2 != "") {
-                data.add(EventData(inputText, "", inputText2, ""))
-                adapter.notifyDataSetChanged()
-                Toast.makeText(this, "추가 완료", Toast.LENGTH_SHORT).show()
+        adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
+            override fun OnItemClick(position: Int) {
+                //이곳에 이벤트 클릭했을 때 나오는거 쓰면됨.
             }
-        }
 
+            override fun OnDeleteItemClick(position: Int) {
+                //삭제 버튼 눌렀을 때
+                planData.removeAt(position)
+                adapter.notifyDataSetChanged()
+            }
 
+        })
     }
-
-
-
 }

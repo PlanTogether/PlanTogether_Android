@@ -1,6 +1,5 @@
 package com.example.plantogether.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.databinding.FragmentCalendarBinding
 import com.example.plantogether.dialog.AddScheduleDialogActivity
-import com.example.plantogether.dialog.newAddScheduleDialogActivity
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -65,7 +62,7 @@ class CalendarFragment : Fragment() {
                     //val ints = Intent(activity, AddScheduleDialogActivity::class.java)
                     //startActivity(ints)
 
-                    val dlg = newAddScheduleDialogActivity(requireActivity() as AppCompatActivity)
+                    val dlg = AddScheduleDialogActivity(requireActivity() as AppCompatActivity)
                     dlg.show(title)
 
                 }
