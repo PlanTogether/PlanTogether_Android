@@ -1,5 +1,7 @@
 package com.example.plantogether.activity
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -33,11 +35,29 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        init()
         // naver map
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+    }
+
+    fun init() {
+        binding.apply {
+            btnPlaceConfirm.setOnClickListener {
+                val latitude = naverMap.cameraPosition.target.latitude
+                val longitude = naverMap.cameraPosition.target.longitude
+                val address = getAddress(latitude, longitude)
+                println(address)
+                val intent = Intent()
+                intent.putExtra("latitude", latitude)
+                intent.putExtra("longitude", longitude)
+                intent.putExtra("address", address)
+
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 
     override fun onMapReady(navermap: NaverMap) {
@@ -125,7 +145,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 val currentLocationAddress = address[0].getAddressLine(0)
                     .toString()
                 addressResult = currentLocationAddress
-
             }
 
         } catch (e: IOException) {

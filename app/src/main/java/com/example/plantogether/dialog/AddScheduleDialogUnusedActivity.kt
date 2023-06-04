@@ -36,7 +36,7 @@ class AddScheduleDialogUnusedActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL, false)
 
         for(i in 0..10) {
-            data.add(EventData("a","b","2023-05-30","여기"))
+            data.add(EventData("a","b","2023-05-30","여기", 1))
             selected.add(false)
         }
         adapter = EventDataAdapter(data, selected)
@@ -47,7 +47,7 @@ class AddScheduleDialogUnusedActivity : AppCompatActivity() {
 
         if(inputText != null && inputText2 != null) {
             if(inputText != "" && inputText2 != "") {
-                data.add(EventData(inputText, "", inputText2, ""))
+                data.add(EventData(inputText, "", inputText2, "", 1))
                 adapter.notifyDataSetChanged()
                 Toast.makeText(this, "추가 완료", Toast.LENGTH_SHORT).show()
             }

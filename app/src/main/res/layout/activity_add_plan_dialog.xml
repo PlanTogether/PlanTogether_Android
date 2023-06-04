@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/xBtn"
+            android:id="@+id/backBtn"
             android:src="@drawable/cancel_24"
             android:layout_width="0dp"
             android:layout_weight="1"
