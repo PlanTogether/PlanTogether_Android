@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import com.example.plantogether.R
-import com.example.plantogether.data.EventData
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityAddScheduleDialog2Binding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
