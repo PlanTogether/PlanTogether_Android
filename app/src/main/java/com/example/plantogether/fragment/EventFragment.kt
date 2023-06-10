@@ -1,6 +1,7 @@
 package com.example.plantogether.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,26 +14,43 @@ import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.FragmentEventBinding
 import com.example.plantogether.databinding.RowEventBinding
+import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.EventDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EventFragment : Fragment() {
     lateinit var binding: FragmentEventBinding
     lateinit var adapter: EventDataAdapter
 
-    val data:ArrayList<EventData> = ArrayList()
+    var data:ArrayList<Event> = ArrayList()
     val selected:ArrayList<Boolean> = ArrayList()
-
+    lateinit var db : EventDatabase
+    lateinit var event: Event
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEventBinding.inflate(inflater, container, false)
-        initRecyclerView()
-        adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
-            override fun onApplyClick(data: EventData) {
 
+        db = EventDatabase.getDatabase(this.requireContext())
+        CoroutineScope(Dispatchers.IO).launch {
+            data = db.eventDao().getEvents() as ArrayList<Event>
+            withContext(Dispatchers.Main){
+                initData()
+                initRecyclerView()
+                adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
+                    override fun onApplyClick(data: Event) {
+
+                    }
+                }
             }
         }
-        initData()
+
+
+
         return binding.root
     }
 
@@ -41,7 +59,7 @@ class EventFragment : Fragment() {
             LinearLayoutManager.VERTICAL, false)
         adapter = EventDataAdapter(data, selected)
         adapter.itemClickListener = object :EventDataAdapter.OnItemClickListener {
-            override fun OnItemClick(data: EventData, binding: RowEventBinding, position: Int) {
+            override fun OnItemClick(data: Event, binding: RowEventBinding, position: Int) {
                 adapter.updateItemAtPosition(position, data)
             }
 
@@ -65,10 +83,9 @@ class EventFragment : Fragment() {
         }
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerViewEvent)
+        Log.i("bind?","??")
     }
     fun initData() {
-        data.add(EventData(title = "신공 1013호 해커톤"))
-        data.add(EventData(title = "홍길동 생일파티"))
 
         for (i: Int in 0 until data.size) {
             selected.add(false)

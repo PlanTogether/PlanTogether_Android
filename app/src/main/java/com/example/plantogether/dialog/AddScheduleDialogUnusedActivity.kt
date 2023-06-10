@@ -7,14 +7,14 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.dialog.data.EventData
-import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.databinding.ActivityAddScheduleDialogUnusedBinding
+import com.example.plantogether.roomDB.Event
 
 
 class AddScheduleDialogUnusedActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityAddScheduleDialogUnusedBinding
-    val data:ArrayList<EventData> = ArrayList()
+    val data:ArrayList<Event> = ArrayList()
     val selected:ArrayList<Boolean> = ArrayList()
     lateinit var adapter: EventDataAdapter
 
@@ -36,7 +36,7 @@ class AddScheduleDialogUnusedActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL, false)
 
         for(i in 0..10) {
-            data.add(EventData("a","b","2023-05-30","여기", 1))
+            //data.add(Event("a","b","2023-05-30","여기", 1))
             selected.add(false)
         }
         adapter = EventDataAdapter(data, selected)
@@ -47,7 +47,7 @@ class AddScheduleDialogUnusedActivity : AppCompatActivity() {
 
         if(inputText != null && inputText2 != null) {
             if(inputText != "" && inputText2 != "") {
-                data.add(EventData(inputText, "", inputText2, "", 1))
+                //data.add(EventData(inputText, "", inputText2, "", 1))
                 adapter.notifyDataSetChanged()
                 Toast.makeText(this, "추가 완료", Toast.LENGTH_SHORT).show()
             }

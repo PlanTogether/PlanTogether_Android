@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event

@@ -6,16 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.activity.MainActivity
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowEventBinding
+import com.example.plantogether.roomDB.Event
 
-class EventDataAdapter (val items:ArrayList<EventData>, val selected:ArrayList<Boolean>)
+class EventDataAdapter(val items: ArrayList<Event>, val selected:ArrayList<Boolean>)
     : RecyclerView.Adapter<EventDataAdapter.ViewHolder>() {
     var onApplyClickListener: OnApplyClickListener? = null
     interface OnItemClickListener {
-        fun OnItemClick(data: EventData, binding: RowEventBinding, position: Int)
+        fun OnItemClick(data: Event, binding: RowEventBinding, position: Int)
     }
 
     interface OnApplyClickListener {
-        fun onApplyClick(data: EventData)
+        fun onApplyClick(data: Event)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -57,13 +58,25 @@ class EventDataAdapter (val items:ArrayList<EventData>, val selected:ArrayList<B
         return items.size
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.rowEventDate.text = items[position].date// 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
+
+        val datetext:String
+        val numbers = items[position].date.split("[^\\d]+".toRegex())
+        if(numbers.size>=3 ) {
+
+            val month = numbers[1]
+            val day = numbers[2]
+            datetext = "$month/$day"
+        }else{
+            datetext = "01/01"
+        }
+        holder.binding.rowEventDate.text = datetext// 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
         holder.binding.rowEventTitle.text = items[position].title
 
     }
 
-    fun updateItemAtPosition(position: Int, data: EventData) {
+    fun updateItemAtPosition(position: Int, data: Event) {
         items[position] = data
         notifyItemChanged(position)
     }
