@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class EditEventActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditEventBinding
 
-    lateinit var db : EventDatabase
+    lateinit var db: EventDatabase
 
     var id = -1
     lateinit var event: Event
@@ -30,7 +30,7 @@ class EditEventActivity : AppCompatActivity() {
         binding = ActivityEditEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent = getIntent()
-        id = intent.getIntExtra("id",-1)
+        id = intent.getIntExtra("id", -1)
         db = EventDatabase.getDatabase(this)
         CoroutineScope(Dispatchers.IO).launch {
             event = db.eventDao().getEventById(id)
@@ -66,19 +66,20 @@ class EditEventActivity : AppCompatActivity() {
                 val place = binding.eventPlace.text.toString()
                 val detail = binding.eventDetailInfo.text.toString()
 
-                // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
-                clearEditText()
-
                 val newEvent = Event(event.id, 1, title, place, event.date, "", detail)
                 CoroutineScope(Dispatchers.IO).launch {
                     db.eventDao().updateEvent(newEvent)
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
-                        intent.putExtra("id",event.id)
+                        intent.putExtra("id", event.id)
                         startActivity(editintent)
                     }
                 }
+
+                // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
+                clearEditText()
             }
+
         }
     }
 

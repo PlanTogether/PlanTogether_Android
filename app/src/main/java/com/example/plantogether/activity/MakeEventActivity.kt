@@ -5,12 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
-import com.kakao.sdk.common.KakaoSdk.init
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
