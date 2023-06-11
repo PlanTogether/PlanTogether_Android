@@ -1,5 +1,6 @@
 package com.example.plantogether.fragment
 
+import android.icu.text.Transliterator.Position
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventFragment : Fragment() {
     lateinit var binding: FragmentEventBinding
@@ -90,5 +94,12 @@ class EventFragment : Fragment() {
         for (i: Int in 0 until data.size) {
             selected.add(false)
         }
+        datasort()
+    }
+
+    fun datasort(){
+        val sdf = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+        data.sortBy { sdf.parse(it.date) }
+
     }
 }
