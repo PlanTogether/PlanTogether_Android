@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.SyncStateContract.Helpers.update
 import com.example.plantogether.databinding.ActivityEditEventBinding
+import com.example.plantogether.R
+import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -49,6 +52,15 @@ class EditEventActivity : AppCompatActivity() {
                 finish()
             }
 
+            selectfromMapButton.setOnClickListener {
+                //MapView로 이동하면서 장소 마킹
+                val mapintent = Intent(
+                    this@EditEventActivity,
+                    MapActivity::class.java
+                )
+                startActivityForResult(mapintent, REQUEST_MAP_LOCATION)
+            }
+
             editButton.setOnClickListener {//안의 데이터를 정리하는 작업이 필요
                 val title = binding.eventTitle.text.toString()
                 val place = binding.eventPlace.text.toString()
@@ -64,22 +76,12 @@ class EditEventActivity : AppCompatActivity() {
                     }
                 }
 
+                // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
+                clearEditText()
+            }
 
-            }
-            selectfromMapButton.setOnClickListener {
-                //MapView로 이동하면서 장소 마킹
-                val mapintent = Intent(
-                    this@EditEventActivity,
-                    MapActivity::class.java
-                )
-                startActivityForResult(mapintent, REQUEST_MAP_LOCATION)
-            }
         }
-
     }
-
-
-
 
 
     fun clearEditText(){
