@@ -52,25 +52,23 @@ class EditEventActivity : AppCompatActivity() {
                 finish()
             }
 
+            selectfromMapButton.setOnClickListener {
+                //MapView로 이동하면서 장소 마킹
+                val mapintent = Intent(
+                    this@EditEventActivity,
+                    MapActivity::class.java
+                )
+                startActivityForResult(mapintent, REQUEST_MAP_LOCATION)
+            }
+
             editButton.setOnClickListener {//안의 데이터를 정리하는 작업이 필요
                 val title = binding.eventTitle.text.toString()
                 val place = binding.eventPlace.text.toString()
                 val detail = binding.eventDetailInfo.text.toString()
 
-                data.add(EventData(title, place, date, detailInfo, 1))
                 // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
                 clearEditText()
 
-                val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
-                startActivity(editintent)
-            }
-            selectfromMapButton.setOnClickListener {
-                //MapView로 이동하면서 장소 마킹
-                val mapintent = Intent(this@EditEventActivity,
-                    MapActivity::class.java)
-                startActivityForResult(mapintent, REQUEST_MAP_LOCATION)
-            }
-        }
                 val newEvent = Event(event.id, 1, title, place, event.date, "", detail)
                 CoroutineScope(Dispatchers.IO).launch {
                     db.eventDao().updateEvent(newEvent)
@@ -80,11 +78,7 @@ class EditEventActivity : AppCompatActivity() {
                         startActivity(editintent)
                     }
                 }
-
-                // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
-                clearEditText()
             }
-
         }
     }
 
