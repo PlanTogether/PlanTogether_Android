@@ -65,7 +65,16 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="plantogether.page.link" android:path="/invite" android:scheme="http"/>
+                <data android:host="plantogether.page.link" android:path="/invite" android:scheme="https"/>
+            </intent-filter>
         </activity>
 
         <meta-data

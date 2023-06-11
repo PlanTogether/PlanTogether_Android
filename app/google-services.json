@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "317204583914",
+    "project_id": "plantogether-df33d",
+    "storage_bucket": "plantogether-df33d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317204583914:android:792f8068564dadbf2c8e93",
+        "android_client_info": {
+          "package_name": "com.example.plantogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317204583914-55hbud8vpt5aeq8i6qef5mf167unbjs4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3BRm4SMQwJ7MPUOUh261sV5n3imy0IpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317204583914-55hbud8vpt5aeq8i6qef5mf167unbjs4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
