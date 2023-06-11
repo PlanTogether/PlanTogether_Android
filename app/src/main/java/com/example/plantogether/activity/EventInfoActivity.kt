@@ -2,6 +2,7 @@ package com.example.plantogether.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,9 @@ import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
+import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
@@ -35,6 +39,7 @@ class EventInfoActivity : AppCompatActivity() {
 
     lateinit var defaultText: TextTemplate
     lateinit var text: String
+
     var fm = supportFragmentManager
     var inviteDialog = InviteDialog()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,25 +54,11 @@ class EventInfoActivity : AppCompatActivity() {
             user = db.eventDao().getUser() as ArrayList<User>
 
             withContext(Dispatchers.Main) {
-                defaultText =  TextTemplate(
-                    text = """ ${user[0].username}님이 [${event.title}] 이벤트에 초대했습니다.
-                      
-    일시 : ${event.date}
-                        
-    장소 : ${event.place}
-                        
-    추가정보 : ${event.detail}
-            """.trimIndent(),
-                    link = Link(
-                        webUrl = "https://developers.kakao.com",
-                        mobileWebUrl = "https://developers.kakao.com"
-                    )
-                )
                 text = "${user[0].username}님이 [${event.title}]\n" +
                         "이벤트에 초대했습니다.\n\n" +
                         "일시 : ${event.date}\n\n" +
                         "장소 : ${event.place}\n\n" +
-                        "추가정보 : ${event.detail}"
+                        "추가정보 : ${event.detail}\n\n"
                 initLayout()
                 initBtn()
             }
@@ -102,13 +93,30 @@ class EventInfoActivity : AppCompatActivity() {
     }
 
     public fun setOk() {
-        sendMessage()
+        getLink()
     }
 
     private val callback:  (SharingResult?, Throwable?) -> Unit = { sharingResult: SharingResult?, throwable: Throwable? ->
     }
 
-    private fun sendMessage() {
+    private fun sendMessage(url: String) {
+        val link = Uri.parse(url)
+        defaultText =  TextTemplate(
+            text = """ ${user[0].username}님이 [${event.title}] 이벤트에 초대했습니다.
+                      
+    일시 : ${event.date}
+                        
+    장소 : ${event.place}
+                        
+    추가정보 : ${event.detail}
+    
+    ${link}
+            """.trimIndent(),
+            link = Link(
+                webUrl = "https://plantogether.page.link/63fF",
+                mobileWebUrl = "https://plantogether.page.link/63fF"
+            )
+        )
         if (ShareClient.instance.isKakaoTalkSharingAvailable(this@EventInfoActivity)) {
             // 카카오톡으로 카카오톡 공유 가능
             ShareClient.instance.shareDefault(this@EventInfoActivity, defaultText) { sharingResult, error ->
@@ -148,6 +156,30 @@ class EventInfoActivity : AppCompatActivity() {
                 // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
             }
         }
+    }
+
+    private fun getLink() : String {
+        val inviteLink = "https://testservice.page.link/invite?title=${"제발 이게 돼?"}&&date=${"2023년 6월 21일"}&&place=${"장소는 집"}&&detail=${"흐어어ㅓㅇ"}"
+        //val inviteLink = "https://testservice.page.link/invite?title=${event.title}&&date=${event.date}&&place=${event.place}&&detail=${event.detail}"
+        var result = ""
+        val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+            .setLink(Uri.parse(inviteLink))
+            .setDomainUriPrefix("https://plantogether.page.link")
+            .setAndroidParameters(
+                AndroidParameters.Builder().build()
+            )
+
+        dynamicLink.buildShortDynamicLink()
+            .addOnSuccessListener {
+                Log.d("dynamic1", it.shortLink.toString())
+                result = it.shortLink.toString()
+                sendMessage(result)
+
+            }
+            .addOnCompleteListener {
+                Log.d("dynamic2", it.toString())
+            }
+        return result
     }
 
 }
