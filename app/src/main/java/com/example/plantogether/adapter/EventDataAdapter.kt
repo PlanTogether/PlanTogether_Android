@@ -7,9 +7,12 @@ import com.example.plantogether.activity.MainActivity
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowEventBinding
 import com.example.plantogether.roomDB.Event
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class EventDataAdapter(val items: ArrayList<Event>, val selected:ArrayList<Boolean>)
-    : RecyclerView.Adapter<EventDataAdapter.ViewHolder>() {
+class EventDataAdapter(options: FirebaseRecyclerOptions<Event>,
+                       val items: ArrayList<Event>, val selected:ArrayList<Boolean>)
+    : FirebaseRecyclerAdapter<Event, EventDataAdapter.ViewHolder>(options) {
     var onApplyClickListener: OnApplyClickListener? = null
     interface OnItemClickListener {
         fun OnItemClick(data: Event, binding: RowEventBinding, position: Int)
@@ -54,6 +57,11 @@ class EventDataAdapter(val items: ArrayList<Event>, val selected:ArrayList<Boole
         )
         return ViewHolder(view)
     }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Event) {
+        TODO("Not yet implemented")
+    }
+
     override fun getItemCount(): Int {
         return items.size
     }
