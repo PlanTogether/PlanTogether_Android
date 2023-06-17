@@ -1,5 +1,6 @@
 package com.example.plantogether.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +62,8 @@ class CalendarFragment : Fragment() {
                     val title = year + "년 " + mon + "월 " + day + "일"
                     //val ints = Intent(activity, AddScheduleDialogActivity::class.java)
                     //startActivity(ints)
-
+                    val intent = Intent(activity, AddScheduleDialogActivity::class.java)
+                    intent.putExtra("date", title)
                     val dlg = AddScheduleDialogActivity(requireActivity() as AppCompatActivity)
                     dlg.show(title)
 
