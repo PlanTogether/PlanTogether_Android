@@ -10,4 +10,7 @@ data class Plan(
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "time") var time: String
-)
+
+) {
+    constructor():this(0, "일정명", "날짜", "시간")
+}
