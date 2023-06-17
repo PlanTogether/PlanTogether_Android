@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.SyncStateContract.Helpers.update
+import android.util.Log
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
@@ -72,6 +73,7 @@ class EditEventActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
                         intent.putExtra("id", event.id)
+                        Log.d("id", event.id.toString())
                         startActivity(editintent)
                     }
                 }
