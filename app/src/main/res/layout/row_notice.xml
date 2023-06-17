@@ -4,6 +4,7 @@
     android:layout_width="1020px"
     android:layout_height="180px"
     android:layout_marginLeft="30px"
+    android:id="@+id/noticeEvent"
     android:background="@drawable/border_round_3">
 
     <TextView
