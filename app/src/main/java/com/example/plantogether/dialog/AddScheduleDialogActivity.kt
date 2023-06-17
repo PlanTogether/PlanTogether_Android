@@ -8,10 +8,8 @@ import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
-import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
-import com.kakao.sdk.common.KakaoSdk.init
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
