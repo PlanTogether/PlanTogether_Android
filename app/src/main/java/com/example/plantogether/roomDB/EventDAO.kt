@@ -21,6 +21,10 @@ interface EventDAO {
     @Query("Select * from events where date = :date")
     fun getEventByTitle(date: String): List<Event>
 
+    @Query("Select * from events where date >= :date")
+    fun getEventAfterToday(date :String) : List<Event>
+
+
     @Query("Select * from events where id = :id")
     fun getEventById(id: Int): Event
 
