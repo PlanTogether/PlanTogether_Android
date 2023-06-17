@@ -25,8 +25,13 @@ class AddScheduleDialogUnusedActivity : AppCompatActivity() {
 
         initRecycle()
 
+        //일정 생성한경우
+        if(intent.getBooleanExtra("updateAdapter", false)) {
+            adapter.notifyDataSetChanged()
+        }
+
         binding.addPlan.setOnClickListener {
-            val bottomSheetDialogFragment = AddPlanDialogActivity()
+            val bottomSheetDialogFragment = AddPlanDialogActivity("abc")
             bottomSheetDialogFragment.show(supportFragmentManager, "bottom_sheet_dialog")
         }
     }
