@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="1020px"
-    android:layout_height="180px"
-    android:layout_marginLeft="30px"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_marginHorizontal="5dp"
     android:background="@drawable/border_round_3">
 
     <TextView
         android:id="@+id/rowRemainTime"
-        android:layout_width="150px"
-        android:layout_height="60px"
-        android:layout_marginLeft="855px"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="310dp"
         android:gravity="center"
         android:text="날짜"
         android:textSize="11sp"
@@ -18,10 +18,10 @@
 
     <TextView
         android:id="@+id/rowNoticeName"
-        android:layout_width="900px"
-        android:layout_height="60px"
-        android:layout_marginLeft="30px"
-        android:layout_marginRight="30px"
+        android:layout_width="350dp"
+        android:layout_height="22.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="center"
         android:text="이벤트명 or 일정명"
         android:textSize="14sp"
@@ -30,10 +30,10 @@
 
     <TextView
         android:id="@+id/rowNoticeInfo"
-        android:layout_width="900px"
-        android:layout_height="60px"
-        android:layout_marginLeft="30px"
-        android:layout_marginRight="30px"
+        android:layout_width="350dp"
+        android:layout_height="22.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="center"
         android:text="알림 내용"
         android:textSize="13sp"
