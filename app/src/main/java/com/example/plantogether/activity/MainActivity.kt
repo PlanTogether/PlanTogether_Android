@@ -15,6 +15,8 @@ import com.example.plantogether.databinding.ActivityMainBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -28,11 +30,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     lateinit var bnv: BottomNavigationView
 
     lateinit var db : EventDatabase
-    val textArr =  arrayListOf<String>("캘린더", "이벤트","알림")
-    val imgArr = arrayListOf<Int>(R.drawable.icon_calendar_white,
-        R.drawable.icon_eventstar_white, R.drawable.icon_notification_white)
-    val imgSelectedArr = arrayListOf<Int>(R.drawable.icon_calendar_black,
-        R.drawable.icon_eventstar_black, R.drawable.icon_notification_black)
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(binding.root)
 
         db = EventDatabase.getDatabase(this)
+
+        userName = intent.getStringExtra("userName").toString()
         linkFirebase()
         initLayout()
         //getHashKey()
@@ -50,11 +52,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun initFragment() {
         val fragment = supportFragmentManager.beginTransaction()
         val calendarFragment = CalendarFragment()
-        // fragment.replace(R.id.frameLayout, calendarFragment )
         fragment.commit()
     }
     private fun initLayout() {
-        binding.viewpager.adapter = MyViewPagerAdapter(this)
+        binding.viewpager.adapter = MyViewPagerAdapter(this, userName)
 
         binding.viewpager.registerOnPageChangeCallback(
             object: ViewPager2.OnPageChangeCallback() {

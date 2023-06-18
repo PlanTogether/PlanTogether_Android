@@ -11,6 +11,9 @@ import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,13 +29,20 @@ class EditEventActivity : AppCompatActivity() {
     lateinit var event: Event
 
     private val REQUEST_MAP_LOCATION = 1001
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val intent = getIntent()
+        userName = intent.getStringExtra("userName").toString()
+        // println("사용자명 : " + userName + " in EditEventActivity")
         id = intent.getIntExtra("id", -1)
         db = EventDatabase.getDatabase(this)
+
         CoroutineScope(Dispatchers.IO).launch {
             event = db.eventDao().getEventById(id)
             withContext(Dispatchers.Main) {
@@ -43,6 +53,7 @@ class EditEventActivity : AppCompatActivity() {
 
     var pos = -1
     private fun initLayout() {
+        rdb = Firebase.database.getReference("$userName/Events")
         binding.apply {
             eventTitle.setText(event.title)
             eventPlace.setText(event.place)
@@ -69,7 +80,9 @@ class EditEventActivity : AppCompatActivity() {
 
                 val newEvent = Event(event.id, 1, title, place, event.date, "", detail)
                 CoroutineScope(Dispatchers.IO).launch {
+                    // 이벤트 저장 할 때의 키 값은 타이틀명으로 했습니다.
                     db.eventDao().updateEvent(newEvent)
+                    rdb.child(title).setValue(newEvent)
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
                         intent.putExtra("id", event.id)

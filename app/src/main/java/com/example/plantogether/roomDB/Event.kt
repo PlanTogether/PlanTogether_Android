@@ -13,5 +13,8 @@ data class Event(
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "time") var time: String,
     @ColumnInfo(name = "detail") var detail: String
-    )
+    ) {
+    constructor():this(0, 0, "이벤트명", "장소",
+        "날짜", "시간", "세부정보")
+}
 

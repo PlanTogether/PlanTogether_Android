@@ -9,6 +9,9 @@ import com.example.plantogether.databinding.ActivityLoginBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.util.maps.helper.Utility
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     lateinit var db: EventDatabase
+    lateinit var rdb: DatabaseReference
+    lateinit var userName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +49,9 @@ class LoginActivity : AppCompatActivity() {
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             saveUserInfo()
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            startActivity(intent)
         }
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-        startActivity(intent)
+        // val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        // startActivity(intent)
     }
 
 
@@ -74,12 +77,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun saveUserInfo() {
         UserApiClient.instance.me { user, error ->
+            userName = user?.kakaoAccount?.profile?.nickname.toString()
+            rdb = Firebase.database.getReference("$userName/User")
             insertDB(user?.kakaoAccount?.profile?.nickname.toString())
-//            user?.properties?.entries?.forEach {
-//                Log.d(TAG, "showUserInfo: ${it.key} ${it.value}")
-//            }
-            //Log.d(TAG, "showUserInfo: ${user?.kakaoAccount?.profile?.nickname} ")
-            //Log.d(TAG, "showUserInfo: ${user?.kakaoAccount?.gender} ")
+
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                .apply {
+                putExtra("userName", userName)
+            }
+            // println(userName + " 데이터 Main으로 전송 완료")
+            startActivity(intent)
         }
     }
 
@@ -87,6 +94,8 @@ class LoginActivity : AppCompatActivity() {
         val users = User(nickname)
         CoroutineScope(Dispatchers.IO).launch {
             db.eventDao().insertUser(users)
+            // Firebase에 유저정보 추가, 일단은 키와 밸류값 모두 카카오톡 사용자명으로 해둔 상태
+            rdb.child(nickname).setValue(nickname)
         }
     }
 }

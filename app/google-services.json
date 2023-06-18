@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "317204583914",
-    "project_id": "plantogether-df33d",
-    "storage_bucket": "plantogether-df33d.appspot.com"
+    "project_number": "895339468415",
+    "project_id": "plantogether-a920b",
+    "storage_bucket": "plantogether-a920b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:317204583914:android:792f8068564dadbf2c8e93",
+        "mobilesdk_app_id": "1:895339468415:android:78cf626f190aed2b82914a",
         "android_client_info": {
           "package_name": "com.example.plantogether"
         }
       },
       "oauth_client": [
         {
-          "client_id": "317204583914-55hbud8vpt5aeq8i6qef5mf167unbjs4.apps.googleusercontent.com",
+          "client_id": "895339468415-f5fqev8rmm27ghsnthuqobc86nb0is5n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA3BRm4SMQwJ7MPUOUh261sV5n3imy0IpE"
+          "current_key": "AIzaSyDfvPf3adPZkol1o8RPBHMnn4bfzQ2_iE0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "317204583914-55hbud8vpt5aeq8i6qef5mf167unbjs4.apps.googleusercontent.com",
+              "client_id": "895339468415-f5fqev8rmm27ghsnthuqobc86nb0is5n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -17,6 +17,10 @@ import com.example.plantogether.databinding.FragmentEventBinding
 import com.example.plantogether.databinding.RowEventBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +37,9 @@ class EventFragment : Fragment() {
     val selected:ArrayList<Boolean> = ArrayList()
     lateinit var db : EventDatabase
     lateinit var event: Event
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,16 +59,26 @@ class EventFragment : Fragment() {
                 }
             }
         }
-
-
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        userName = arguments?.getString("userName").toString()
+        // println("사용자명 : " + userName + " in EventFragment")
     }
 
     fun initRecyclerView() {
         binding.recyclerViewEvent.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL, false)
-        adapter = EventDataAdapter(data, selected)
+
+        rdb = Firebase.database.getReference("Events/items")
+        val query = rdb.limitToLast(50)
+        val option = FirebaseRecyclerOptions.Builder<Event>()
+            .setQuery(query, Event::class.java)
+            .build()
+
+        adapter = EventDataAdapter(option, data, selected)
         adapter.itemClickListener = object :EventDataAdapter.OnItemClickListener {
             override fun OnItemClick(data: Event, binding: RowEventBinding, position: Int) {
                 adapter.updateItemAtPosition(position, data)
