@@ -40,7 +40,12 @@
             android:layout_width="290dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:background="#E8F1FF"/>
+            android:gravity="center_vertical"
+            android:background="#E8F1FF"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"/>
     </LinearLayout>
 
     <LinearLayout
@@ -79,7 +84,12 @@
             android:layout_width="290dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:background="#E8F1FF"/>
+            android:gravity="center_vertical"
+            android:background="#E8F1FF"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"/>
     </LinearLayout>
 
     <LinearLayout
@@ -103,9 +113,13 @@
         android:id="@+id/eventDetailInfo"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
-        android:background="#E8F1FF"/>
+        android:layout_marginTop="10dp"
+        android:background="#E8F1FF"
+        android:gravity="top"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
