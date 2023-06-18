@@ -113,11 +113,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     fun getEvent() {
         rdb = Firebase.database.getReference("$userName/Events")
-        CoroutineScope(Dispatchers.Main).launch {
-            adapter.notifyDataSetChanged()
-        }
-
-        rdb.addListenerForSingleValueEvent(object : ValueEventListener {
+        val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventData.clear()
 
@@ -137,12 +133,13 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             override fun onCancelled(error: DatabaseError) {
                 // 처리 실패 시 호출되는 메서드
             }
-        })
+        }
 
-        // eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
-        // adapter.items = eventData
+        rdb.addValueEventListener(eventListener)
+
+        // 나중에 데이터 변경 감지를 중지하려면
+        // rdb.removeEventListener(eventListener)
     }
-
     fun delete(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
         rdb.child(eventData.title.toString()).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
