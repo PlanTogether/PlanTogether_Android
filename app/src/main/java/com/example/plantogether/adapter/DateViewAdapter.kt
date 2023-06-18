@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.databinding.RowAddEventBinding
-import com.example.plantogether.dialog.data.EventData
+import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.RowAddPlanBinding
-import com.example.plantogether.roomDB.Event
 
-class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DateViewAdapter(var items : ArrayList<EventData>):
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun OnItemClick(event: Event)
-        fun OnDeleteItemClick(event: Event)
+        fun OnItemClick(eventData: EventData, position: Int)
+        fun OnDeleteItemClick(eventData: EventData, position: Int)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -56,12 +56,12 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
         when (holder) {
             is EventViewHolder -> {
                 val eventHolder = holder as EventViewHolder
-                eventHolder.bind(items[position] as Event)
+                eventHolder.bind(items[position] as EventData)
             }
 
             is PlanViewHolder -> {
                 val planHolder = holder as PlanViewHolder
-                planHolder.bind(items[position] as Event)
+                planHolder.bind(items[position] as EventData)
             }
         }
     }
@@ -69,11 +69,11 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
     inner class EventViewHolder(val binding: RowAddEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(eventData: Event) {
+        fun bind(eventData: EventData) {
             binding.eventNameText.text = eventData.title
 
             binding.eventItem.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition])
+                itemClickListener?.OnItemClick(eventData, adapterPosition)
             }
         }
     }
@@ -81,15 +81,15 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
     inner class PlanViewHolder(val binding: RowAddPlanBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(planData: Event) {
+        fun bind(planData: EventData) {
             binding.planNameText.text = planData.title
 
             binding.planItem.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition])
+                itemClickListener?.OnItemClick(planData, adapterPosition)
             }
 
             binding.showDelete.setOnClickListener {
-                itemClickListener?.OnDeleteItemClick(items[adapterPosition])
+                itemClickListener?.OnDeleteItemClick(planData, adapterPosition)
             }
         }
     }

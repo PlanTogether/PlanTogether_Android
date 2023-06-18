@@ -93,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
     private fun insertDB(nickname: String) {
         val users = User(nickname)
         CoroutineScope(Dispatchers.IO).launch {
-            db.eventDao().insertUser(users)
+            // db.eventDao().insertUser(users)
             // Firebase에 유저정보 추가, 일단은 키와 밸류값 모두 카카오톡 사용자명으로 해둔 상태
             rdb.child(nickname).setValue(nickname)
         }

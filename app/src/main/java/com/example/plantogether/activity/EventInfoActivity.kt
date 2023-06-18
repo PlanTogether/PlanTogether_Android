@@ -4,14 +4,20 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -32,7 +38,6 @@ class EventInfoActivity : AppCompatActivity() {
     lateinit var db : EventDatabase
 
     var id = -1
-    lateinit var event: Event
     var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
@@ -44,34 +49,45 @@ class EventInfoActivity : AppCompatActivity() {
     var fm = supportFragmentManager
     var inviteDialog = InviteDialog()
 
+    lateinit var event: EventData
     lateinit var rdb: DatabaseReference
     var userName: String = ""
+    var titleKey: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
-        println("사용자명 : " + userName + " in EventInfoActivity")
+        titleKey = intent.getStringExtra("titleKey").toString()
         id = intent.getIntExtra("id",-1)
-        db = EventDatabase.getDatabase(this)
+        // println("사용자명 : " + userName + " in EventInfoActivity")
+        // db = EventDatabase.getDatabase(this)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            event = db.eventDao().getEventById(id)
-            user = db.eventDao().getUser() as ArrayList<User>
-
-            withContext(Dispatchers.Main) {
-                text = "${user[0].username}님이 [${event.title}]\n" +
-                        "이벤트에 초대했습니다.\n\n" +
-                        "일시 : ${event.date}\n\n" +
-                        "장소 : ${event.place}\n\n" +
-                        "추가정보 : ${event.detail}\n\n"
-                initLayout()
-                initBtn()
+        rdb = Firebase.database.getReference("$userName/Events")
+        rdb.child(titleKey).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                event = snapshot.getValue(EventData::class.java)!!
+                event?.let {
+                    // event 데이터 사용
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            text = "${userName}님이 [${event.title}]\n" +
+                                    "이벤트에 초대했습니다.\n\n" +
+                                    "일시 : ${event.date}\n\n" +
+                                    "장소 : ${event.place}\n\n" +
+                                    "추가정보 : ${event.detail}\n\n"
+                            initLayout()
+                            initBtn()
+                            initLayout()
+                        }
+                    }
+                }
             }
-        }
-
+            override fun onCancelled(error: DatabaseError) {
+                // 처리 실패 시 호출되는 메서드
+            }
+        })
     }
 
     private fun initLayout() {
@@ -96,6 +112,7 @@ class EventInfoActivity : AppCompatActivity() {
                 val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
                 editintent.putExtra("id",event.id)
                 editintent.putExtra("userName",userName)
+                editintent.putExtra("event", event as Parcelable)
                 startActivity(editintent)
             }
         }

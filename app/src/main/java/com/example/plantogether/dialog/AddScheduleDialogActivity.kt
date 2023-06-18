@@ -9,6 +9,7 @@ import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
+import com.example.plantogether.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.firebase.database.DataSnapshot
@@ -27,8 +28,8 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     lateinit var db : EventDatabase
 
-    var adapter = DateViewAdapter(ArrayList<Event>())
-    var eventData = ArrayList<Event>()
+    var adapter = DateViewAdapter(ArrayList<EventData>())
+    var eventData = ArrayList<EventData>()
 
     var date = ""
     val dlg = Dialog(context)
@@ -60,18 +61,23 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
-            override fun OnItemClick(event: Event) {
-                //이곳에 이벤트 클릭했을 때 나오는거 쓰면됨.
-                val intent = Intent(context, EventInfoActivity::class.java)
-                intent.putExtra("userName", userName)
-                intent.putExtra("id",event.id)
-                context.startActivity(intent)
+            override fun OnItemClick(eventData: EventData, position: Int) {
+                // 이벤트 아이템을 클릭했을 때
+                if (eventData.type == 1) {
+                    val intent = Intent(context, EventInfoActivity::class.java)
+                    intent.putExtra("userName", userName)
+                    intent.putExtra("id", eventData.id)
+                    intent.putExtra("titleKey", eventData.title)
+                    context.startActivity(intent)
+                }
+
+                // 일정 아이템을 클릭했을 때(는 일단 아무것도 안일어난다)
             }
 
-            override fun OnDeleteItemClick(event: Event) {
-                //삭제 버튼 눌렀을 때
+            override fun OnDeleteItemClick(eventData: EventData, position: Int) {
+                // 삭제 버튼 눌렀을 때
                 CoroutineScope(Dispatchers.IO).launch {
-                    delete(event)
+                    delete(eventData)
                 }
             }
 
@@ -107,20 +113,16 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     fun getEvent() {
         rdb = Firebase.database.getReference("$userName/Events")
-        val query = rdb.orderByChild("date").equalTo(date)
-        CoroutineScope(Dispatchers.Main).launch {
-            adapter.notifyDataSetChanged()
-        }
-
-        rdb.addListenerForSingleValueEvent(object : ValueEventListener {
+        val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventData.clear()
 
                 for (childSnapshot in snapshot.children) {
-                    val event = childSnapshot.getValue(Event::class.java)
+                    val event = childSnapshot.getValue(EventData::class.java)
                     event?.let {
-                        eventData.add(it)
-                        println("Child 데이터 하나씩 가져오는 중")
+                        if (it.date == date) {
+                            eventData.add(it)
+                        }
                     }
                 }
 
@@ -131,16 +133,17 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             override fun onCancelled(error: DatabaseError) {
                 // 처리 실패 시 호출되는 메서드
             }
-        })
+        }
 
-        // eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
-        // adapter.items = eventData
+        rdb.addValueEventListener(eventListener)
+
+        // 나중에 데이터 변경 감지를 중지하려면
+        // rdb.removeEventListener(eventListener)
     }
-
-    fun delete(event: Event) {
+    fun delete(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
-        rdb.child(event.title).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
-        db.eventDao().deleteEvent(event)
+        rdb.child(eventData.title.toString()).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
+        // db.eventDao().deleteEvent(event)
         getEvent()
     }
 
