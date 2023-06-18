@@ -9,6 +9,7 @@ import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
+import com.example.plantogether.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.firebase.database.DataSnapshot
@@ -27,8 +28,8 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     lateinit var db : EventDatabase
 
-    var adapter = DateViewAdapter(ArrayList<Event>())
-    var eventData = ArrayList<Event>()
+    var adapter = DateViewAdapter(ArrayList<EventData>())
+    var eventData = ArrayList<EventData>()
 
     var date = ""
     val dlg = Dialog(context)
@@ -60,18 +61,23 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             LinearLayoutManager.VERTICAL, false)
 
         adapter.setOnItemClickListener(object : DateViewAdapter.OnItemClickListener {
-            override fun OnItemClick(event: Event) {
-                //이곳에 이벤트 클릭했을 때 나오는거 쓰면됨.
-                val intent = Intent(context, EventInfoActivity::class.java)
-                intent.putExtra("userName", userName)
-                intent.putExtra("id",event.id)
-                context.startActivity(intent)
+            override fun OnItemClick(eventData: EventData, position: Int) {
+                // 이벤트 아이템을 클릭했을 때
+                if (eventData.type == 1) {
+                    val intent = Intent(context, EventInfoActivity::class.java)
+                    intent.putExtra("userName", userName)
+                    intent.putExtra("id", eventData.id)
+                    intent.putExtra("titleKey", eventData.title)
+                    context.startActivity(intent)
+                }
+
+                // 일정 아이템을 클릭했을 때(는 일단 아무것도 안일어난다)
             }
 
-            override fun OnDeleteItemClick(event: Event) {
-                //삭제 버튼 눌렀을 때
+            override fun OnDeleteItemClick(eventData: EventData, position: Int) {
+                // 삭제 버튼 눌렀을 때
                 CoroutineScope(Dispatchers.IO).launch {
-                    delete(event)
+                    delete(eventData)
                 }
             }
 
@@ -116,7 +122,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                 eventData.clear()
 
                 for (childSnapshot in snapshot.children) {
-                    val event = childSnapshot.getValue(Event::class.java)
+                    val event = childSnapshot.getValue(EventData::class.java)
                     event?.let {
                         if (it.date == date) {
                             eventData.add(it)
@@ -137,10 +143,10 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         // adapter.items = eventData
     }
 
-    fun delete(event: Event) {
+    fun delete(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
-        rdb.child(event.title).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
-        db.eventDao().deleteEvent(event)
+        rdb.child(eventData.title.toString()).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
+        // db.eventDao().deleteEvent(event)
         getEvent()
     }
 

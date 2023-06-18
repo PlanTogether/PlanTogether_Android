@@ -6,9 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.plantogether.adapter.EventDataAdapter
-import com.example.plantogether.dialog.data.EventData
+import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -39,7 +38,7 @@ class MakeEventActivity : AppCompatActivity() {
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
         date = intent.getStringExtra("date").toString()
-        println("사용자명 : " + userName + " in MakeEventActivity")
+        // println("사용자명 : " + userName + " in MakeEventActivity")
 
         init()
     }
@@ -64,11 +63,11 @@ class MakeEventActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    val event = Event(0,1, title, place, date, "", detail)
+                    val eventData = EventData(0,1, title, place, date, "", detail)
                     CoroutineScope(Dispatchers.IO).launch {
                         // 이벤트를 저장할 때의 키값은 title(이벤트명)로 했습니다.
-                        rdb.child(title).setValue(event)
-                        db.eventDao().insertEvent(event)
+                        rdb.child(title).setValue(eventData)
+                        // db.eventDao().insertEvent(event)
                     }
                     clearEditText()
                     val intent = Intent(this@MakeEventActivity,

@@ -1,29 +1,25 @@
 package com.example.plantogether.activity
 
-import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
 import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.fragment.CalendarFragment
 import com.example.plantogether.R
+import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityMainBinding
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     lateinit var binding:ActivityMainBinding
@@ -106,13 +102,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     var place = deepLink.getQueryParameter("place")
                     var date = deepLink.getQueryParameter("date")
                     var detail = deepLink.getQueryParameter("detail")
-                    val event = Event(0,1, title!!, place!!, date!!, "", detail!!)
+                    val event = EventData(0,1, title!!, place!!, date!!, "", detail!!)
                     Log.d("query?",title)
                     Log.d("query?",date)
                     Log.d("query?",detail)
                     Log.d("query?",place)
                     CoroutineScope(Dispatchers.IO).launch {
-                        db.eventDao().insertEvent(event)
+                        // db.eventDao().insertEvent(event)
                     }
                 }
 
