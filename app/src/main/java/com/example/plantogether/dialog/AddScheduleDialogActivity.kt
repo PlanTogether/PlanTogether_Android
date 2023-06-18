@@ -2,6 +2,7 @@ package com.example.plantogether.dialog
 
 import android.app.Dialog
 import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.activity.EventInfoActivity
@@ -10,6 +11,9 @@ import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +29,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     var date = ""
     val dlg = Dialog(context)
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
 
     fun show(todayDate : String) {
         binding = ActivityAddScheduleDialogBinding.inflate(context.layoutInflater)
@@ -53,6 +60,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
             override fun OnItemClick(event: Event) {
                 //이곳에 이벤트 클릭했을 때 나오는거 쓰면됨.
                 val intent = Intent(context, EventInfoActivity::class.java)
+                intent.putExtra("userName", userName)
                 intent.putExtra("id",event.id)
                 context.startActivity(intent)
             }
@@ -66,24 +74,28 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
         })
 
-        binding.eventRecyclerView.adapter= adapter
+        binding.eventRecyclerView.adapter = adapter
     }
 
     fun initLayout() {
+        // println("사용자명 : " + userName + " in AddScheduleDialogActivity")
         db = EventDatabase.getDatabase(context)
         CoroutineScope(Dispatchers.IO).launch {
             getEvent()
         }
         binding.initDate.setText(date)
 
-        //일정추가
+        //일정 추가
         binding.plusPlan.setOnClickListener {
             val bottomSheetDialogFragment = AddPlanDialogActivity()
+            bottomSheetDialogFragment.setUserNameInPlan(userName)
+            bottomSheetDialogFragment.setDateInPlan(date)
             bottomSheetDialogFragment.show(context.supportFragmentManager, "bottom_sheet_dialog")
         }
-        //이벤트추가
+        //이벤트 추가
         binding.plusEvent.setOnClickListener {
             val intent = Intent(context, MakeEventActivity::class.java)
+            intent.putExtra("userName", userName)
             intent.putExtra("date",date)
             context.startActivity(intent)
 
@@ -91,6 +103,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     }
 
     fun getEvent() {
+        rdb = Firebase.database.getReference("$userName/Events")
         eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
         adapter.items = eventData
         CoroutineScope(Dispatchers.Main).launch {
@@ -99,7 +112,13 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     }
 
     fun delete(event: Event) {
+        rdb = Firebase.database.getReference("$userName/Events")
+        rdb.child(event.title).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
         db.eventDao().deleteEvent(event)
         getEvent()
+    }
+
+    fun setUserNameInScheduleDialog(userName: String) {
+        this.userName = userName
     }
 }

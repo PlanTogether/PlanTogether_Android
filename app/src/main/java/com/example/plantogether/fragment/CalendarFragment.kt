@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.plantogether.databinding.FragmentCalendarBinding
 import com.example.plantogether.dialog.AddScheduleDialogActivity
+import com.google.firebase.database.DatabaseReference
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -27,6 +28,9 @@ class CalendarFragment : Fragment() {
 
     private var selectedDate: LocalDate?= null
 
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,13 +44,15 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         materialCalendarView = binding!!.calendarView
+        userName = arguments?.getString("userName").toString()
+        // println("사용자명 : " + userName + " in CalendarFragment")
         binding!!.apply {
             val today = CalendarDay.today()
 
             calendarView.apply {
                 // 휴무일 지정을 위한 Decorator 설정
                 //addDecorator(DayDisableDecorator(disabledDates, today))
-                // 요일을 지정하귀 위해 {"월", "화", ..., "일"} 배열을 추가한다.
+                // 요일을 지정하기 위해 {"월", "화", ..., "일"} 배열을 추가한다.
                 setWeekDayLabels(arrayOf("월", "화", "수", "목", "금", "토", "일"))
                 // 달력 상단에 `월 년` 포맷을 수정하기 위해 TitleFormatter 설정
                 //setTitleFormatter(MyTitleFormatter())
@@ -63,6 +69,7 @@ class CalendarFragment : Fragment() {
                     //startActivity(ints)
 
                     val dlg = AddScheduleDialogActivity(requireActivity() as AppCompatActivity)
+                    dlg.setUserNameInScheduleDialog(userName)
                     dlg.show(title)
 
                 }
