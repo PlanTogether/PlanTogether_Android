@@ -11,7 +11,10 @@ import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -104,11 +107,34 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     fun getEvent() {
         rdb = Firebase.database.getReference("$userName/Events")
-        eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
-        adapter.items = eventData
+        val query = rdb.orderByChild("date").equalTo(date)
         CoroutineScope(Dispatchers.Main).launch {
             adapter.notifyDataSetChanged()
         }
+
+        rdb.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                eventData.clear()
+
+                for (childSnapshot in snapshot.children) {
+                    val event = childSnapshot.getValue(Event::class.java)
+                    event?.let {
+                        eventData.add(it)
+                        println("Child 데이터 하나씩 가져오는 중")
+                    }
+                }
+
+                adapter.items = eventData
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // 처리 실패 시 호출되는 메서드
+            }
+        })
+
+        // eventData = db.eventDao().getEventByTitle(date) as ArrayList<Event>
+        // adapter.items = eventData
     }
 
     fun delete(event: Event) {

@@ -11,6 +11,7 @@ import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -42,13 +43,20 @@ class EventInfoActivity : AppCompatActivity() {
 
     var fm = supportFragmentManager
     var inviteDialog = InviteDialog()
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val intent = getIntent()
+        userName = intent.getStringExtra("userName").toString()
+        println("사용자명 : " + userName + " in EventInfoActivity")
         id = intent.getIntExtra("id",-1)
         db = EventDatabase.getDatabase(this)
+
         CoroutineScope(Dispatchers.IO).launch {
             event = db.eventDao().getEventById(id)
             user = db.eventDao().getUser() as ArrayList<User>
@@ -87,6 +95,7 @@ class EventInfoActivity : AppCompatActivity() {
                 //수정 화면으로 이동
                 val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
                 editintent.putExtra("id",event.id)
+                editintent.putExtra("userName",userName)
                 startActivity(editintent)
             }
         }
