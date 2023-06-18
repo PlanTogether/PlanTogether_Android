@@ -1,6 +1,7 @@
 package com.example.plantogether.activity
 
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
@@ -11,12 +12,22 @@ import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.fragment.CalendarFragment
 import com.example.plantogether.R
 import com.example.plantogether.databinding.ActivityMainBinding
+import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     lateinit var binding:ActivityMainBinding
     lateinit var bnv: BottomNavigationView
+
+    lateinit var db : EventDatabase
     val textArr =  arrayListOf<String>("캘린더", "이벤트","알림")
     val imgArr = arrayListOf<Int>(R.drawable.icon_calendar_white,
         R.drawable.icon_eventstar_white, R.drawable.icon_notification_white)
@@ -28,6 +39,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding = ActivityMainBinding.inflate(layoutInflater)
         bnv = binding.bottomNav
         setContentView(binding.root)
+
+        db = EventDatabase.getDatabase(this)
+        linkFirebase()
         initLayout()
         //getHashKey()
         initFragment()
@@ -75,6 +89,39 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return false
             }
         }
+    }
+
+    private fun linkFirebase() {
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
+                // Get deep link from result (may be null if no link is found)
+                var deepLink: Uri? = null
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.link
+                }
+                if (deepLink != null) {
+                    var title = deepLink.getQueryParameter("title")
+                    var place = deepLink.getQueryParameter("place")
+                    var date = deepLink.getQueryParameter("date")
+                    var detail = deepLink.getQueryParameter("detail")
+                    val event = Event(0,1, title!!, place!!, date!!, "", detail!!)
+                    Log.d("query?",title)
+                    Log.d("query?",date)
+                    Log.d("query?",detail)
+                    Log.d("query?",place)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.eventDao().insertEvent(event)
+                    }
+                }
+
+
+                // Handle the deep link. For example, open the linked
+                // content, or apply promotional credit to the user's
+                // account.
+                // ...
+            }
+            .addOnFailureListener(this) { e -> Log.w("firbase", "getDynamicLink:onFailure", e) }
     }
 
 
