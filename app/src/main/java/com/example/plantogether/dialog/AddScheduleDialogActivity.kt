@@ -107,7 +107,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
     fun getEvent() {
         rdb = Firebase.database.getReference("$userName/Events")
-        val query = rdb.orderByChild("date").equalTo(date)
         CoroutineScope(Dispatchers.Main).launch {
             adapter.notifyDataSetChanged()
         }
@@ -119,8 +118,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                 for (childSnapshot in snapshot.children) {
                     val event = childSnapshot.getValue(Event::class.java)
                     event?.let {
-                        eventData.add(it)
-                        println("Child 데이터 하나씩 가져오는 중")
+                        if (it.date == date) {
+                            eventData.add(it)
+                        }
                     }
                 }
 
