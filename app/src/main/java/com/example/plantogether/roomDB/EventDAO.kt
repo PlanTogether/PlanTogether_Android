@@ -12,8 +12,12 @@ interface EventDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertEvent(event: Event)
 
+    /*
     @Delete
     fun deleteEvent(event :Event)
+*/
+    @Query("DELETE FROM events WHERE id = :eventId")
+    fun deleteEvent(eventId: Int)
 
     @Update
     fun updateEvent(event :Event)
@@ -22,11 +26,17 @@ interface EventDAO {
     fun getEventByTitle(date: String): List<Event>
 
     @Query("Select * from events where date >= :date")
-    fun getEventAfterToday(date :String) : List<Event>
+    fun getEventAfterToday(date : String) : List<Event>
+
+    @Query("Select * from plans where date >= :date")
+    fun getPlanAfterToday(date : String) : List<Plan>
 
 
     @Query("Select * from events where id = :id")
     fun getEventById(id: Int): Event
+
+    @Query("Select * from plans where id = :id")
+    fun getPlanById(id: Int): Plan
 
     @Query("Select * from events")
     fun getEvents(): List<Event>
@@ -47,5 +57,13 @@ interface EventDAO {
 
     @Query("Select * from users")
     fun getUser(): List<User>
+
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertNotice(notice : Notice)
+
+    @Query("Select * from notices")
+    fun getNotice() : List<Notice>
+
 
 }

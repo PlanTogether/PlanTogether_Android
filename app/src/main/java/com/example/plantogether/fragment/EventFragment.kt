@@ -1,5 +1,6 @@
 package com.example.plantogether.fragment
 
+import android.content.Intent
 import android.icu.text.Transliterator.Position
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.R
+import com.example.plantogether.activity.EditEventActivity
 import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.FragmentEventBinding
@@ -43,10 +45,13 @@ class EventFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             data = db.eventDao().getEvents() as ArrayList<Event>
             withContext(Dispatchers.Main){
-                initData()
+            //    initData()
                 initRecyclerView()
                 adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
                     override fun onApplyClick(data: Event) {
+                        val intent = Intent(requireContext(), EditEventActivity::class.java)
+                        intent.putExtra("id", data.id)
+                        startActivity(intent)
 
                     }
                 }

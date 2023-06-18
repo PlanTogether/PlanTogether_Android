@@ -9,6 +9,7 @@ import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.User
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
@@ -20,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
@@ -94,6 +96,7 @@ class EventInfoActivity : AppCompatActivity() {
             }
             editButton.setOnClickListener {
                 //수정 화면으로 이동
+                val newNotice = Notice(0, event.id, event.title, event.date, LocalDate.now().toString(), 5)
                 val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
                 editintent.putExtra("id",event.id)
                 startActivity(editintent)

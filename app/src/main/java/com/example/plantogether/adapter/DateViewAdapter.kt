@@ -2,17 +2,22 @@ package com.example.plantogether.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.databinding.RowAddEventBinding
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.RowAddPlanBinding
 import com.example.plantogether.roomDB.Event
+import com.example.plantogether.roomDB.Plan
 
 class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
         fun OnItemClick(event: Event)
         fun OnDeleteItemClick(event: Event)
+
+
+        fun OnItemClick3(event: Event)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -23,6 +28,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+
             TYPE_EVENT -> {
                 val binding = RowAddEventBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -31,6 +37,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
                 )
                 EventViewHolder(binding)
             }
+
 
             TYPE_PLAN -> {
                 val binding = RowAddPlanBinding.inflate(
@@ -64,6 +71,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
                 planHolder.bind(items[position] as Event)
             }
         }
+
     }
 
     inner class EventViewHolder(val binding: RowAddEventBinding) :
@@ -72,9 +80,19 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
         fun bind(eventData: Event) {
             binding.eventNameText.text = eventData.title
 
+            //event일떄만 수정 가능하게
             binding.eventItem.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition])
+                    itemClickListener?.OnItemClick(items[adapterPosition])
             }
+
+            binding.showEventDelete.setOnClickListener {
+                itemClickListener?.OnDeleteItemClick(eventData)
+            }
+
+            binding.eventItem.setOnClickListener {
+                itemClickListener?.OnItemClick3(eventData)
+            }
+
         }
     }
 
@@ -91,6 +109,7 @@ class DateViewAdapter(var items : ArrayList<Event>): RecyclerView.Adapter<Recycl
             binding.showDelete.setOnClickListener {
                 itemClickListener?.OnDeleteItemClick(items[adapterPosition])
             }
+            binding.planTimeText.setText(planData.time)
         }
     }
 

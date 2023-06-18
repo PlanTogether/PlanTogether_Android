@@ -9,9 +9,11 @@ import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Suppress("DEPRECATION")
 class MakeEventActivity : AppCompatActivity() {
@@ -49,14 +51,20 @@ class MakeEventActivity : AppCompatActivity() {
                     Toast.makeText(this@MakeEventActivity,"제목은 입력해야 합니다.", Toast.LENGTH_SHORT).show()
                 }
                 else {
+
+                    //xxxx년 xx월 xx일 이렇게 저장된다.ㅁ
                     val event = Event(0,1, title, place, date, "", detail)
+                    val newNotice = Notice(0, event.id, event.title, LocalDate.now().toString(), event.time, 1)
                     CoroutineScope(Dispatchers.IO).launch {
                         db.eventDao().insertEvent(event)
+                        db.eventDao().insertNotice(newNotice)
                     }
                     clearEditText()
+                    Toast.makeText(this@MakeEventActivity, "이벤트를 추가했습니다.", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MakeEventActivity,
                         MainActivity::class.java)
                     startActivity(intent)
+
                 }
 
             }

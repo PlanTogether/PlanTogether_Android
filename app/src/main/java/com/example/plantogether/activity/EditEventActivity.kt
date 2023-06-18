@@ -5,15 +5,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.SyncStateContract.Helpers.update
+import android.util.Log
+import android.widget.Toast
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.R
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.util.ArrayList
 
 @Suppress("DEPRECATION")
 class EditEventActivity : AppCompatActivity() {
@@ -67,17 +72,28 @@ class EditEventActivity : AppCompatActivity() {
                 val detail = binding.eventDetailInfo.text.toString()
 
                 val newEvent = Event(event.id, 1, title, place, event.date, "", detail)
+                val newNotice = Notice(0, newEvent.id, newEvent.title, LocalDate.now().toString(), newEvent.time, 5)
                 CoroutineScope(Dispatchers.IO).launch {
                     db.eventDao().updateEvent(newEvent)
+                    db.eventDao().insertNotice(newNotice)
+                    /*
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
                         intent.putExtra("id", event.id)
                         startActivity(editintent)
-                    }
+                    }*/
                 }
+                Toast.makeText(this@EditEventActivity, "수정 notice 완료", Toast.LENGTH_SHORT).show()
+                CoroutineScope(Dispatchers.IO).launch {
+                    var as1 : ArrayList<Notice> = db.eventDao().getNotice() as ArrayList<Notice>
+                    for ( k in as1) {
+                        Log.d("notices1", k.id.toString() + " " + k.title + k.type.toString())
+                    }
 
+                }
                 // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
                 clearEditText()
+                finish()
             }
 
         }

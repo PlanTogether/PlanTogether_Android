@@ -16,6 +16,7 @@ import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityAddPlanDialogBinding
 import com.example.plantogether.databinding.FragmentCalendarBinding
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.Plan
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.common.KakaoSdk.init
@@ -23,6 +24,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalTime
 
 
 //일정 입력후 아래에서 나오는 다이얼로그
@@ -78,9 +81,22 @@ class AddPlanDialogActivity(private val date : String) : BottomSheetDialogFragme
                     time = time
                 )
 
+                val initDate = LocalDate.now()
+                val newNotice = Notice(
+                    id = 0,
+                    pid = newPlan.id,
+                    title = newPlan.title,
+                    date = initDate.toString(),
+                    time = time,
+                    type = 0
+                )
+
+
+
 
                 CoroutineScope(Dispatchers.IO).launch {
                     db.eventDao().insertPlan(newPlan)
+                    db.eventDao().insertNotice(newNotice)
                 }
                 //insert plan 이후 dismiss
                 dismiss()
