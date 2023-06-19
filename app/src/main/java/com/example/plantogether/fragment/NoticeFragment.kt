@@ -29,7 +29,6 @@ class NoticeFragment : Fragment() {
     //오늘의 일정, 변경된 이벤트, 초대장 수락 거절등의 정보를 가져온다.
 
 
-    lateinit var db : EventDatabase
     lateinit var binding : FragmentNoticeBinding
     lateinit var adapter : NoticeAdapter
     var data : ArrayList<Notice> = ArrayList()
@@ -42,11 +41,10 @@ class NoticeFragment : Fragment() {
         val today = LocalDate.now().toString()
         Log.d("today", today)
 
-        db = EventDatabase.getDatabase(this.requireContext())
+
 
 
         CoroutineScope(Dispatchers.IO).launch {
-            data = db.eventDao().getNotice() as ArrayList<Notice>
             for ( k in data) {
                 Log.d("notices", k.id.toString() + " " + k.title + k.type.toString())
             }
@@ -74,7 +72,6 @@ class NoticeFragment : Fragment() {
                     1 or 5-> {
                         val eventID = data[position].pid
                         CoroutineScope(Dispatchers.IO).launch {
-                            val find = db.eventDao().getEventById(eventID)
                             val intent = Intent(context, EditEventActivity::class.java)
                             intent.putExtra("id", eventID)
                             startActivity(intent)
@@ -98,15 +95,4 @@ class NoticeFragment : Fragment() {
     private fun initLayout() {
 
     }
-
-    /*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-
-
-        }
-
-
-    }*/
 }

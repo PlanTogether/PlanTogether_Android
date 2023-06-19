@@ -109,7 +109,6 @@ class EventInfoActivity : AppCompatActivity() {
             }
             editButton.setOnClickListener {
                 //수정 화면으로 이동
-                val newNotice = Notice(0, event.id, event.title, event.date, LocalDate.now().toString(), 5)
                 val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
                 editintent.putExtra("id",event.id)
                 editintent.putExtra("userName",userName)
