@@ -127,6 +127,7 @@ class EventInfoActivity : AppCompatActivity() {
 
     private fun sendMessage(url: String) {
         val link = Uri.parse(url)
+        Log.d("dynamic3", link.toString())
         defaultText =  TextTemplate(
             text = """ ${user[0].username}님이 [${event.title}] 이벤트에 초대했습니다.
                       
@@ -139,8 +140,8 @@ class EventInfoActivity : AppCompatActivity() {
     ${link}
             """.trimIndent(),
             link = Link(
-                webUrl = "https://plantogether.page.link/63fF",
-                mobileWebUrl = "https://plantogether.page.link/63fF"
+                webUrl = "https://plantogethers.page.link/qL6j",
+                mobileWebUrl = "https://plantogethers.page.link/qL6j"
             )
         )
         if (ShareClient.instance.isKakaoTalkSharingAvailable(this@EventInfoActivity)) {
@@ -185,12 +186,12 @@ class EventInfoActivity : AppCompatActivity() {
     }
 
     private fun getLink() : String {
-        val inviteLink = "https://testservice.page.link/invite?title=${"제발 이게 돼?"}&&date=${"2023년 6월 21일"}&&place=${"장소는 집"}&&detail=${"흐어어ㅓㅇ"}"
+        val inviteLink = "https://plantogethers.page.link/invite?title=${"제발 이게 돼?"}&&date=${"2023년 6월 21일"}&&place=${"장소는 집"}&&detail=${"흐어어ㅓㅇ"}"
         //val inviteLink = "https://testservice.page.link/invite?title=${event.title}&&date=${event.date}&&place=${event.place}&&detail=${event.detail}"
         var result = ""
         val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
             .setLink(Uri.parse(inviteLink))
-            .setDomainUriPrefix("https://plantogether.page.link")
+            .setDomainUriPrefix("https://plantogethers.page.link")
             .setAndroidParameters(
                 AndroidParameters.Builder().build()
             )
