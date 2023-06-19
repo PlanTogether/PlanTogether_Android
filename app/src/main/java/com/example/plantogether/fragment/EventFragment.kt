@@ -33,9 +33,8 @@ import kotlin.collections.ArrayList
 
 class EventFragment : Fragment() {
     lateinit var binding: FragmentEventBinding
-    lateinit var adapter: EventDataAdapter
+    var adapter = EventDataAdapter(ArrayList<EventData>())
 
-    var data: ArrayList<EventData> = ArrayList()
     val selected: ArrayList<Boolean> = ArrayList()
 
     lateinit var rdb: DatabaseReference
@@ -54,6 +53,8 @@ class EventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userName = arguments?.getString("userName").toString()
         initRecyclerView()
+        getEventData()
+        datasort()
         // println("사용자명 : " + userName + " in EventFragment")
     }
 
@@ -64,60 +65,38 @@ class EventFragment : Fragment() {
             false
         )
 
-        val simpleCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
-                return true
-            }
+        // adapter = EventDataAdapter(eventData, selected)
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                adapter.removeItem(viewHolder.adapterPosition)
+        adapter.itemClickListener = object : EventDataAdapter.OnItemClickListener {
+            override fun OnItemClick(
+                data: EventData,
+                binding: RowEventBinding,
+                position: Int
+            ) {
+                adapter.updateItemAtPosition(position, data)
+            }
+        }
+        adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
+            override fun onApplyClick(data: EventData) {
+                val intent = Intent(requireContext(), EditEventActivity::class.java)
+                intent.putExtra("id", data.id)
+                startActivity(intent)
             }
         }
 
-        val itemTouchHelper = ItemTouchHelper(simpleCallback)
-        itemTouchHelper.attachToRecyclerView(binding.recyclerViewEvent)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            getEventData()
-            datasort()
-
-            withContext(Dispatchers.Main) {
-                adapter = EventDataAdapter(data, selected)
-                adapter.itemClickListener = object : EventDataAdapter.OnItemClickListener {
-                    override fun OnItemClick(
-                        data: EventData,
-                        binding: RowEventBinding,
-                        position: Int
-                    ) {
-                        adapter.updateItemAtPosition(position, data)
-                    }
-                }
-                adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
-                    override fun onApplyClick(data: EventData) {
-                        val intent = Intent(requireContext(), EditEventActivity::class.java)
-                        intent.putExtra("id", data.id)
-                        startActivity(intent)
-                    }
-                }
-                binding.recyclerViewEvent.adapter = adapter
-            }
-        }
+        binding.recyclerViewEvent.adapter = adapter
     }
 
     private fun datasort() {
         val sdf = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
-        data.sortBy { sdf.parse(it.date) }
+        eventData.sortBy { sdf.parse(it.date) }
+        adapter.notifyItemChanged(eventData.size)
     }
 
     private fun getEventData() {
-        rdb = Firebase.database.getReference("Events/items")
+        println("사용자명 : " + userName)
+        rdb = Firebase.database.getReference("$userName/Events")
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventData.clear()
@@ -128,7 +107,6 @@ class EventFragment : Fragment() {
                         eventData.add(it)
                     }
                 }
-
                 adapter.items = eventData
                 adapter.notifyDataSetChanged()
             }
@@ -138,5 +116,7 @@ class EventFragment : Fragment() {
             }
         }
         rdb.addValueEventListener(eventListener)
+        println("eventData 사이즈 : " + eventData.size)
+        adapter.notifyItemInserted(eventData.size)
     }
 }

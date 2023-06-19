@@ -10,7 +10,7 @@ import com.example.plantogether.roomDB.Event
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class EventDataAdapter(var items: ArrayList<EventData>, val selected:ArrayList<Boolean>)
+class EventDataAdapter(var items: ArrayList<EventData>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var onApplyClickListener: OnApplyClickListener? = null
     interface OnItemClickListener {
@@ -26,13 +26,6 @@ class EventDataAdapter(var items: ArrayList<EventData>, val selected:ArrayList<B
     inner class ViewHolder(val binding: RowEventBinding)
         : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.rowEvent.setOnClickListener {
-                if (selected[adapterPosition] == false)
-                    selected[adapterPosition] = true
-                else if (selected[adapterPosition] == true)
-                    selected[adapterPosition] = false
-                itemClickListener?.OnItemClick(items[adapterPosition], binding, adapterPosition)
-            }
 
             val datetext:String
             val numbers = items[position].date.split("[^\\d]+".toRegex())
@@ -50,17 +43,6 @@ class EventDataAdapter(var items: ArrayList<EventData>, val selected:ArrayList<B
         }
     }
 
-    fun moveItem(oldPos: Int, newPos: Int) {//필요 없는 내용
-        val data = items.get(oldPos)
-        items[oldPos] = items.get(newPos)
-        items[newPos] = data
-        notifyItemMoved(oldPos, newPos)
-    }
-
-    fun removeItem(pos: Int) {
-        items.removeAt(pos)
-        notifyItemRemoved(pos)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = RowEventBinding.inflate(
