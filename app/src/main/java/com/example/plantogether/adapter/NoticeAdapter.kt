@@ -90,10 +90,10 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
                 4 -> rowNoticeInfo.setText("플랜 정보가 변경되었습니다.")
                 5 -> rowNoticeInfo.setText("이벤트 정보가 변경되었습니다.")
             }
-            noticeEvent.setOnClickListener {
-                //수락 거절 다이얼로그 프레그먼트에서 띄우기
-                itemClickListener?.OnItemClick(position)
-            }
+            //noticeEvent.setOnClickListener {
+            //    //수락 거절 다이얼로그 프레그먼트에서 띄우기
+            //    itemClickListener?.OnItemClick(position)
+            //}
 
 
         }

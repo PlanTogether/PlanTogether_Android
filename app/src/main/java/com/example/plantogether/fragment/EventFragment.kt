@@ -37,8 +37,7 @@ class EventFragment : Fragment() {
 
     var data:ArrayList<Event> = ArrayList()
     val selected:ArrayList<Boolean> = ArrayList()
-    lateinit var db : EventDatabase
-    lateinit var event: Event
+    lateinit var event: EventData
 
     lateinit var rdb: DatabaseReference
     var userName: String = ""
@@ -48,9 +47,7 @@ class EventFragment : Fragment() {
     ): View? {
         binding = FragmentEventBinding.inflate(inflater, container, false)
 
-        db = EventDatabase.getDatabase(this.requireContext())
         CoroutineScope(Dispatchers.IO).launch {
-            data = db.eventDao().getEvents() as ArrayList<Event>
             withContext(Dispatchers.Main){
             //    initData()
                 initRecyclerView()
