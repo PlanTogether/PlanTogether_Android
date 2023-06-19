@@ -63,18 +63,18 @@ class MakeEventActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    val eventData = EventData(0,1, title, place, date, "", detail)
                     CoroutineScope(Dispatchers.IO).launch {
-                        // 이벤트를 저장할 때의 키값은 title(이벤트명)로 했습니다.
-                        rdb.child(title).setValue(eventData)
-                        // db.eventDao().insertEvent(event)
+                        val newEventRef = rdb.push()
+                        val newEventKey = newEventRef.key
+                        val eventData = EventData(newEventKey.toString(),
+                            1, title, place, date, "", detail)
+                        newEventRef.setValue(eventData)
                     }
                     clearEditText()
-                    val intent = Intent(this@MakeEventActivity,
-                        MainActivity::class.java)
-                    startActivity(intent)
+                    val intent = Intent()
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
-
             }
             // 취소 버튼을 눌렀을 때
             cancelButton.setOnClickListener {//수정 필요
