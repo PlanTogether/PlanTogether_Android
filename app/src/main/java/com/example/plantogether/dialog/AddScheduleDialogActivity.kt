@@ -136,7 +136,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         }
 
         rdb.addValueEventListener(eventListener)
-
         // 나중에 데이터 변경 감지를 중지하려면
         // rdb.removeEventListener(eventListener)
     }
