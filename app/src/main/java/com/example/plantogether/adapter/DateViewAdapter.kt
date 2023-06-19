@@ -84,6 +84,7 @@ class DateViewAdapter(var items : ArrayList<EventData>):
 
         fun bind(planData: EventData) {
             binding.planNameText.text = planData.title
+            binding.planTimeText.text = planData.time
 
             binding.planItem.setOnClickListener {
                 itemClickListener?.OnItemClick(planData, adapterPosition)
