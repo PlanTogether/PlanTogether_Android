@@ -85,9 +85,8 @@ class EditEventActivity : AppCompatActivity() {
                     for (invitee in event.participantName) {
                         if (invitee != userName)
                         {
-                            var ref =
-                                Firebase.database.getReference("$invitee/Events")
-                                ref.child(id).setValue(newEventData)
+                            var ref = Firebase.database.getReference("$invitee/Events")
+                            ref.child(id).setValue(newEventData)
                         }
                     }
                     withContext(Dispatchers.Main) {

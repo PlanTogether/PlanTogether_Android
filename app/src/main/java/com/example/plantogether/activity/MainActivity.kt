@@ -10,6 +10,7 @@ import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.fragment.CalendarFragment
 import com.example.plantogether.R
 import com.example.plantogether.data.EventData
+import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.ActivityMainBinding
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     lateinit var db : EventDatabase
 
     lateinit var rdb: DatabaseReference
+    lateinit var noticedb: DatabaseReference
+
     var userName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +108,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     var id = deepLink.getQueryParameter("id").toString()
                     var inviter = deepLink.getQueryParameter("inviter").toString()
                     rdb = Firebase.database.getReference("$inviter/Events")
+                    noticedb = Firebase.database.getReference("$inviter/Notices")
+                    val now = System.currentTimeMillis();
                     rdb.child(id).child("participantName")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -123,19 +128,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                 val destinationReference =
                                     Firebase.database.getReference("$userName/Events")
 
+                                val newNoticeRef = noticedb.push()
+                                val newNoticeRefKey = newNoticeRef.key
                                 sourceReference.child(id).
                                 addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         val eventData = snapshot.getValue(EventData::class.java)
                                         destinationReference.child(id).setValue(eventData)
+                                        val text = "${userName}님이 초대되었습니다."
+                                        val noticeData = NoticeData(newNoticeRefKey.toString(),
+                                            eventData?.title.toString(), now, text)
+                                        newNoticeRef.setValue(noticeData)
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {
                                         // Handle onCancelled event
                                     }
                                 })
+
                             }
                         }
+
                         override fun onCancelled(error: DatabaseError) {
                             // Handle onCancelled event
                         }
