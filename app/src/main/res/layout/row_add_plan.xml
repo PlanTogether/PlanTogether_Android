@@ -13,19 +13,42 @@
         android:layout_margin="20dp"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/planNameText"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="4"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:height="30dp"
+        android:layout_height="60dp"
+        android:orientation="vertical">
 
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="@color/text_indigo"
-         />
+        <TextView
+            android:id="@+id/planNameText"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:height="30dp"
+
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/text_indigo"
+            />
+
+        <TextView
+            android:id="@+id/planTimeText"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:height="30dp"
+
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/text_indigo"
+            />
+
+    </LinearLayout>
+
 
     <ImageView
         android:src="@drawable/icon_delete_black"

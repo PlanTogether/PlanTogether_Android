@@ -2,6 +2,7 @@ package com.example.plantogether.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.databinding.RowAddEventBinding
 import com.example.plantogether.data.EventData
