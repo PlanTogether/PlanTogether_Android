@@ -25,14 +25,13 @@ class EditEventActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditEventBinding
 
     lateinit var db: EventDatabase
-    var id = -1
 
     private val REQUEST_MAP_LOCATION = 1001
 
     lateinit var event: EventData
     lateinit var rdb: DatabaseReference
     var userName: String = ""
-    var titleKey: String = ""
+    var id: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditEventBinding.inflate(layoutInflater)
@@ -40,10 +39,9 @@ class EditEventActivity : AppCompatActivity() {
 
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
-        titleKey = intent.getStringExtra("titleKey").toString()
+        id = intent.getStringExtra("id").toString()
         event = (intent.getParcelableExtra("event") as? EventData)!!
         // println("사용자명 : " + userName + " in EditEventActivity")
-        id = intent.getIntExtra("id", -1)
         // db = EventDatabase.getDatabase(this)
         rdb = Firebase.database.getReference("$userName/Events")
         CoroutineScope(Dispatchers.IO).launch {
@@ -80,16 +78,16 @@ class EditEventActivity : AppCompatActivity() {
                 val place = binding.eventPlace.text.toString()
                 val detail = binding.eventDetailInfo.text.toString()
 
-                val newEventData =
-                    EventData(event.id, 1, title, place, event.date, "", detail)
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    // 이벤트 저장 할 때의 키 값은 타이틀명으로 했습니다.
-                    // db.eventDao().updateEvent(newEvent)
-                    rdb.child(title).setValue(newEventData)
+                    val newEventData =
+                        EventData(id,
+                            1, title, place, event.date, "", detail)
+                    rdb.child(id).setValue(newEventData)
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
                         intent.putExtra("id", event.id)
-                        Log.d("id", event.id.toString())
+                        Log.d("id", event.id)
                         startActivity(editintent)
                     }
                 }

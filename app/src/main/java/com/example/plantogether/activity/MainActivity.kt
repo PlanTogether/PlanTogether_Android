@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     var place = deepLink.getQueryParameter("place")
                     var date = deepLink.getQueryParameter("date")
                     var detail = deepLink.getQueryParameter("detail")
-                    val event = EventData(0,1, title!!, place!!, date!!, "", detail!!)
+                    val event = EventData("",1, title!!, place!!, date!!, "", detail!!)
                     Log.d("query?",title)
                     Log.d("query?",date)
                     Log.d("query?",detail)

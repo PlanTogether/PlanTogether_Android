@@ -67,7 +67,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                     val intent = Intent(context, EventInfoActivity::class.java)
                     intent.putExtra("userName", userName)
                     intent.putExtra("id", eventData.id)
-                    intent.putExtra("titleKey", eventData.title)
                     context.startActivity(intent)
                 }
 
@@ -136,7 +135,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         }
 
         rdb.addValueEventListener(eventListener)
-
         // 나중에 데이터 변경 감지를 중지하려면
         // rdb.removeEventListener(eventListener)
     }
