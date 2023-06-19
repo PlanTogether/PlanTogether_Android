@@ -128,25 +128,24 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                 val destinationReference =
                                     Firebase.database.getReference("$userName/Events")
 
-                                var title = ""
+                                val newNoticeRef = noticedb.push()
+                                val newNoticeRefKey = newNoticeRef.key
                                 sourceReference.child(id).
                                 addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         val eventData = snapshot.getValue(EventData::class.java)
                                         destinationReference.child(id).setValue(eventData)
-                                        title = eventData?.title.toString()
+                                        val text = "${userName}님이 초대되었습니다."
+                                        val noticeData = NoticeData(newNoticeRefKey.toString(),
+                                            eventData?.title.toString(), now, text)
+                                        newNoticeRef.setValue(noticeData)
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {
                                         // Handle onCancelled event
                                     }
                                 })
-                                val newNoticeRef = noticedb.push()
-                                val newNoticeRefKey = newNoticeRef.key
-                                val text = "${userName}님이 초대되었습니다."
-                                val noticeData = NoticeData(newNoticeRefKey.toString(),
-                                    title, now, text)
-                                newNoticeRef.setValue(noticeData)
+
                             }
                         }
 
