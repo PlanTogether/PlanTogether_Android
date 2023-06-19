@@ -14,6 +14,7 @@ import com.example.plantogether.databinding.ActivityMainBinding
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -93,20 +94,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
                 // Get deep link from result (may be null if no link is found)
+                Log.d("dynamic", "are you here")
                 var deepLink: Uri? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
                 }
+                Log.d("dynamic", deepLink.toString())
                 if (deepLink != null) {
-                    var title = deepLink.getQueryParameter("title")
-                    var place = deepLink.getQueryParameter("place")
-                    var date = deepLink.getQueryParameter("date")
-                    var detail = deepLink.getQueryParameter("detail")
-                    val event = EventData("",1, title!!, place!!, date!!, "", detail!!)
-                    Log.d("query?",title)
-                    Log.d("query?",date)
-                    Log.d("query?",detail)
-                    Log.d("query?",place)
+                    var id = deepLink.getQueryParameter("id").toString()
+                    var inviter = deepLink.getQueryParameter("inviter").toString()
+                    rdb = Firebase.database.getReference("$inviter/Events")
+
+                    Log.d("query?",id)
+                    Log.d("query?",inviter)
                     CoroutineScope(Dispatchers.IO).launch {
                         // db.eventDao().insertEvent(event)
                     }
