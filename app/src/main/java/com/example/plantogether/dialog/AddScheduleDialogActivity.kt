@@ -67,7 +67,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                     val intent = Intent(context, EventInfoActivity::class.java)
                     intent.putExtra("userName", userName)
                     intent.putExtra("id", eventData.id)
-                    intent.putExtra("titleKey", eventData.title)
                     context.startActivity(intent)
                 }
 

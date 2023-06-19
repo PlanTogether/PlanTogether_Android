@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class EventData(
-    var id: Int = 0,
+    var id: String = "고유키",
     var type: Int = 1,
     var title: String? = "이벤트명 or 일정명",
     var place: String = "장소",
@@ -15,9 +15,9 @@ data class EventData(
 
 ) : Parcelable{
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readInt(),
-        parcel.readInt(),
-        parcel.readString(),
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -25,11 +25,11 @@ data class EventData(
     ) {
     }
 
-    constructor():this(0, 1, "이벤트명 or 일정명",
+    constructor():this("고유키", 1, "이벤트명 or 일정명",
         "장소","날짜", "시간", "세부정보")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeString(id)
         parcel.writeInt(type)
         parcel.writeString(title)
         parcel.writeString(place)

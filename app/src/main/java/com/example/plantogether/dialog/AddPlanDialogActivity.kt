@@ -50,12 +50,11 @@ class AddPlanDialogActivity : BottomSheetDialogFragment() {
             checkBtn.setOnClickListener {
                 val title = setTitle.text.toString()
                 val time = setTime.text.toString()
-                val planData = EventData(0,2, title, "", date, time, "")
                 val newPlanRef = rdb.push()
                 val newPlanKey = newPlanRef.key
+                val planData = EventData(newPlanKey.toString(),
+                    2, title, "", date, time, "")
                 newPlanRef.setValue(planData)
-                // 일정을 저장할 때의 키값은 title(일정명)로 했습니다.
-                rdb.child(title).setValue(planData)
                 clearEditText()
                 dismiss()
             }

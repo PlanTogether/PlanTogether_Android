@@ -37,7 +37,6 @@ class EventInfoActivity : AppCompatActivity() {
 
     lateinit var db : EventDatabase
 
-    var id = -1
     var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
@@ -52,20 +51,19 @@ class EventInfoActivity : AppCompatActivity() {
     lateinit var event: EventData
     lateinit var rdb: DatabaseReference
     var userName: String = ""
-    var titleKey: String = ""
+    var id: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
-        titleKey = intent.getStringExtra("titleKey").toString()
-        id = intent.getIntExtra("id",-1)
+        id = intent.getStringExtra("id").toString()
         // println("사용자명 : " + userName + " in EventInfoActivity")
         // db = EventDatabase.getDatabase(this)
 
         rdb = Firebase.database.getReference("$userName/Events")
-        rdb.child(titleKey).addListenerForSingleValueEvent(object : ValueEventListener {
+        rdb.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 event = snapshot.getValue(EventData::class.java)!!
                 event?.let {
@@ -128,7 +126,7 @@ class EventInfoActivity : AppCompatActivity() {
     private fun sendMessage(url: String) {
         val link = Uri.parse(url)
         defaultText =  TextTemplate(
-            text = """ ${user[0].username}님이 [${event.title}] 이벤트에 초대했습니다.
+            text = """ ${userName}님이 [${event.title}] 이벤트에 초대했습니다.
                       
     일시 : ${event.date}
                         
