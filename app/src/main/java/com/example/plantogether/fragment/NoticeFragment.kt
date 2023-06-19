@@ -18,6 +18,9 @@ import com.example.plantogether.databinding.FragmentNoticeBinding
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.Plan
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +36,9 @@ class NoticeFragment : Fragment() {
     lateinit var adapter : NoticeAdapter
     var data : ArrayList<Notice> = ArrayList()
     private var selectedDate: LocalDate?= null
+
+    lateinit var rdb: DatabaseReference
+    var userName: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,19 +63,25 @@ class NoticeFragment : Fragment() {
 
     }
 
-    private fun initData() {
-        CoroutineScope(Dispatchers.IO).launch {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        userName = arguments?.getString("userName").toString()
+        // println("사용자명 : " + userName + " in EventFragment")
+    }
 
-        }
+    private fun initData() {
+        rdb = Firebase.database.getReference("$userName/Events")
     }
     private fun initRecyclerView() {
-        binding.noticeRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
-        LinearLayoutManager.VERTICAL, false)
+        binding.noticeRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL, false
+        )
         adapter = NoticeAdapter(data)
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
             override fun OnItemClick(position: Int) {
-                when(data[position].type) {
-                    1 or 5-> {
+                when (data[position].type) {
+                    1 or 5 -> {
                         val eventID = data[position].pid
                         CoroutineScope(Dispatchers.IO).launch {
                             val intent = Intent(context, EditEventActivity::class.java)
@@ -77,9 +89,11 @@ class NoticeFragment : Fragment() {
                             startActivity(intent)
                         }
                     }
+
                     2 -> {
                         //이벤트 초대장 받기 부분으로 들어가기
                     }
+
                     4 -> {
 
                     }
@@ -89,10 +103,6 @@ class NoticeFragment : Fragment() {
 
         }
         binding.noticeRecyclerView.adapter = adapter
-
-
-    }
-    private fun initLayout() {
 
     }
 }
