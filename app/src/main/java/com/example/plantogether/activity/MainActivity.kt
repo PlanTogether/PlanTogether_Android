@@ -13,7 +13,7 @@ import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityMainBinding
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -101,22 +101,51 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
                 Log.d("dynamic", deepLink.toString())
                 if (deepLink != null) {
+                    // 이벤트를 생성한, 즉 초대자의 경로에 들어가서 participantName을 업데이트.
                     var id = deepLink.getQueryParameter("id").toString()
                     var inviter = deepLink.getQueryParameter("inviter").toString()
                     rdb = Firebase.database.getReference("$inviter/Events")
+                    rdb.child(id).child("participantName")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val typeIndicator =
+                                object : GenericTypeIndicator<MutableList<String>>() {}
+                            val participantNames =
+                                snapshot.getValue(typeIndicator)
+                            participantNames?.add(userName)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                rdb.child(id).child("participantName")
+                                    .setValue(participantNames)
+
+                                // 업데이트한 데이터를 본인의 경로에 복사
+                                val sourceReference =
+                                    Firebase.database.getReference("$inviter/Events")
+                                val destinationReference =
+                                    Firebase.database.getReference("$userName/Events")
+
+                                sourceReference.child(id).
+                                addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        val eventData = snapshot.getValue(EventData::class.java)
+                                        destinationReference.child(id).setValue(eventData)
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        // Handle onCancelled event
+                                    }
+                                })
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle onCancelled event
+                        }
+                    })
+
+
 
                     Log.d("query?",id)
                     Log.d("query?",inviter)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        // db.eventDao().insertEvent(event)
-                    }
                 }
-
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-                // ...
             }
             .addOnFailureListener(this) { e -> Log.w("firbase", "getDynamicLink:onFailure", e) }
     }

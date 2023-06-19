@@ -82,7 +82,7 @@ class EditEventActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val newEventData =
                         EventData(id,
-                            1, title, place, event.date, "", detail)
+                            1, title, place, event.date, "", detail, event.participantName)
                     rdb.child(id).setValue(newEventData)
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)

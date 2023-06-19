@@ -71,6 +71,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                 }
 
                 // 일정 아이템을 클릭했을 때(는 일단 아무것도 안일어난다)
+                if (eventData.type == 2) {
+                    delete(eventData)
+                }
             }
 
             override fun OnDeleteItemClick(eventData: EventData, position: Int) {
@@ -140,7 +143,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     }
     fun delete(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
-        rdb.child(eventData.title.toString()).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
+        rdb.child(eventData.id).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
         // db.eventDao().deleteEvent(event)
         getEvent()
     }
