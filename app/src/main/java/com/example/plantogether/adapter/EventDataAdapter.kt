@@ -10,23 +10,21 @@ import com.example.plantogether.roomDB.Event
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class EventDataAdapter(options: FirebaseRecyclerOptions<Event>,
-                       val items: ArrayList<Event>, val selected:ArrayList<Boolean>)
-    : FirebaseRecyclerAdapter<Event, EventDataAdapter.ViewHolder>(options) {
+class EventDataAdapter(var items: ArrayList<EventData>, val selected:ArrayList<Boolean>)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var onApplyClickListener: OnApplyClickListener? = null
     interface OnItemClickListener {
-        fun OnItemClick(data: Event, binding: RowEventBinding, position: Int)
+        fun OnItemClick(data: EventData, binding: RowEventBinding, position: Int)
     }
 
     interface OnApplyClickListener {
-        fun onApplyClick(data: Event)
+        fun onApplyClick(data: EventData)
     }
 
     var itemClickListener: OnItemClickListener? = null
 
     inner class ViewHolder(val binding: RowEventBinding)
         : RecyclerView.ViewHolder(binding.root) {
-        private val mainActivity: MainActivity? = binding.root.context as? MainActivity
         init {
             binding.rowEvent.setOnClickListener {
                 if (selected[adapterPosition] == false)
@@ -35,6 +33,20 @@ class EventDataAdapter(options: FirebaseRecyclerOptions<Event>,
                     selected[adapterPosition] = false
                 itemClickListener?.OnItemClick(items[adapterPosition], binding, adapterPosition)
             }
+
+            val datetext:String
+            val numbers = items[position].date.split("[^\\d]+".toRegex())
+            if(numbers.size >= 3) {
+
+                val month = numbers[1]
+                val day = numbers[2]
+                datetext = "$month/$day"
+            }else{
+                datetext = "01/01"
+            }
+            binding.rowEventDate.text = datetext
+            // 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
+            binding.rowEventTitle.text = items[position].title
         }
     }
 
@@ -58,33 +70,15 @@ class EventDataAdapter(options: FirebaseRecyclerOptions<Event>,
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Event) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val datetext:String
-        val numbers = items[position].date.split("[^\\d]+".toRegex())
-        if(numbers.size>=3 ) {
-
-            val month = numbers[1]
-            val day = numbers[2]
-            datetext = "$month/$day"
-        }else{
-            datetext = "01/01"
-        }
-        holder.binding.rowEventDate.text = datetext// 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
-        holder.binding.rowEventTitle.text = items[position].title
-
-    }
-
-    fun updateItemAtPosition(position: Int, data: Event) {
+    fun updateItemAtPosition(position: Int, data: EventData) {
         items[position] = data
         notifyItemChanged(position)
     }
