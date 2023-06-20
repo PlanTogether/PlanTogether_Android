@@ -120,13 +120,15 @@ class EventInfoActivity : AppCompatActivity() {
         defaultText =  TextTemplate(
             text = """ ${userName}님이 [${event.title}] 이벤트에 초대했습니다.
                       
-    일시 : ${event.date}
+일시 : ${event.date}
                         
-    장소 : ${event.place}
+장소 : ${event.place}
                         
-    추가정보 : ${event.detail}
-    
-    ${link}
+추가정보 : ${event.detail}
+   
+아래 링크를 클릭하면 초대를 수락하게 됩니다.
+수락하시겠습니까?
+${link}
             """.trimIndent(),
             link = Link(
                 webUrl = "https://plantogethers.page.link/qL6j",

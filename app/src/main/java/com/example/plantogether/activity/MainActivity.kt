@@ -21,7 +21,9 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     lateinit var binding:ActivityMainBinding
@@ -109,7 +111,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     var inviter = deepLink.getQueryParameter("inviter").toString()
                     rdb = Firebase.database.getReference("$inviter/Events")
                     noticedb = Firebase.database.getReference("$inviter/Notices")
-                    val now = System.currentTimeMillis()
                     rdb.child(id).child("participantName")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -117,10 +118,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                 object : GenericTypeIndicator<MutableList<String>>() {}
                             val participantNames =
                                 snapshot.getValue(typeIndicator)
-                            participantNames?.add(userName)
                             CoroutineScope(Dispatchers.IO).launch {
-                                rdb.child(id).child("participantName")
-                                    .setValue(participantNames)
+
+                                var flag = true
+                                for (invitee in participantNames!!) {
+                                    if (invitee == userName) {
+                                       flag = false
+                                    }
+                                }
+                                if (flag) {
+                                    participantNames?.add(userName)
+                                    rdb.child(id).child("participantName")
+                                        .setValue(participantNames)
+                                }
 
                                 // 업데이트한 데이터를 본인의 경로에 복사
                                 val sourceReference =
@@ -130,15 +140,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                                 val newNoticeRef = noticedb.push()
                                 val newNoticeRefKey = newNoticeRef.key
+                                val now = System.currentTimeMillis()
                                 sourceReference.child(id).
                                 addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         val eventData = snapshot.getValue(EventData::class.java)
                                         destinationReference.child(id).setValue(eventData)
-                                        val text = "${userName}님이 초대되었습니다."
-                                        val noticeData = NoticeData(newNoticeRefKey.toString(),
-                                            eventData?.title.toString(), now, text)
-                                        newNoticeRef.setValue(noticeData)
+                                        if (flag) {
+                                            val text = "${userName}님이 초대되었습니다."
+                                            val noticeData = NoticeData(
+                                                newNoticeRefKey.toString(),
+                                                eventData?.title.toString(), now, text
+                                            )
+                                            newNoticeRef.setValue(noticeData)
+                                        }
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {

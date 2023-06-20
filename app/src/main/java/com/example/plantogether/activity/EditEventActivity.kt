@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.data.EventData
+import com.example.plantogether.data.NoticeData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.firebase.database.DataSnapshot
@@ -80,13 +81,19 @@ class EditEventActivity : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val setEventDataTask = async { rdb.child(id).setValue(newEventData).await() }
-                    val setEventDataTasks = mutableListOf<Deferred<Unit>>()
 
                     for (invitee in event.participantName) {
                         if (invitee != userName) {
                             val ref = Firebase.database.getReference("$invitee/Events")
-                            val setInviteeDataTask = async { ref.child(id).setValue(newEventData).await() }
-
+                            val ref2 = Firebase.database.getReference("$invitee/Notices")
+                            async { ref.child(id).setValue(newEventData).await() }
+                            val newNoticeRef = ref2.push()
+                            val newNoticeRefKey = newNoticeRef.key
+                            val now = System.currentTimeMillis()
+                            val text = "이벤트가 수정되었습니다."
+                            val noticeData = NoticeData(newNoticeRefKey.toString(),
+                                newEventData.title.toString(), now, text)
+                            newNoticeRef.setValue(noticeData)
                         }
                     }
 
