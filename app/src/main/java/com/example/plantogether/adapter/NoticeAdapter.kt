@@ -103,7 +103,7 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
                 1 -> rowNoticeInfo.setText("해당 이벤트가 추가되었습니다.")
                 2 -> rowNoticeInfo.setText("이벤트 초대장이 도착했습니다.")
                 3 -> rowNoticeInfo.setText("name" + " 님이 초대장을 xx하였습니다.")
-                4 -> rowNoticeInfo.setText("플랜 정보가 변경되었습니다.")
+                4 -> rowNoticeInfo.setText("플랜이 삭제되었습니다.")
                 5 -> rowNoticeInfo.setText("이벤트 정보가 변경되었습니다.")
                 6 -> rowNoticeInfo.setText("이벤트 당일 입니다.")
             }
