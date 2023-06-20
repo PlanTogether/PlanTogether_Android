@@ -1,8 +1,11 @@
 package com.example.plantogether.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.activity.EventInfoActivity
@@ -79,7 +82,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                 // 삭제 버튼 눌렀을 때
                 CoroutineScope(Dispatchers.IO).launch {
                     if (eventData.type == 1) {
-                        deleteEvent(eventData)
+                        //deleteEvent(eventData)
                     }
 
                     if (eventData.type == 2) {
