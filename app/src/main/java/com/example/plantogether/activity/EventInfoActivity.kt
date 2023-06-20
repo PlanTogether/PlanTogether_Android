@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
-import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

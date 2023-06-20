@@ -1,26 +1,14 @@
 package com.example.plantogether.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.plantogether.activity.EditEventActivity
-import com.example.plantogether.activity.EventInfoActivity
-import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.NoticeAdapter
-import com.example.plantogether.data.EventData
 import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.FragmentNoticeBinding
-import com.example.plantogether.roomDB.EventDatabase
-import com.example.plantogether.roomDB.Notice
-import com.example.plantogether.roomDB.Plan
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -30,7 +18,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 class NoticeFragment : Fragment() {

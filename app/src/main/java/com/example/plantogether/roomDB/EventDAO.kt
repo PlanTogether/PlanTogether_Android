@@ -59,11 +59,5 @@ interface EventDAO {
     fun getUser(): List<User>
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertNotice(notice : Notice)
-
-    @Query("Select * from notices")
-    fun getNotice() : List<Notice>
-
 
 }
