@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.R
 import com.example.plantogether.activity.EditEventActivity
+import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.FragmentEventBinding
@@ -45,8 +46,9 @@ class EventFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             data = db.eventDao().getEvents() as ArrayList<Event>
             withContext(Dispatchers.Main){
-            //    initData()
+                initData()
                 initRecyclerView()
+                /*
                 adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
                     override fun onApplyClick(data: Event) {
                         val intent = Intent(requireContext(), EditEventActivity::class.java)
@@ -54,7 +56,16 @@ class EventFragment : Fragment() {
                         startActivity(intent)
 
                     }
+                }*/
+                adapter.itemClickListener = object : EventDataAdapter.OnItemClickListener {
+                    override fun OnItemClick(data: Event, binding: RowEventBinding, position: Int) {
+                        val intent = Intent(requireContext(), EventInfoActivity::class.java)
+                        intent.putExtra("id", data.id)
+                        startActivity(intent)
+                    }
+
                 }
+
             }
         }
 
