@@ -16,7 +16,7 @@
         android:gravity="center"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:text="홍길동 생일파티"/>
 
     <LinearLayout
@@ -95,7 +95,7 @@
             android:text="추가정보"/>
     </LinearLayout>
 
-    <EditText
+    <TextView
         android:id="@+id/eventDetailInfo"
         android:layout_width="match_parent"
         android:layout_height="160dp"
