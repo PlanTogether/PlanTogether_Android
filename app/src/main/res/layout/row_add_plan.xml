@@ -4,7 +4,9 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="7dp"
+    android:background="@drawable/border_round_white">
     <ImageView
         android:src="@drawable/icon_circle_black"
         android:id="@+id/checkThat"
@@ -13,41 +15,34 @@
         android:layout_margin="20dp"
         android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="4"
-        android:layout_height="60dp"
-        android:orientation="vertical">
 
         <TextView
             android:id="@+id/planNameText"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:height="30dp"
 
             android:textStyle="bold"
             android:textSize="15sp"
-            android:textColor="@color/text_indigo"
+            android:textColor="@color/black"
             />
 
         <TextView
             android:id="@+id/planTimeText"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:height="30dp"
 
             android:textStyle="bold"
             android:textSize="15sp"
-            android:textColor="@color/text_indigo"
+            android:textColor="@color/black"
             />
-
-    </LinearLayout>
 
 
     <ImageView
