@@ -29,8 +29,6 @@ class NoticeFragment : Fragment() {
     lateinit var adapter : NoticeAdapter
     var data : ArrayList<NoticeData> = ArrayList()
 
-    private var selectedDate: LocalDate?= null
-
     lateinit var noticedb: DatabaseReference
     var userName: String = ""
     override fun onCreateView(

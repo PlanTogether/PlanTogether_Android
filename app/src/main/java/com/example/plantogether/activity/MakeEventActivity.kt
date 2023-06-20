@@ -24,7 +24,6 @@ class MakeEventActivity : AppCompatActivity() {
     val data:ArrayList<EventData> = ArrayList()
     var date = ""
 
-    lateinit var adapter: EventDataAdapter
     lateinit var rdb: DatabaseReference
     var userName: String = ""
 
