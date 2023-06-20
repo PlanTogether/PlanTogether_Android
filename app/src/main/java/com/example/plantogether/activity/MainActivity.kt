@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         initLayout()
         //getHashKey()
         initFragment()
+        initalarm()
     }
 
     private fun initFragment() {
