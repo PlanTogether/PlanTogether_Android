@@ -33,10 +33,7 @@ class EventDataAdapter(var items: ArrayList<EventData>)
                 datetext = "$month/$day"
             }else{
                 datetext = "01/01"
-            }
-            binding.rowEventDate.text = datetext
-            // 현재 Date에 들어갈 게 꽤 긴 Date내용이라 자르고 넣어야할 필요가 있다.
-            binding.rowEventTitle.text = items[position].title*/
+            }*/
         }
     }
 
