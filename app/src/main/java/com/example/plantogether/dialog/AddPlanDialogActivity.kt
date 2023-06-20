@@ -1,5 +1,8 @@
 package com.example.plantogether.dialog
 
+import android.R
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,13 +61,29 @@ class AddPlanDialogActivity : BottomSheetDialogFragment() {
                 clearEditText()
                 dismiss()
             }
+            setTime.setOnClickListener {
+                val listener =
+                    OnTimeSetListener { view, hourOfDay, minute ->
+                        var timeString = hourOfDay.toString() + "시 " + minute.toString() + "분"
+                        binding.setTime.text = timeString
+                    }
+                val dialog = TimePickerDialog(
+                    context,
+                    R.style.Theme_Holo_Light_Dialog,
+                    listener,
+                    15,
+                    30,
+                    false
+                )
+                dialog.setTitle("시간을 선택해주세요")
+                dialog.show()
+            }
         }
     }
 
     fun clearEditText(){
         binding.apply{
             setTitle.text.clear()
-            setTime.text.clear()
         }
     }
 
