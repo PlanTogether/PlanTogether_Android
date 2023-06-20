@@ -59,17 +59,15 @@ class NoticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userName = arguments?.getString("userName").toString()
+        initRecyclerView()
         CoroutineScope(Dispatchers.IO).launch {
-            // initData()
-            withContext(Dispatchers.Main) {
-                initRecyclerView()
-            }
+            initData()
         }
         // println("사용자명 : " + userName + " in EventFragment")
     }
 
     private fun initData() {
-        noticedb = Firebase.database.getReference("$userName/Events")
+        noticedb = Firebase.database.getReference("$userName/Notices")
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 data.clear()
@@ -77,7 +75,7 @@ class NoticeFragment : Fragment() {
                 for (childSnapshot in snapshot.children) {
                     val event = childSnapshot.getValue(NoticeData::class.java)
                     event?.let {
-                            data.add(it)
+                          data.add(it)
                     }
                 }
 

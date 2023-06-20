@@ -1,22 +1,17 @@
 package com.example.plantogether.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.RowNoticeBinding
-import com.example.plantogether.roomDB.Event
-import com.example.plantogether.roomDB.Notice
-import com.example.plantogether.roomDB.Plan
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class NoticeAdapter(var items : ArrayList<NoticeData>): RecyclerView.Adapter<NoticeAdapter.ViewHolder>() {
 
     //이곳에 item중 초대장만 받아온다.
+    val mFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 
     interface OnItemClickListener {
         fun OnItemClick(position: Int)
@@ -42,8 +37,12 @@ class NoticeAdapter(var items : ArrayList<NoticeData>): RecyclerView.Adapter<Not
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
+            val date = Date(items[position].time)
+            val dateText = mFormat.format(date)
 
-
+            rowNoticeName.setText(items[position].title)
+            rowRemainTime.setText(dateText)
+            rowNoticeInfo.setText(items[position].notice)
             //type 0 : plan새로 생성, 1 : event 새로 생성
             //2: 이벤트 초대장 도착 내용, 3 : 초대 수락 or 거절, 4 : 플랜 변경 내역 5 : 이벤트 변경 내역
 

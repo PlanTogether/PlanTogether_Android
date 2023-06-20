@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     var inviter = deepLink.getQueryParameter("inviter").toString()
                     rdb = Firebase.database.getReference("$inviter/Events")
                     noticedb = Firebase.database.getReference("$inviter/Notices")
-                    val now = System.currentTimeMillis();
+                    val now = System.currentTimeMillis()
                     rdb.child(id).child("participantName")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
