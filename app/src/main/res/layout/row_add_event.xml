@@ -24,10 +24,10 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:height="30dp"
-
         android:textStyle="bold"
         android:textSize="15sp"
         android:textColor="@color/text_indigo"
+        android:singleLine="true"
         />
 
     <ImageView
