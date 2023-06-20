@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.R
+import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.LoginActivity
 import com.example.plantogether.activity.MainActivity
 import com.example.plantogether.adapter.NoticeAdapter
@@ -109,8 +110,12 @@ class NoticeFragment : Fragment() {
         )
         adapter = NoticeAdapter(data)
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
-            override fun OnItemClick(position: Int) {
-
+            override fun OnItemClick(position: Int, noticeData: NoticeData) {
+                val intent = Intent(context, EventInfoActivity::class.java)
+                intent.putExtra("userName", userName)
+                Log.d("id",noticeData.eventKey)
+                intent.putExtra("id", noticeData.eventKey)
+                context?.startActivity(intent)
             }
 
         }

@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                         if (flag) {
                                             val text = "${userName}님이 초대되었습니다."
                                             val noticeData = NoticeData(
-                                                newNoticeRefKey.toString(),
+                                                newNoticeRefKey.toString(),eventData?.id.toString(),
                                                 eventData?.title.toString(), now, text
                                             )
                                             newNoticeRef.setValue(noticeData)
