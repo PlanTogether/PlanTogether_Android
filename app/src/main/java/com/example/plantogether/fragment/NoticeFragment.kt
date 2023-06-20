@@ -29,7 +29,6 @@ class NoticeFragment : Fragment() {
     lateinit var db : EventDatabase
     lateinit var binding : FragmentNoticeBinding
     lateinit var adapter : NoticeAdapter
-
     var data : ArrayList<Notice> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +66,7 @@ class NoticeFragment : Fragment() {
     private fun initRecyclerView() {
         binding.noticeRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
         LinearLayoutManager.VERTICAL, false)
-
+        data.sortByDescending {it.id}
         adapter = NoticeAdapter(data)
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
             override fun OnItemClick(position: Int) {
