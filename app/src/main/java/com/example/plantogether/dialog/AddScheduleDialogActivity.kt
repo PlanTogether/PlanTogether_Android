@@ -16,11 +16,14 @@ import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.Plan
 import com.kakao.sdk.common.KakaoSdk.init
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 //날짜를 클릭하면 그 날에 저장되어있는 일정을 보여준다.
 class AddScheduleDialogActivity(private val context : AppCompatActivity) {
@@ -83,6 +86,9 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 val plan = db.eventDao().getPlanById(event.id)
                                 db.eventDao().deletePlan(plan)
+
+                                val newNotice = Notice(0, plan.id,plan.title, LocalDate.now().toString(),LocalTime.now().toString(), 4 )
+                                db.eventDao().insertNotice(newNotice)
                                 getEvent()
                             }
 
