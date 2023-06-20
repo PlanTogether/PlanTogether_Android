@@ -275,10 +275,9 @@ ${link}
                 }
                 val ref = Firebase.database.getReference("$invitee/Events")
                 ref.child(event.id).removeValue()
-                onBackPressed()
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.putExtra("userName", userName)
-//                startActivity(intent)
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("userName", userName)
+                startActivity(intent)
             }
         }
         // 현재 사용자가 해당 이벤트에 대해서 초대장을 받아 참가한 참가자일 때 -> 삭제 불가
