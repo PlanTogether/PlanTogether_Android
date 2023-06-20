@@ -1,5 +1,9 @@
 package com.example.plantogether.activity
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +16,7 @@ import com.example.plantogether.R
 import com.example.plantogether.data.EventData
 import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.ActivityMainBinding
+import com.example.plantogether.reciever.EventBroadcastReceiver
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
@@ -22,6 +27,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     lateinit var binding:ActivityMainBinding
@@ -47,6 +53,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         initLayout()
         //getHashKey()
         initFragment()
+        initalarm()
     }
 
     private fun initFragment() {
@@ -161,6 +168,26 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
             }
             .addOnFailureListener(this) { e -> Log.w("firbase", "getDynamicLink:onFailure", e) }
+    }
+    fun initalarm(){//9시에 알림
+        val alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, EventBroadcastReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        }
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+
+
+        alarmMgr?.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmIntent
+        )
     }
 
 
