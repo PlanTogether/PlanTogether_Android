@@ -13,8 +13,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.plantogether.activity.EditEventActivity
 import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.MakeEventActivity
+import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.adapter.NoticeAdapter
 import com.example.plantogether.databinding.FragmentNoticeBinding
+import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.Plan
@@ -23,35 +25,42 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class NoticeFragment : Fragment() {
     //오늘 기준 이후의 이벤트를 가져와서
     //오늘의 일정, 변경된 이벤트, 초대장 수락 거절등의 정보를 가져온다.
 
-
     lateinit var db : EventDatabase
     lateinit var binding : FragmentNoticeBinding
     lateinit var adapter : NoticeAdapter
     var data : ArrayList<Notice> = ArrayList()
-    private var selectedDate: LocalDate?= null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNoticeBinding.inflate(layoutInflater, container, false)
-        val today = LocalDate.now().toString()
-        Log.d("today", today)
+
+
+        val today = LocalDate.now()
+        var formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일")
+        val formattedDate = today.format(formatter)
 
         db = EventDatabase.getDatabase(this.requireContext())
 
 
+
         CoroutineScope(Dispatchers.IO).launch {
             data = db.eventDao().getNotice() as ArrayList<Notice>
-            for ( k in data) {
-                Log.d("notices", k.id.toString() + " " + k.title + k.type.toString())
+            Log.d("asdf", formattedDate)
+            val todayEvent = db.eventDao().getEventToday(formattedDate) as ArrayList<Event>
+            for(a in todayEvent) {
+                Log.d("asdf", "해당 당일 이벤트 pid : " + a)
+                val todayNotice = Notice(0, a.id, a.title, LocalDate.now().toString(), a.date, 6)
+                data.add(todayNotice)
             }
+
             withContext(Dispatchers.Main){
-                initData()
                 initRecyclerView()
             }
         }
@@ -59,11 +68,6 @@ class NoticeFragment : Fragment() {
 
     }
 
-    private fun initData() {
-        CoroutineScope(Dispatchers.IO).launch {
-
-        }
-    }
     private fun initRecyclerView() {
         binding.noticeRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
         LinearLayoutManager.VERTICAL, false)
@@ -71,8 +75,9 @@ class NoticeFragment : Fragment() {
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
             override fun OnItemClick(position: Int) {
                 when(data[position].type) {
-                    1 or 5-> {
+                    1, 5, 6-> {
                         val eventID = data[position].pid
+                        Log.d("gotoEvent", eventID.toString())
                         CoroutineScope(Dispatchers.IO).launch {
                             val find = db.eventDao().getEventById(eventID)
                             val intent = Intent(context, EditEventActivity::class.java)
@@ -83,6 +88,10 @@ class NoticeFragment : Fragment() {
                     2 -> {
                         //이벤트 초대장 받기 부분으로 들어가기
                     }
+                    3 -> {
+
+                    }
+
                     4 -> {
 
                     }
@@ -92,10 +101,6 @@ class NoticeFragment : Fragment() {
 
         }
         binding.noticeRecyclerView.adapter = adapter
-
-
-    }
-    private fun initLayout() {
 
     }
 

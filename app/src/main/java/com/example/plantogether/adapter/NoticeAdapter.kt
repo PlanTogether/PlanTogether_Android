@@ -8,7 +8,9 @@ import com.example.plantogether.databinding.RowNoticeBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.Plan
+import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Locale
@@ -47,7 +49,7 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
             //2: 이벤트 초대장 도착 내용, 3 : 초대 수락 or 거절, 4 : 플랜 변경 내역 5 : 이벤트 변경 내역
 
             when(items[position].type) {
-                0 or 4 -> {
+                0 or 4 or 6-> {
                     val date = LocalDate.now()
                     Log.d("today plan1", date.toString())
                     val dateTimeStr = items[position].date
@@ -73,8 +75,22 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
 
                     var showday = ""
                     if (days == 0) {
-                        showday = "오늘"
-                        rowRemainTime.setText(showday)
+                        val nowTime = LocalTime.now()
+                        val previousTime = LocalTime.parse(items[position].time)
+                        val timeGap = Duration.between(previousTime, nowTime).toHours().toInt()
+                        if(timeGap == 0) {
+                            val minuteGap = (Duration.between(previousTime,nowTime).toMinutes() % 60).toInt()
+                            if(minuteGap >= 5) {
+                                rowRemainTime.setText(minuteGap.toString() + "분 전")
+                            }
+                            else {
+                                rowRemainTime.setText("방금 전")
+                            }
+                        }
+                        else {
+                            rowRemainTime.setText(timeGap.toString() + "시간 전")
+                        }
+
                     } else
                         rowRemainTime.setText(Math.abs(diff.toInt()).toString() + "일 전")
 
@@ -89,6 +105,7 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
                 3 -> rowNoticeInfo.setText("name" + " 님이 초대장을 xx하였습니다.")
                 4 -> rowNoticeInfo.setText("플랜 정보가 변경되었습니다.")
                 5 -> rowNoticeInfo.setText("이벤트 정보가 변경되었습니다.")
+                6 -> rowNoticeInfo.setText("이벤트 당일 입니다.")
             }
             noticeEvent.setOnClickListener {
                 //수락 거절 다이얼로그 프레그먼트에서 띄우기

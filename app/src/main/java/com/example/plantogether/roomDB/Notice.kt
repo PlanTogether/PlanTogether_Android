@@ -7,7 +7,10 @@ import androidx.room.PrimaryKey
 
 
 //type 0 : plan새로 생성, 1 : event 새로 생성
-//2: 이벤트 초대장 도착 내용, 3 : 초대 수락 or 거절, 4 : 플랜 변경 내역 5 : 이벤트 변경 내역
+//2: 이벤트 초대장 도착 알림, 3 : 초대 수락 or 거절, 4 : 플랜 변경 내역 5 : 이벤트 변경 내역
+//6: 당일입니다.
+
+//date엔 LocalDate.now()로 저장된다.plan
 @Entity(tableName = "notices")
 data class Notice (
     @PrimaryKey(autoGenerate = true) var id: Int,
