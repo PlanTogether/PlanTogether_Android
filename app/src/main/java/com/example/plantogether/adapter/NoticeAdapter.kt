@@ -22,7 +22,7 @@ class NoticeAdapter(var items : ArrayList<Notice>): RecyclerView.Adapter<NoticeA
     interface OnItemClickListener {
         fun OnItemClick(position: Int)
     }
-    var itemClickListener: NoticeAdapter.OnItemClickListener? = null
+    var itemClickListener: OnItemClickListener? = null
 
 
     inner class ViewHolder(val binding: RowNoticeBinding)

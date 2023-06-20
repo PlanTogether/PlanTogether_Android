@@ -78,7 +78,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                         if(event.type == 1) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 delete(event)
-                                getEvent()
                             }
                         }
                         //일정 삭제
@@ -105,6 +104,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
                 val dialog = builder.create()
                 dialog.show()
+
             }
 
             override fun OnItemClick3(event: Event) {

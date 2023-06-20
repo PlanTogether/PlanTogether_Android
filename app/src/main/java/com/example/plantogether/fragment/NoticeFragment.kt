@@ -1,5 +1,6 @@
 package com.example.plantogether.fragment
 
+import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,7 @@ class NoticeFragment : Fragment() {
     lateinit var db : EventDatabase
     lateinit var binding : FragmentNoticeBinding
     lateinit var adapter : NoticeAdapter
+
     var data : ArrayList<Notice> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

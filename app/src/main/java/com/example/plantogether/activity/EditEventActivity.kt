@@ -30,6 +30,15 @@ class EditEventActivity : AppCompatActivity() {
     var id = -1
     lateinit var event: Event
 
+    /* addscheduledialogactivity 업데이트용
+    interface OnItemClickListener {
+        fun onItemClick()
+    }
+    var itemClickListener : OnItemClickListener ? = null
+    fun setOnClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }*/
+
     private val REQUEST_MAP_LOCATION = 1001
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
