@@ -1,5 +1,6 @@
 package com.example.plantogether.activity
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -42,6 +43,7 @@ class EventInfoActivity : AppCompatActivity() {
     var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
+        const val EDIT_EVENT_REQUEST_CODE = 1
     }
 
     lateinit var defaultText: TextTemplate
@@ -61,33 +63,10 @@ class EventInfoActivity : AppCompatActivity() {
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
         id = intent.getStringExtra("id").toString()
-        // println("사용자명 : " + userName + " in EventInfoActivity")
-        // db = EventDatabase.getDatabase(this)
+        println("현재 이벤트정보의 키 값(ID) : " + id)
+        println("사용자명 : " + userName + " in EventInfoActivity")
 
-        rdb = Firebase.database.getReference("$userName/Events")
-        rdb.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                event = snapshot.getValue(EventData::class.java)!!
-                event?.let {
-                    // event 데이터 사용
-                    CoroutineScope(Dispatchers.IO).launch {
-                        withContext(Dispatchers.Main) {
-                            text = "${userName}님이 [${event.title}]\n" +
-                                    "이벤트에 초대했습니다.\n\n" +
-                                    "일시 : ${event.date}\n\n" +
-                                    "장소 : ${event.place}\n\n" +
-                                    "추가정보 : ${event.detail}\n\n"
-                            initLayout()
-                            initBtn()
-                            initLayout()
-                        }
-                    }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                // 처리 실패 시 호출되는 메서드
-            }
-        })
+        getEventInfo()
     }
 
     private fun initLayout() {
@@ -113,7 +92,7 @@ class EventInfoActivity : AppCompatActivity() {
                 editintent.putExtra("id",event.id)
                 editintent.putExtra("userName",userName)
                 editintent.putExtra("event", event as Parcelable)
-                startActivity(editintent)
+                startActivityForResult(editintent, EDIT_EVENT_REQUEST_CODE)
             }
         }
     }
@@ -208,5 +187,42 @@ class EventInfoActivity : AppCompatActivity() {
         return result
     }
 
+    private fun getEventInfo() {
+        rdb = Firebase.database.getReference("$userName/Events")
+        rdb.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                event = snapshot.getValue(EventData::class.java)!!
+                event?.let {
+                    // event 데이터 사용
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            text = "${userName}님이 [${event.title}]\n" +
+                                    "이벤트에 초대했습니다.\n\n" +
+                                    "일시 : ${event.date}\n\n" +
+                                    "장소 : ${event.place}\n\n" +
+                                    "추가정보 : ${event.detail}\n\n"
+                            initLayout()
+                            initBtn()
+                        }
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // 처리 실패 시 호출되는 메서드
+            }
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_EVENT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val dataChanged = data?.getBooleanExtra("dataChanged", false) ?: false
+            if (dataChanged) {
+                userName = data?.getStringExtra("userName").toString()
+                id = data?.getStringExtra("id").toString()
+                getEventInfo()
+            }
+        }
+    }
 }
 
