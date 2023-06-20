@@ -265,7 +265,7 @@ ${link}
                         val newNoticeRef = ref2.push()
                         val newNoticeRefKey = newNoticeRef.key
                         val now = System.currentTimeMillis()
-                        val text = "이벤트가 삭제되었습니다."
+                        val text = "${userName}님이 이벤트를 삭제했습니다."
                         val noticeData = NoticeData(
                             newNoticeRefKey.toString(), id,
                             event.title.toString(), now, text
