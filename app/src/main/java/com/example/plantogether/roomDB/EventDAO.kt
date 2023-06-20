@@ -10,7 +10,7 @@ import androidx.room.Update
 @Dao
 interface EventDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertEvent(event: Event)
+    fun insertEvent(event: Event) : Long
 
     /*
     @Delete
@@ -20,7 +20,7 @@ interface EventDAO {
     fun deleteEvent(eventId: Int)
 
     @Update
-    fun updateEvent(event :Event)
+    fun updateEvent(event :Event) : Int
 
     @Query("Select * from events where date = :date")
     fun getEventByTitle(date: String): List<Event>
@@ -64,6 +64,15 @@ interface EventDAO {
 
     @Query("Select * from notices")
     fun getNotice() : List<Notice>
+
+
+    //현재 시간 기준으로 오늘 일정이 있는
+    @Query("Select * from events where date = :date")
+    fun getEventToday(date : String) : List<Event>
+
+    @Query("Select * from notices where pid = :eventID")
+    fun getNoticeToday(eventID : Int) : List<Notice>
+
 
 
 }

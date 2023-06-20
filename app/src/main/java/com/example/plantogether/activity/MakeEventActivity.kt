@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.plantogether.dialog.data.EventData
 import com.example.plantogether.databinding.ActivityMakeEventBinding
@@ -14,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 
 @Suppress("DEPRECATION")
 class MakeEventActivity : AppCompatActivity() {
@@ -52,11 +54,13 @@ class MakeEventActivity : AppCompatActivity() {
                 }
                 else {
 
-                    //xxxx년 xx월 xx일 이렇게 저장된다.ㅁ
+                    //xxxx년 xx월 xx일 이렇게 저장된다.
                     val event = Event(0,1, title, place, date, "", detail)
-                    val newNotice = Notice(0, event.id, event.title, LocalDate.now().toString(), event.time, 1)
+                    val newNotice = Notice(0, event.id, event.title, LocalDate.now().toString(), LocalTime.now().toString(), 1)
+                    Log.d("times", "새로 notice 생성 날짜 : " + LocalTime.now().toString())
                     CoroutineScope(Dispatchers.IO).launch {
-                        db.eventDao().insertEvent(event)
+                        val insertedEventID = db.eventDao().insertEvent(event)
+                        newNotice.pid = insertedEventID.toInt()
                         db.eventDao().insertNotice(newNotice)
                     }
                     clearEditText()
