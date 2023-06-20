@@ -21,6 +21,7 @@ import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.activity.LoginActivity
 import com.example.plantogether.activity.MainActivity
 import com.example.plantogether.adapter.NoticeAdapter
+import com.example.plantogether.data.EventData
 import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.FragmentNoticeBinding
 import com.google.firebase.database.DataSnapshot
@@ -111,11 +112,24 @@ class NoticeFragment : Fragment() {
         adapter = NoticeAdapter(data)
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
             override fun OnItemClick(position: Int, noticeData: NoticeData) {
-                val intent = Intent(context, EventInfoActivity::class.java)
-                intent.putExtra("userName", userName)
-                Log.d("id",noticeData.eventKey)
-                intent.putExtra("id", noticeData.eventKey)
-                context?.startActivity(intent)
+                val ref = Firebase.database.getReference("$userName/Events")
+                ref.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val value = dataSnapshot.child(noticeData.eventKey).getValue()
+                        if (value != null) {
+                            // 키가 존재하는 경우 처리 로직
+                            val intent = Intent(context, EventInfoActivity::class.java)
+                            intent.putExtra("userName", userName)
+                            Log.d("id",noticeData.eventKey)
+                            intent.putExtra("id", noticeData.eventKey)
+                            context?.startActivity(intent)
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // 처리 실패 시 호출되는 콜백 메서드
+                    }
+                })
             }
 
         }
