@@ -6,6 +6,7 @@ import com.kakao.sdk.common.KakaoSdk.type
 
 data class NoticeData (
     var key: String = "",
+    var eventKey : String = "",
     var title: String = "이벤트명 or 일정명",
     var time: Long = 0L,
     var notice: String = "알람 정보"
@@ -13,16 +14,18 @@ data class NoticeData (
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readLong(),
         parcel.readString()!!
     ) {
     }
 
-    constructor():this("고유키","이벤트명 or 일정명", 0L,
+    constructor():this("고유키", "이벤트키","이벤트명 or 일정명", 0L,
         "알람정보",)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(key)
+        parcel.writeString(eventKey)
         parcel.writeString(title)
         parcel.writeLong(time)
         parcel.writeString(notice)
