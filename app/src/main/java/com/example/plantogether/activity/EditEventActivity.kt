@@ -15,10 +15,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 @Suppress("DEPRECATION")
 class EditEventActivity : AppCompatActivity() {
@@ -81,19 +79,29 @@ class EditEventActivity : AppCompatActivity() {
                         1, title, place, event.date, "", detail, event.participantName)
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    rdb.child(id).setValue(newEventData)
+                    val setEventDataTask = async { rdb.child(id).setValue(newEventData).await() }
+                    val setEventDataTasks = mutableListOf<Deferred<Unit>>()
+
                     for (invitee in event.participantName) {
-                        if (invitee != userName)
-                        {
-                            var ref = Firebase.database.getReference("$invitee/Events")
-                            ref.child(id).setValue(newEventData)
+                        if (invitee != userName) {
+                            val ref = Firebase.database.getReference("$invitee/Events")
+                            val setInviteeDataTask = async { ref.child(id).setValue(newEventData).await() }
+
                         }
                     }
+
+                    setEventDataTask.await() // 메인 이벤트 데이터 설정이 완료될 때까지 기다립니다.
+
+                    // 모든 초대자 이벤트 데이터가 설정될 때까지 기다립니다.
+                    // setEventDataTasks.awaitAll()
+
                     withContext(Dispatchers.Main) {
-                        val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
-                        intent.putExtra("id", event.id)
-                        Log.d("id", event.id)
-                        startActivity(editintent)
+                        val editintent = Intent()
+                        editintent.putExtra("dataChanged", true)
+                        editintent.putExtra("id",id)
+                        editintent.putExtra("userName",userName)
+                        setResult(Activity.RESULT_OK, editintent)
+                        finish()
                     }
                 }
 
