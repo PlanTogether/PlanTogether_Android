@@ -80,7 +80,6 @@ class EditEventActivity : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val setEventDataTask = async { rdb.child(id).setValue(newEventData).await() }
-                    val setEventDataTasks = mutableListOf<Deferred<Unit>>()
 
                     for (invitee in event.participantName) {
                         if (invitee != userName) {
@@ -91,9 +90,6 @@ class EditEventActivity : AppCompatActivity() {
                     }
 
                     setEventDataTask.await() // 메인 이벤트 데이터 설정이 완료될 때까지 기다립니다.
-
-                    // 모든 초대자 이벤트 데이터가 설정될 때까지 기다립니다.
-                    // setEventDataTasks.awaitAll()
 
                     withContext(Dispatchers.Main) {
                         val editintent = Intent()
