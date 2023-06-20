@@ -79,9 +79,14 @@
             android:gravity="center"
             android:background="@drawable/border_round"/>
 
-        <EditText
+        <TextView
+            android:text="시간을 선택하세요"
+            android:background="@drawable/border_round_white"
+            android:paddingHorizontal="8dp"
+            android:textSize="17sp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
             android:layout_weight="7"
             android:id="@+id/setTime"/>
 
