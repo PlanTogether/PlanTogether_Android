@@ -2,14 +2,18 @@ package com.example.plantogether.activity
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.plantogether.activity.EventInfoActivity.Companion.EDIT_EVENT_REQUEST_CODE
 import com.example.plantogether.data.EventData
+import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.EventDatabase
@@ -30,7 +34,9 @@ import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class EventInfoActivity : AppCompatActivity() {
@@ -98,6 +104,23 @@ class EventInfoActivity : AppCompatActivity() {
                             "해당 이벤트의 최초 생성자만 수정이 가능합니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            deleteButton.setOnClickListener {
+                AlertDialog.Builder(this@EventInfoActivity)
+                    .setTitle("이벤트 삭제")
+                    .setMessage("초대된 모든 사용자에게 이벤트가 삭제됩니다.\n정말로 이벤트를 삭제하시겠습니까?\n")
+                    .setPositiveButton("ok", object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface, which: Int) {
+                            deleteEvent()
+                        }
+                    })
+                    .setNegativeButton("cancel", object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface, which: Int) {
+                            Log.d("MyTag", "negative")
+                        }
+                    })
+                    .create()
+                    .show()
             }
         }
     }
@@ -228,6 +251,40 @@ ${link}
                 userName = data?.getStringExtra("userName").toString()
                 id = data?.getStringExtra("id").toString()
                 getEventInfo()
+            }
+        }
+    }
+
+    fun deleteEvent() {
+        // 현재 사용자가 해당 이벤트를 최초로 만든 사람일 때 -> 삭제 가능
+        if (event.participantName[0] == userName) {
+            for (invitee in event.participantName) {
+                if(invitee != userName) {
+                    if (invitee != userName) {
+                        val ref2 = Firebase.database.getReference("$invitee/Notices")
+                        val newNoticeRef = ref2.push()
+                        val newNoticeRefKey = newNoticeRef.key
+                        val now = System.currentTimeMillis()
+                        val text = "${userName}님이 이벤트를 삭제했습니다."
+                        val noticeData = NoticeData(
+                            newNoticeRefKey.toString(), id,
+                            event.title.toString(), now, text
+                        )
+                        newNoticeRef.setValue(noticeData)
+                    }
+                }
+                val ref = Firebase.database.getReference("$invitee/Events")
+                ref.child(event.id).removeValue()
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("userName", userName)
+                startActivity(intent)
+            }
+        }
+        // 현재 사용자가 해당 이벤트에 대해서 초대장을 받아 참가한 참가자일 때 -> 삭제 불가
+        else {
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(this@EventInfoActivity,
+                    "해당 이벤트의 최초 생성자만 삭제가 가능합니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }

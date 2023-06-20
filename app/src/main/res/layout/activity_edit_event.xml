@@ -10,19 +10,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="10dp"
-        android:background="@drawable/border_round_2"
         android:gravity="center"
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="30sp"
-        android:text="이벤트 수정하기"/>
+        android:text="이벤트 수정"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp">
 
@@ -38,22 +37,23 @@
 
         <EditText
             android:id="@+id/eventTitle"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:background="#E8F1FF"
+            android:background="@drawable/border_round_2"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:paddingHorizontal="8dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginHorizontal="10dp">
 
         <TextView
@@ -66,47 +66,43 @@
             android:textSize="16sp"
             android:text="장소"/>
 
-        <EditText
-            android:id="@+id/eventPlace"
-            android:layout_width="290dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:background="#E8F1FF"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:singleLine="true"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp">
 
-        <View
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            />
+        <EditText
+            android:id="@+id/eventPlace"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_round_2"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="8dp"/>
 
         <TextView
             android:id="@+id/selectfromMapButton"
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/border_round"
             android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="지도에서 선택"/>
+            android:text="지도 선택"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginHorizontal="10dp">
 
         <TextView
@@ -121,20 +117,21 @@
 
         <TextView
             android:id="@+id/eventDate"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:background="@drawable/border_round_2"
             android:gravity="center_vertical"
-            android:textSize="16sp"
             android:textColor="@color/black"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:background="#E8F1FF"/>
+            android:paddingHorizontal="8dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginHorizontal="10dp">
 
         <TextView
@@ -154,23 +151,24 @@
         android:layout_height="210dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:background="#E8F1FF"
+        android:background="@drawable/border_round_2"
         android:gravity="top"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
         android:layout_marginHorizontal="10dp">
 
         <TextView
             android:id="@+id/editButton"
             android:layout_width="90dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="180dp"
+            android:layout_marginLeft="175dp"
             android:background="@drawable/border_round"
             android:gravity="center"
             android:textColor="#FFFFFF"
@@ -178,11 +176,12 @@
             android:textSize="16sp"
             android:text="수정"/>
 
+
         <TextView
             android:id="@+id/cancelButton"
             android:layout_width="90dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="right"
             android:background="@drawable/border_round"
             android:gravity="center"

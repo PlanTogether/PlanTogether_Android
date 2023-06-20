@@ -12,15 +12,19 @@ class NoticeAdapter(var items : ArrayList<NoticeData>): RecyclerView.Adapter<Not
 
     //이곳에 item중 초대장만 받아온다.
     val mFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-
     interface OnItemClickListener {
-        fun OnItemClick(position: Int)
+        fun OnItemClick(position: Int, noticeData: NoticeData)
     }
     var itemClickListener: NoticeAdapter.OnItemClickListener? = null
 
 
     inner class ViewHolder(val binding: RowNoticeBinding)
         : RecyclerView.ViewHolder(binding.root) {
+            init {
+                binding.root.setOnClickListener {
+                    itemClickListener?.OnItemClick(adapterPosition,items[adapterPosition])
+                }
+            }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ViewHolder {

@@ -83,8 +83,8 @@ class EditEventActivity : AppCompatActivity() {
                             val newNoticeRef = ref2.push()
                             val newNoticeRefKey = newNoticeRef.key
                             val now = System.currentTimeMillis()
-                            val text = "이벤트가 수정되었습니다."
-                            val noticeData = NoticeData(newNoticeRefKey.toString(),
+                            val text = "${userName}님이 이벤트를 수정했습니다."
+                            val noticeData = NoticeData(newNoticeRefKey.toString(),id,
                                 newEventData.title.toString(), now, text)
                             newNoticeRef.setValue(noticeData)
                         }
