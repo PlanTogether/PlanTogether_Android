@@ -60,7 +60,7 @@ class NoticeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userName = arguments?.getString("userName").toString()
         CoroutineScope(Dispatchers.IO).launch {
-            initData()
+            // initData()
             withContext(Dispatchers.Main) {
                 initRecyclerView()
             }

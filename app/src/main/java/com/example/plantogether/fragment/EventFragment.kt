@@ -33,13 +33,12 @@ import kotlin.collections.ArrayList
 
 class EventFragment : Fragment() {
     lateinit var binding: FragmentEventBinding
-    var adapter = EventDataAdapter(ArrayList<EventData>())
+    lateinit var adapter: EventDataAdapter
 
-    val selected: ArrayList<Boolean> = ArrayList()
 
     lateinit var rdb: DatabaseReference
     var userName: String = ""
-    var eventData = ArrayList<EventData>()
+    val eventData = ArrayList<EventData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +51,9 @@ class EventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userName = arguments?.getString("userName").toString()
-        initRecyclerView()
         getEventData()
-        datasort()
+        initRecyclerView()
+        // datasort()
         // println("사용자명 : " + userName + " in EventFragment")
     }
 
@@ -64,8 +63,8 @@ class EventFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+        adapter = EventDataAdapter(eventData)
 
-        // adapter = EventDataAdapter(eventData, selected)
 
         adapter.itemClickListener = object : EventDataAdapter.OnItemClickListener {
             override fun OnItemClick(
@@ -75,27 +74,25 @@ class EventFragment : Fragment() {
             ) {
                 adapter.updateItemAtPosition(position, data)
             }
-        }
-        adapter.onApplyClickListener = object : EventDataAdapter.OnApplyClickListener {
+
             override fun onApplyClick(data: EventData) {
                 val intent = Intent(requireContext(), EditEventActivity::class.java)
                 intent.putExtra("id", data.id)
                 startActivity(intent)
             }
         }
-
-
         binding.recyclerViewEvent.adapter = adapter
+
     }
 
     private fun datasort() {
         val sdf = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
         eventData.sortBy { sdf.parse(it.date) }
-        adapter.notifyItemChanged(eventData.size)
+        adapter.notifyDataSetChanged()
     }
 
-    private fun getEventData() {
-        println("사용자명 : " + userName)
+    fun getEventData() {
+        // println("사용자명 : " + userName)
         rdb = Firebase.database.getReference("$userName/Events")
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -104,11 +101,15 @@ class EventFragment : Fragment() {
                 for (childSnapshot in snapshot.children) {
                     val event = childSnapshot.getValue(EventData::class.java)
                     event?.let {
-                        eventData.add(it)
+                        if (it.type == 1) {
+                            eventData.add(it)
+                        }
                     }
                 }
+                datasort()
                 adapter.items = eventData
                 adapter.notifyDataSetChanged()
+                // println("eventData 사이즈 : " + eventData.size)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -116,7 +117,6 @@ class EventFragment : Fragment() {
             }
         }
         rdb.addValueEventListener(eventListener)
-        println("eventData 사이즈 : " + eventData.size)
-        adapter.notifyItemInserted(eventData.size)
+        //adapter.notifyItemInserted(eventData.size)
     }
 }

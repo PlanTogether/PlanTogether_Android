@@ -127,7 +127,7 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
                         }
                     }
                 }
-
+                // println("eventData 사이즈 : " + eventData.size)
                 adapter.items = eventData
                 adapter.notifyDataSetChanged()
             }
@@ -144,7 +144,6 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
     fun delete(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
         rdb.child(eventData.id).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
-        // db.eventDao().deleteEvent(event)
         getEvent()
     }
 
