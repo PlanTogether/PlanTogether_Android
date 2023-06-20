@@ -6,20 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.plantogether.activity.EditEventActivity
-import com.example.plantogether.activity.EventInfoActivity
-import com.example.plantogether.activity.MakeEventActivity
-import com.example.plantogether.adapter.MyViewPagerAdapter
 import com.example.plantogether.adapter.NoticeAdapter
 import com.example.plantogether.databinding.FragmentNoticeBinding
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.Notice
-import com.example.plantogether.roomDB.Plan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,6 +65,7 @@ class NoticeFragment : Fragment() {
     private fun initRecyclerView() {
         binding.noticeRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
         LinearLayoutManager.VERTICAL, false)
+
         adapter = NoticeAdapter(data)
         adapter.itemClickListener = object : NoticeAdapter.OnItemClickListener {
             override fun OnItemClick(position: Int) {
@@ -91,11 +86,6 @@ class NoticeFragment : Fragment() {
                     3 -> {
 
                     }
-
-                    4 -> {
-
-                    }
-
                 }
             }
 
