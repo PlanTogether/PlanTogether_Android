@@ -81,7 +81,7 @@ class NoticeFragment : Fragment() {
                             time = it.time
                             recentNotice = it
                         }
-                          data.add(it)
+                          data.add(0,it)
                     }
                 }
 

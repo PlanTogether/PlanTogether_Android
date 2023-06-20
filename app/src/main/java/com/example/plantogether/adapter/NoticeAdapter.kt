@@ -12,7 +12,6 @@ class NoticeAdapter(var items : ArrayList<NoticeData>): RecyclerView.Adapter<Not
 
     //이곳에 item중 초대장만 받아온다.
     val mFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-
     interface OnItemClickListener {
         fun OnItemClick(position: Int, noticeData: NoticeData)
     }
