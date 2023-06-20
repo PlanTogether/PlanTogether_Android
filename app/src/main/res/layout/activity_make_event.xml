@@ -10,36 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90px"
-        android:layout_marginTop="30px">
-
-        <TextView
-            android:id="@+id/addButton"
-            android:layout_width="240px"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="540px"
-            android:background="@drawable/border_round"
-            android:gravity="center"
-            android:text="추가"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/cancelButton"
-            android:layout_width="240px"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30px"
-            android:background="@drawable/border_round"
-            android:gravity="center"
-            android:text="취소"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90px"
         android:layout_marginTop="200px">
 
         <TextView
@@ -168,5 +138,35 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90px"
+        android:layout_marginTop="30px">
+
+        <TextView
+            android:id="@+id/addButton"
+            android:layout_width="240px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="540px"
+            android:background="@drawable/border_round"
+            android:gravity="center"
+            android:text="추가"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cancelButton"
+            android:layout_width="240px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30px"
+            android:background="@drawable/border_round"
+            android:gravity="center"
+            android:text="취소"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>
