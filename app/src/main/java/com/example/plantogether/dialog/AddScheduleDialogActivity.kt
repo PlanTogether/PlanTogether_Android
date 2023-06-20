@@ -24,7 +24,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AddScheduleDialogActivity(private val context : AppCompatActivity) {
+class AddScheduleDialogActivity(private val context : AppCompatActivity)
+    : AppCompatActivity() {
+    constructor() : this(context = AppCompatActivity())
 
     lateinit var binding : ActivityAddScheduleDialogBinding
 
