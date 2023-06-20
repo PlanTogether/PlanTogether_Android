@@ -2,6 +2,7 @@ package com.example.plantogether.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.databinding.RowAddEventBinding
 import com.example.plantogether.data.EventData
@@ -83,6 +84,7 @@ class DateViewAdapter(var items : ArrayList<EventData>):
 
         fun bind(planData: EventData) {
             binding.planNameText.text = planData.title
+            binding.planTimeText.text = planData.time
 
             binding.planItem.setOnClickListener {
                 itemClickListener?.OnItemClick(planData, adapterPosition)

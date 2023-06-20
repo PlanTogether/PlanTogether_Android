@@ -10,7 +10,8 @@ data class EventData(
     var place: String = "장소",
     var date: String = "일시",
     var time: String = "시간",
-    var detail: String = "세부정보"
+    var detail: String = "세부정보",
+    var participantName: MutableList<String> = mutableListOf<String>()
 // 1이면 이벤트 아이템, 2이면 일정 아이템이 recyclerView에 추가되는 방식
 
 ) : Parcelable{
@@ -21,7 +22,8 @@ data class EventData(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.createStringArrayList() ?: mutableListOf<String>()
     ) {
     }
 
@@ -36,6 +38,7 @@ data class EventData(
         parcel.writeString(date)
         parcel.writeString(time)
         parcel.writeString(detail)
+        parcel.writeStringList(participantName)
     }
 
     override fun describeContents(): Int {

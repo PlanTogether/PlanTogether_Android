@@ -1,6 +1,8 @@
 package com.example.plantogether.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,14 +62,14 @@ class CalendarFragment : Fragment() {
                 //DateFormatTitleFormatter()
 
                 setOnDateChangedListener { widget, date, selected ->
-                    Toast.makeText(context, "$date", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "$date", Toast.LENGTH_SHORT).show()
                     val year = date.year.toString()
                     val mon = (date.month).toString()
                     val day = date.day.toString()
                     val title = year + "년 " + mon + "월 " + day + "일"
-                    //val ints = Intent(activity, AddScheduleDialogActivity::class.java)
-                    //startActivity(ints)
-
+                    Log.d("equal", title)
+                    //val intent = Intent(activity, AddScheduleDialogActivity::class.java)
+                    //intent.putExtra("date", title)
                     val dlg = AddScheduleDialogActivity(requireActivity() as AppCompatActivity)
                     dlg.setUserNameInScheduleDialog(userName)
                     dlg.show(title)

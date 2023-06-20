@@ -12,6 +12,7 @@ import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
 import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
+import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
@@ -184,8 +186,7 @@ class EventInfoActivity : AppCompatActivity() {
     }
 
     private fun getLink() : String {
-        val inviteLink = "https://plantogethers.page.link/invite?title=${"제발 이게 돼?"}&&date=${"2023년 6월 21일"}&&place=${"장소는 집"}&&detail=${"흐어어ㅓㅇ"}"
-        //val inviteLink = "https://testservice.page.link/invite?title=${event.title}&&date=${event.date}&&place=${event.place}&&detail=${event.detail}"
+        val inviteLink = "https://plantogethers.page.link/invite?inviter=${userName}&&id=${id}"
         var result = ""
         val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
             .setLink(Uri.parse(inviteLink))

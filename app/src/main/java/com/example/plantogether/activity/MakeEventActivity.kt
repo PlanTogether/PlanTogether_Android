@@ -66,8 +66,10 @@ class MakeEventActivity : AppCompatActivity() {
                     CoroutineScope(Dispatchers.IO).launch {
                         val newEventRef = rdb.push()
                         val newEventKey = newEventRef.key
+                        val participantNames = mutableListOf<String>(userName)
                         val eventData = EventData(newEventKey.toString(),
-                            1, title, place, date, "", detail)
+                            1, title, place, date, "", detail, participantNames
+                        )
                         newEventRef.setValue(eventData)
                     }
                     clearEditText()

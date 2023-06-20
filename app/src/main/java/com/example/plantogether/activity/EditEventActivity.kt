@@ -53,7 +53,6 @@ class EditEventActivity : AppCompatActivity() {
 
     var pos = -1
     private fun initLayout() {
-        rdb = Firebase.database.getReference("$userName/Events")
         binding.apply {
             eventTitle.setText(event.title)
             eventPlace.setText(event.place)
@@ -77,13 +76,19 @@ class EditEventActivity : AppCompatActivity() {
                 val title = binding.eventTitle.text.toString()
                 val place = binding.eventPlace.text.toString()
                 val detail = binding.eventDetailInfo.text.toString()
-
+                val newEventData =
+                    EventData(id,
+                        1, title, place, event.date, "", detail, event.participantName)
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val newEventData =
-                        EventData(id,
-                            1, title, place, event.date, "", detail)
                     rdb.child(id).setValue(newEventData)
+                    for (invitee in event.participantName) {
+                        if (invitee != userName)
+                        {
+                            var ref = Firebase.database.getReference("$invitee/Events")
+                            ref.child(id).setValue(newEventData)
+                        }
+                    }
                     withContext(Dispatchers.Main) {
                         val editintent = Intent(this@EditEventActivity, EventInfoActivity::class.java)
                         intent.putExtra("id", event.id)
