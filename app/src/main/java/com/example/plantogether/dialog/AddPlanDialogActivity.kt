@@ -87,7 +87,7 @@ class AddPlanDialogActivity(private val date : String) : BottomSheetDialogFragme
                     pid = newPlan.id,
                     title = newPlan.title,
                     date = initDate.toString(),
-                    time = time,
+                    time = LocalTime.now().toString(),
                     type = 0
                 )
 
