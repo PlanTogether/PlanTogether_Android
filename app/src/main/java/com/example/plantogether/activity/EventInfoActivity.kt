@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
 import com.example.plantogether.dialog.InviteDialog
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
-import com.example.plantogether.roomDB.Notice
 import com.example.plantogether.roomDB.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -38,9 +36,6 @@ import kotlinx.coroutines.withContext
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
 
-    lateinit var db : EventDatabase
-
-    var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
         const val EDIT_EVENT_REQUEST_CODE = 1
@@ -120,13 +115,15 @@ class EventInfoActivity : AppCompatActivity() {
         defaultText =  TextTemplate(
             text = """ ${userName}님이 [${event.title}] 이벤트에 초대했습니다.
                       
-    일시 : ${event.date}
+일시 : ${event.date}
                         
-    장소 : ${event.place}
+장소 : ${event.place}
                         
-    추가정보 : ${event.detail}
-    
-    ${link}
+추가정보 : ${event.detail}
+   
+아래 링크를 클릭하면 초대를 수락하게 됩니다.
+수락하시겠습니까?
+${link}
             """.trimIndent(),
             link = Link(
                 webUrl = "https://plantogethers.page.link/qL6j",

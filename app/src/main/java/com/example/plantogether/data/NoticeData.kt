@@ -7,18 +7,18 @@ import com.kakao.sdk.common.KakaoSdk.type
 data class NoticeData (
     var key: String = "",
     var title: String = "이벤트명 or 일정명",
-    var time: Long = 0,
+    var time: Long = 0L,
     var notice: String = "알람 정보"
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readLong()!!,
+        parcel.readLong(),
         parcel.readString()!!
     ) {
     }
 
-    constructor():this("고유키","이벤트명 or 일정명", 0,
+    constructor():this("고유키","이벤트명 or 일정명", 0L,
         "알람정보",)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

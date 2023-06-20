@@ -1,26 +1,14 @@
 package com.example.plantogether.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.plantogether.activity.EditEventActivity
-import com.example.plantogether.activity.EventInfoActivity
-import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.NoticeAdapter
-import com.example.plantogether.data.EventData
 import com.example.plantogether.data.NoticeData
 import com.example.plantogether.databinding.FragmentNoticeBinding
-import com.example.plantogether.roomDB.EventDatabase
-import com.example.plantogether.roomDB.Notice
-import com.example.plantogether.roomDB.Plan
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -30,7 +18,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 class NoticeFragment : Fragment() {
@@ -41,8 +28,6 @@ class NoticeFragment : Fragment() {
     lateinit var binding : FragmentNoticeBinding
     lateinit var adapter : NoticeAdapter
     var data : ArrayList<NoticeData> = ArrayList()
-
-    private var selectedDate: LocalDate?= null
 
     lateinit var noticedb: DatabaseReference
     var userName: String = ""
@@ -59,17 +44,15 @@ class NoticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userName = arguments?.getString("userName").toString()
+        initRecyclerView()
         CoroutineScope(Dispatchers.IO).launch {
-            // initData()
-            withContext(Dispatchers.Main) {
-                initRecyclerView()
-            }
+            initData()
         }
         // println("사용자명 : " + userName + " in EventFragment")
     }
 
     private fun initData() {
-        noticedb = Firebase.database.getReference("$userName/Events")
+        noticedb = Firebase.database.getReference("$userName/Notices")
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 data.clear()
@@ -77,7 +60,7 @@ class NoticeFragment : Fragment() {
                 for (childSnapshot in snapshot.children) {
                     val event = childSnapshot.getValue(NoticeData::class.java)
                     event?.let {
-                            data.add(it)
+                          data.add(it)
                     }
                 }
 

@@ -4,15 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.data.EventData
-import com.example.plantogether.roomDB.Event
+import com.example.plantogether.data.NoticeData
 import com.example.plantogether.roomDB.EventDatabase
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
@@ -21,8 +17,6 @@ import kotlinx.coroutines.tasks.await
 @Suppress("DEPRECATION")
 class EditEventActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditEventBinding
-
-    lateinit var db: EventDatabase
 
     private val REQUEST_MAP_LOCATION = 1001
 
@@ -80,20 +74,23 @@ class EditEventActivity : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val setEventDataTask = async { rdb.child(id).setValue(newEventData).await() }
-                    val setEventDataTasks = mutableListOf<Deferred<Unit>>()
 
                     for (invitee in event.participantName) {
                         if (invitee != userName) {
                             val ref = Firebase.database.getReference("$invitee/Events")
-                            val setInviteeDataTask = async { ref.child(id).setValue(newEventData).await() }
-
+                            val ref2 = Firebase.database.getReference("$invitee/Notices")
+                            async { ref.child(id).setValue(newEventData).await() }
+                            val newNoticeRef = ref2.push()
+                            val newNoticeRefKey = newNoticeRef.key
+                            val now = System.currentTimeMillis()
+                            val text = "이벤트가 수정되었습니다."
+                            val noticeData = NoticeData(newNoticeRefKey.toString(),
+                                newEventData.title.toString(), now, text)
+                            newNoticeRef.setValue(noticeData)
                         }
                     }
 
                     setEventDataTask.await() // 메인 이벤트 데이터 설정이 완료될 때까지 기다립니다.
-
-                    // 모든 초대자 이벤트 데이터가 설정될 때까지 기다립니다.
-                    // setEventDataTasks.awaitAll()
 
                     withContext(Dispatchers.Main) {
                         val editintent = Intent()

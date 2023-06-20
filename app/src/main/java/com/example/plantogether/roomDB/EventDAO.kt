@@ -10,60 +10,8 @@ import androidx.room.Update
 @Dao
 interface EventDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertEvent(event: Event)
-
-    /*
-    @Delete
-    fun deleteEvent(event :Event)
-*/
-    @Query("DELETE FROM events WHERE id = :eventId")
-    fun deleteEvent(eventId: Int)
-
-    @Update
-    fun updateEvent(event :Event)
-
-    @Query("Select * from events where date = :date")
-    fun getEventByTitle(date: String): List<Event>
-
-    @Query("Select * from events where date >= :date")
-    fun getEventAfterToday(date : String) : List<Event>
-
-    @Query("Select * from plans where date >= :date")
-    fun getPlanAfterToday(date : String) : List<Plan>
-
-
-    @Query("Select * from events where id = :id")
-    fun getEventById(id: Int): Event
-
-    @Query("Select * from plans where id = :id")
-    fun getPlanById(id: Int): Plan
-
-    @Query("Select * from events")
-    fun getEvents(): List<Event>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPlan(plan: Plan)
-
-    @Delete
-    fun deletePlan(plan :Plan)
-    @Query("Select * from plans where date = :date")
-    fun getPlanByTitle(date: String): List<Plan>
-
-    @Query("Select * from plans")
-    fun getPlans(): List<Plan>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertUser(user: User)
 
     @Query("Select * from users")
     fun getUser(): List<User>
-
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertNotice(notice : Notice)
-
-    @Query("Select * from notices")
-    fun getNotice() : List<Notice>
-
-
 }
