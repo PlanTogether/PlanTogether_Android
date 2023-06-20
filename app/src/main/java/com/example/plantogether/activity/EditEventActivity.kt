@@ -91,7 +91,8 @@ class EditEventActivity : AppCompatActivity() {
                 Toast.makeText(this@EditEventActivity, "수정 완료", Toast.LENGTH_SHORT).show()
                 // 이부분은 DB로 그리고 받아온 event의 id로 add->replace
                 clearEditText()
-                finish()
+                val intent = Intent(this@EditEventActivity, MainActivity::class.java)
+                startActivity(intent)
             }
 
         }
