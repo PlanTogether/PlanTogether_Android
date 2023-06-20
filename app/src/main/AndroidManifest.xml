@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -11,9 +11,9 @@
         <package android:name="com.kakao.talk" />
     </queries>
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".GlobalApplication"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,7 +21,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanTogether"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <receiver
+            android:name=".reciever.EventBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".dialog.AddScheduleDialogActivity"
             android:exported="false" />
@@ -42,14 +52,15 @@
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -72,19 +83,23 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:host="plantogether.page.link" android:path="/invite" android:scheme="http"/>
-                <data android:host="plantogether.page.link" android:path="/invite" android:scheme="https"/>
+                <data
+                    android:host="plantogether.page.link"
+                    android:path="/invite"
+                    android:scheme="http" />
+                <data
+                    android:host="plantogether.page.link"
+                    android:path="/invite"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.kakao.sdk.Appkey"
             android:value="0da105d7ffee4e45841963eaf78ad521" />
-
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="wefhyyenw8" />
-
     </application>
 
 </manifest>
