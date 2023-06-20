@@ -1,10 +1,40 @@
 {
   "project_info": {
     "project_number": "895339468415",
+    "firebase_url": "https://plantogether-a920b-default-rtdb.firebaseio.com",
     "project_id": "plantogether-a920b",
     "storage_bucket": "plantogether-a920b.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895339468415:android:1eadcc3914edf8cb82914a",
+        "android_client_info": {
+          "package_name": "com.exampe.plantogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895339468415-f5fqev8rmm27ghsnthuqobc86nb0is5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfvPf3adPZkol1o8RPBHMnn4bfzQ2_iE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895339468415-f5fqev8rmm27ghsnthuqobc86nb0is5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:895339468415:android:78cf626f190aed2b82914a",
