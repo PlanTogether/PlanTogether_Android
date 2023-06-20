@@ -13,27 +13,20 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 class EventDataAdapter(var items: ArrayList<EventData>)
     : RecyclerView.Adapter<EventDataAdapter.ViewHolder>() {
     interface OnItemClickListener {
-        fun OnItemClick(data: EventData, binding: RowEventBinding, position: Int)
+        fun OnItemClick(eventData: EventData, position: Int)
 
-        fun onApplyClick(data: EventData)
     }
 
     var itemClickListener: OnItemClickListener? = null
 
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
+
     inner class ViewHolder(val binding: RowEventBinding)
         : RecyclerView.ViewHolder(binding.root) {
-        init {
+        fun bind(eventData : EventData) {
 
-            /*val datetext:String
-            val numbers = items[position].date.split("[^\\d]+".toRegex())
-            if(numbers.size >= 3) {
-
-                val month = numbers[1]
-                val day = numbers[2]
-                datetext = "$month/$day"
-            }else{
-                datetext = "01/01"
-            }*/
         }
     }
 
@@ -57,6 +50,10 @@ class EventDataAdapter(var items: ArrayList<EventData>)
             holder.binding.rowEventDate.text = fullDate
         }
         holder.binding.rowEventTitle.text = items[position].title
+
+        holder.binding.rowEvent.setOnClickListener {
+            itemClickListener?.OnItemClick(items[position], position)
+        }
     }
 
 

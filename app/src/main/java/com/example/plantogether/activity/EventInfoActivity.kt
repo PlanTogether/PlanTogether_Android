@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityEventInfoBinding
@@ -33,7 +34,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
@@ -63,8 +63,8 @@ class EventInfoActivity : AppCompatActivity() {
         val intent = getIntent()
         userName = intent.getStringExtra("userName").toString()
         id = intent.getStringExtra("id").toString()
-        println("현재 이벤트정보의 키 값(ID) : " + id)
-        println("사용자명 : " + userName + " in EventInfoActivity")
+        // println("현재 이벤트정보의 키 값(ID) : " + id)
+        // println("사용자명 : " + userName + " in EventInfoActivity")
 
         getEventInfo()
     }
@@ -87,12 +87,22 @@ class EventInfoActivity : AppCompatActivity() {
 
             }
             editButton.setOnClickListener {
-                //수정 화면으로 이동
-                val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
-                editintent.putExtra("id",event.id)
-                editintent.putExtra("userName",userName)
-                editintent.putExtra("event", event as Parcelable)
-                startActivityForResult(editintent, EDIT_EVENT_REQUEST_CODE)
+                // 현재 사용자가 해당 이벤트를 최초로 만든 사람일 때 -> 수정 가능
+                if (event.participantName[0] == userName) {
+                    // 수정 화면으로 이동
+                    val editintent = Intent(this@EventInfoActivity, EditEventActivity::class.java)
+                    editintent.putExtra("id",event.id)
+                    editintent.putExtra("userName",userName)
+                    editintent.putExtra("event", event as Parcelable)
+                    startActivityForResult(editintent, EDIT_EVENT_REQUEST_CODE)
+                }
+                // 현재 사용자가 해당 이벤트에 대해서 초대장을 받아 참가한 참가자일 때 -> 수정 불가
+                else {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(this@EventInfoActivity,
+                            "해당 이벤트의 최초 생성자만 수정이 가능합니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

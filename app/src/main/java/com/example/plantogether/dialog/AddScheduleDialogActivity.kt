@@ -163,7 +163,8 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         // 현재 사용자가 해당 이벤트에 대해서 초대장을 받아 참가한 참가자일 때 -> 삭제 불가
         else {
             CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(context, "해당 이벤트의 최초 생성자만 삭제가 가능합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    "해당 이벤트의 최초 생성자만 삭제가 가능합니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantogether.activity.EditEventActivity
+import com.example.plantogether.activity.EventInfoActivity
 import com.example.plantogether.adapter.EventDataAdapter
 import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.FragmentEventBinding
@@ -66,21 +67,16 @@ class EventFragment : Fragment() {
         adapter = EventDataAdapter(eventData)
 
 
-        adapter.itemClickListener = object : EventDataAdapter.OnItemClickListener {
-            override fun OnItemClick(
-                data: EventData,
-                binding: RowEventBinding,
-                position: Int
-            ) {
-                adapter.updateItemAtPosition(position, data)
+        adapter.setOnItemClickListener(object : EventDataAdapter.OnItemClickListener {
+            override fun OnItemClick(eventData: EventData, position: Int) {
+                println("이벤트 아이템 온아이템클릭")
+                val intent = Intent(context, EventInfoActivity::class.java)
+                intent.putExtra("userName", userName)
+                intent.putExtra("id", eventData.id)
+                context?.startActivity(intent)
+                adapter.updateItemAtPosition(position, eventData)
             }
-
-            override fun onApplyClick(data: EventData) {
-                val intent = Intent(requireContext(), EditEventActivity::class.java)
-                intent.putExtra("id", data.id)
-                startActivity(intent)
-            }
-        }
+        })
         binding.recyclerViewEvent.adapter = adapter
 
     }
@@ -117,6 +113,5 @@ class EventFragment : Fragment() {
             }
         }
         rdb.addValueEventListener(eventListener)
-        //adapter.notifyItemInserted(eventData.size)
     }
 }
