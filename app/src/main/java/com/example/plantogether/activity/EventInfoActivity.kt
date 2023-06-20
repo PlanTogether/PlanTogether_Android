@@ -99,6 +99,9 @@ class EventInfoActivity : AppCompatActivity() {
                     }
                 }
             }
+            deleteButton.setOnClickListener {
+
+            }
         }
     }
 
