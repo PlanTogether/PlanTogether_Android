@@ -28,8 +28,6 @@ class CalendarFragment : Fragment() {
 
     private var materialCalendarView: MaterialCalendarView?= null
 
-    private var selectedDate: LocalDate?= null
-
     lateinit var rdb: DatabaseReference
     var userName: String = ""
 

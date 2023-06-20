@@ -4,16 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.plantogether.databinding.ActivityEditEventBinding
 import com.example.plantogether.data.EventData
 import com.example.plantogether.data.NoticeData
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
@@ -22,8 +17,6 @@ import kotlinx.coroutines.tasks.await
 @Suppress("DEPRECATION")
 class EditEventActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditEventBinding
-
-    lateinit var db: EventDatabase
 
     private val REQUEST_MAP_LOCATION = 1001
 

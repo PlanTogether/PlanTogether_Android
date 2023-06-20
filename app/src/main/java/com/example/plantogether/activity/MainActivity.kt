@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     lateinit var binding:ActivityMainBinding
     lateinit var bnv: BottomNavigationView
 
-    lateinit var db : EventDatabase
-
     lateinit var rdb: DatabaseReference
     lateinit var noticedb: DatabaseReference
 
@@ -41,8 +39,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding = ActivityMainBinding.inflate(layoutInflater)
         bnv = binding.bottomNav
         setContentView(binding.root)
-
-        db = EventDatabase.getDatabase(this)
 
         userName = intent.getStringExtra("userName").toString()
         linkFirebase()

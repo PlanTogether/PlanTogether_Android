@@ -3,12 +3,8 @@ package com.example.plantogether.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plantogether.activity.MainActivity
 import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.RowEventBinding
-import com.example.plantogether.roomDB.Event
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 
 class EventDataAdapter(var items: ArrayList<EventData>)
     : RecyclerView.Adapter<EventDataAdapter.ViewHolder>() {

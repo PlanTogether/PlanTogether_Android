@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [Event::class, Plan::class, User::class],
+    entities = [User::class],
     version = 2
 )
 abstract class EventDatabase:RoomDatabase(){

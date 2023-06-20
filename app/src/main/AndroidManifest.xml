@@ -28,9 +28,6 @@
             android:name=".dialog.AddScheduleDialogActivity"
             android:exported="false" />
         <activity
-            android:name=".dialog.DateDialogActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.MakeEventActivity"
             android:exported="false" />
         <activity

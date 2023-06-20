@@ -36,9 +36,6 @@ import kotlinx.coroutines.withContext
 class EventInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityEventInfoBinding
 
-    lateinit var db : EventDatabase
-
-    var user = ArrayList<User>()
     companion object {
         const val TAG = "EventInfoActivity"
         const val EDIT_EVENT_REQUEST_CODE = 1

@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.plantogether.data.EventData
 import com.example.plantogether.databinding.ActivityLoginBinding
 
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.example.plantogether.roomDB.User
 import com.google.firebase.database.DataSnapshot
