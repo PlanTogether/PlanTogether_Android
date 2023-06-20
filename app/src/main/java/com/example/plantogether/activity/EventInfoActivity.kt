@@ -149,8 +149,8 @@ class EventInfoActivity : AppCompatActivity() {
 ${link}
             """.trimIndent(),
             link = Link(
-                webUrl = "https://plantogethers.page.link/qL6j",
-                mobileWebUrl = "https://plantogethers.page.link/qL6j"
+                webUrl = url,
+                mobileWebUrl = url
             )
         )
         if (ShareClient.instance.isKakaoTalkSharingAvailable(this@EventInfoActivity)) {

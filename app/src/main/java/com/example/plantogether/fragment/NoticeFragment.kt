@@ -81,7 +81,8 @@ class NoticeFragment : Fragment() {
                             time = it.time
                             recentNotice = it
                         }
-                          data.add(0,it)
+                        data.add(0,it)
+                        data.sortByDescending { it.time }
                     }
                 }
 
