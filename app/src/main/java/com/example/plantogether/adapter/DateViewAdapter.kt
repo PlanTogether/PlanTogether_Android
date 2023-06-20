@@ -76,6 +76,9 @@ class DateViewAdapter(var items : ArrayList<EventData>):
             binding.eventItem.setOnClickListener {
                 itemClickListener?.OnItemClick(eventData, adapterPosition)
             }
+            binding.deleteEvent.setOnClickListener {
+                itemClickListener?.OnDeleteItemClick(eventData, adapterPosition)
+            }
         }
     }
 

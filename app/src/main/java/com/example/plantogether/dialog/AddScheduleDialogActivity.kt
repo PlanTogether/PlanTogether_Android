@@ -2,7 +2,7 @@ package com.example.plantogether.dialog
 
 import android.app.Dialog
 import android.content.Intent
-import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantogether.activity.EventInfoActivity
@@ -10,7 +10,6 @@ import com.example.plantogether.activity.MakeEventActivity
 import com.example.plantogether.adapter.DateViewAdapter
 import com.example.plantogether.databinding.ActivityAddScheduleDialogBinding
 import com.example.plantogether.data.EventData
-import com.example.plantogether.roomDB.Event
 import com.example.plantogether.roomDB.EventDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -72,19 +71,24 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
 
                 // 일정 아이템을 클릭했을 때(는 일단 아무것도 안일어난다)
                 if (eventData.type == 2) {
-                    delete(eventData)
+                    // delete(eventData)
                 }
             }
 
             override fun OnDeleteItemClick(eventData: EventData, position: Int) {
                 // 삭제 버튼 눌렀을 때
                 CoroutineScope(Dispatchers.IO).launch {
-                    delete(eventData)
+                    if (eventData.type == 1) {
+                        deleteEvent(eventData)
+                    }
+
+                    if (eventData.type == 2) {
+                        deletePlan(eventData)
+                    }
                 }
             }
 
         })
-
         binding.eventRecyclerView.adapter = adapter
     }
 
@@ -141,10 +145,27 @@ class AddScheduleDialogActivity(private val context : AppCompatActivity) {
         // 나중에 데이터 변경 감지를 중지하려면
         // rdb.removeEventListener(eventListener)
     }
-    fun delete(eventData: EventData) {
+    fun deletePlan(eventData: EventData) {
         rdb = Firebase.database.getReference("$userName/Events")
         rdb.child(eventData.id).removeValue() // 클릭한 이벤트의 이벤트명을 키값으로 가진 녀석 제거
         getEvent()
+    }
+
+    fun deleteEvent(eventData: EventData) {
+        // 현재 사용자가 해당 이벤트를 최초로 만든 사람일 때 -> 삭제 가능
+        if (eventData.participantName[0] == userName) {
+            for (invitee in eventData.participantName) {
+                val ref = Firebase.database.getReference("$invitee/Events")
+                ref.child(eventData.id).removeValue()
+                getEvent()
+            }
+        }
+        // 현재 사용자가 해당 이벤트에 대해서 초대장을 받아 참가한 참가자일 때 -> 삭제 불가
+        else {
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(context, "해당 이벤트의 최초 생성자만 삭제가 가능합니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun setUserNameInScheduleDialog(userName: String) {
