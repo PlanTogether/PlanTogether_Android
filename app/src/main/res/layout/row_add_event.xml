@@ -9,7 +9,7 @@
     android:background="@drawable/border_round_white"
     >
     <ImageView
-        android:src="@drawable/icon_row_addevent"
+        android:src="@drawable/baseline_stars_24"
         android:id="@+id/checkThat"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -24,10 +24,10 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:height="30dp"
-
         android:textStyle="bold"
         android:textSize="15sp"
         android:textColor="@color/text_indigo"
+        android:singleLine="true"
         />
 
     <ImageView
