@@ -1,5 +1,5 @@
 # PlanTogether_Android
-플랜투게더 어플의 리포지토리입니다.
+안드로이드 앱, 플랜투게더 
 
 # Commit Message Convention
 ### 1. 기본 구조
