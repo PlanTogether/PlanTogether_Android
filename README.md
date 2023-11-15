@@ -9,7 +9,7 @@
 <br/> 
 
 ## **개발 배경**
-<img width="688" alt="스크린샷 2023-11-15 오후 6 09 16" src="https://github.com/PlanTogether/PlanTogether_Android/assets/92996412/b03d15ce-a265-495a-9f3c-ba149db86c26">  
+<img width="688" alt="스크린샷 2023-11-15 오후 6 09 16" src="https://github.com/PlanTogether/PlanTogether_Android/assets/92996412/b03d15ce-a265-495a-9f3c-ba149db86c26">
 - 코로나 이후 단체활동의 증가
 - 플래너 기능 : 사용자가 본인에게 생긴 이벤트를 직접 기록해야 한다.
 - 이벤트 공지 기능 : 특정 단체 이벤트에 참가할 경우 SNS를 통해 일정 공지를 받고, 사전 인원 조사, 개인정보 입력, 구글 폼 작성 등 순서를 따로 거쳐야한다.
